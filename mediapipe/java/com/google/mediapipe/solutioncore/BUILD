@@ -117,6 +117,7 @@ cc_binary(
         "//mediapipe/modules/face_landmark:face_landmark_front_gpu_image",
         "//mediapipe/modules/hand_landmark:hand_landmark_tracking_cpu_image",
         "//mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image",
+        "//mediapipe/modules/pose_landmark:pose_landmark_gpu_image",
     ],
 )
 
@@ -130,8 +131,47 @@ cc_library(
 
 load("//mediapipe/java/com/google/mediapipe:mediapipe_aar.bzl", "mediapipe_aar")
 
+#mediapipe_aar(
+#    name = "solution_core",
+#    srcs = glob(["**/*.java"]),
+#    gen_libmediapipe = False,
+#)
+
+android_library(
+    name = "rulik",
+    srcs = [
+    ],
+    assets = [
+        "//mediapipe/modules/hand_landmark/handedness.txt",
+        "//mediapipe/modules/hand_landmark/hand_landmark_full.tflite",
+        "//mediapipe/modules/hand_landmark/hand_landmark_lite.tflite",
+        "//mediapipe/modules/palm_detection/palm_detection_full.tflite",
+        "//mediapipe/modules/palm_detection/palm_detection_lite.tflite",
+        "//mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image.binarypb",
+
+        "//mediapipe/modules/pose_landmark:pose_landmark_full.tflite",
+        "//mediapipe/modules/pose_detection:pose_detection.tflite",
+        "//mediapipe/modules/pose_landmark:pose_landmark_gpu_image.binarypb",
+    ],
+    assets_dir = "",
+)
+
 mediapipe_aar(
     name = "solution_core",
     srcs = glob(["**/*.java"]),
     gen_libmediapipe = False,
+    assets = [
+        "//mediapipe/modules/hand_landmark:handedness.txt",
+        "//mediapipe/modules/hand_landmark:hand_landmark_full.tflite",
+        "//mediapipe/modules/hand_landmark:hand_landmark_lite.tflite",
+        "//mediapipe/modules/palm_detection:palm_detection_full.tflite",
+        "//mediapipe/modules/palm_detection:palm_detection_lite.tflite",
+        "//mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image.binarypb",
+
+        "//mediapipe/modules/pose_landmark:pose_landmark_full.tflite",
+        "//mediapipe/modules/pose_detection:pose_detection.tflite",
+        "//mediapipe/modules/pose_landmark:pose_landmark_gpu_image.binarypb",
+
+    ],
+    assets_dir = "",
 )

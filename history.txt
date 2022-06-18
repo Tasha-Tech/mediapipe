@@ -1,0 +1,857 @@
+    1  ls
+    2  mkdir work
+    3  cd work
+    4  sudo su
+    5  curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+    6  udo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+    7  sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+    8  sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+    9  sudo apt-get update
+   10  ls
+   11  ls snap/
+   12  ls snap/android-studio/
+   13  find snap/android-studio/ -name java
+   14  find snap/android-studio/ -name jdk
+   15  cd  snap/android-studio
+   16  ls
+   17  find , -name java
+   18  find . -name java
+   19  find . -name bin
+   20  cd ~
+   21  cd ../external/
+   22  cd mediapipe/
+   23  ls
+   24  ls third_party/
+   25  cat BUILD.bazel 
+   26  ls *.bazel
+   27  build -c opt --config=android_arm64 --verbose_failures mediapipe/examples/android/src/java/com/google/mediapipe/apps/handtrackinggpu:handtrackinggpu
+   28  bazel build -c opt --config=android_arm64 --verbose_failures mediapipe/examples/android/src/java/com/google/mediapipe/apps/handtrackinggpu:handtrackinggpu
+   29  git ststus
+   30  git status
+   31  bazel clean
+   32  bazel build -c opt --config=android_arm64 --verbose_failures mediapipe/examples/android/src/java/com/google/mediapipe/apps/handtrackinggpu:handtrackinggpu
+   33  find . -name "hand_tracking_mobile_gpu*"
+   34  ls 
+   35  ls mediapipe
+   36  ls mediapipe/graphs/
+   37  ls mediapipe/graphs/hand_tracking/
+   38  cat mediapipe/graphs/hand_tracking/BUILD 
+   39  cd Android/Sdk/
+   40  ls
+   41  find . -name d8.jar
+   42  cp ./build-tools/33.0.0-rc3/lib/d8.jar ./build-tools/33.0.0-rc3/lib/dx.jar
+   43  find . -name d8
+   44  cp ./build-tools/33.0.0-rc3/d8 ./build-tools/33.0.0-rc3/dx
+   45  mv ./build-tools/33.0.0-rc3/lib/d8.jar ./build-tools/33.0.0-rc3/lib/d8.jar.deleted
+   46  mv ./build-tools/33.0.0-rc3/d8 ./build-tools/33.0.0-rc3/d8.deleted
+   47  mv ./build-tools/33.0.0-rc3/lib/dx.jar ./build-tools/33.0.0-rc3/lib/d8.jar
+   48  mv ./build-tools/33.0.0-rc3/d8.deleted ./build-tools/33.0.0-rc3/d8
+   49  ls /build-tools/33.0.0-rc3/dx*
+   50  ls ./build-tools/33.0.0-rc3/dx*
+   51  ls ./build-tools/33.0.0-rc3/d8*
+   52  ls ./build-tools/33.0.0-rc3/lib/d*
+   53  rm ./build-tools/33.0.0-rc3/lib/d8.jar.deleted
+   54  cd ~/work/
+   55  ls
+   56  cd external/mediapipe/
+   57  ls mediapipe/examples/android/src/java/com/google/mediapipe/apps
+   58  ls -l  mediapipe/examples/android/src/java/com/google/mediapipe/apps
+   59  ls -l  mediapipe/examples/android/src/java/com/google/mediapipe/apps/handtrackinggpu
+   60  find . -name "*.rc"
+   61  grep -R android_arm64 *
+   62  cat bazel-mediapipe/mediapipe/BUILD
+   63  ls  bazel-mediapipe/mediapipe/
+   64  cp  bazel-mediapipe/mediapipe/BUILD ../../handdetectiongpu/
+   65  cd third_party/
+   66  ls
+   67  pwd
+   68  grep -R android_arm64 *
+   69  cd ../
+   70  grep -R android_arm64 *
+   71  grep -RI "config.string" *
+   72  grep -RI "config/.string" *
+   73  grep -RI "ConfiguredTargetKey" *
+   74  grep -RIs "ConfiguredTargetKey" *
+   75  grep -RIs "config" *
+   76  grep -RIs "config" * | grep android
+   77  grep -RIs "config" * | grep android_arm64
+   78  cat bazel-mediapipe/external/org_tensorflow/.bazelrc
+   79  cp  bazel-mediapipe/external/org_tensorflow/.bazelrc ../../handdetectiongpu/
+   80  grep -RIs "hand_tracking_mobile_gpu/.binarypb" * 
+   81  grep -RIs "hand_tracking_mobile_gpu" * 
+   82  grep -RIs "hand_landmark_full" * 
+   83  history | grep bazel
+   84  find . -name "hand_tracking_mobile_gpu*"
+   85  ls
+   86  ls mediapipe/
+   87  ls mediapipe/examples/
+   88  ls mediapipe/examples/android/
+   89  ls mediapipe/examples/android/src/
+   90  ls mediapipe/examples/android/src/java/
+   91  ls mediapipe/examples/android/src/java/com/
+   92  ls mediapipe/examples/android/src/java/com/google/
+   93  ls mediapipe/examples/android/src/java/com/google/mediapipe/
+   94  ls mediapipe/examples/android/src/java/com/google/mediapipe/apps/
+   95  find . -name "*copt*"
+   96  find . -name "*cop*"
+   97  find . -name "*ops*"
+   98  find . -name "*.bazelproject"
+   99  grep -Rs "targets:"
+  100  ls
+  101  grep -Rs "workspace_type:"
+  102  grep -RIs "workspace_type:"
+  103  htop
+  104  sudo apt  install htop
+  105  cd work/hands_tracking_aar_example/
+  106  ./build_aar.sh 
+  107  d../
+  108  cd ../
+  109  cp -r /home/peter/work/external/mediapipe/mediapipe/examples/android/solutions .
+  110  cd solutions/
+  111  ls
+  112  cd hands/
+  113  ls
+  114  cp ../../hands_tracking_aar_example/build_aar.sh .
+  115  cd ../
+  116  mv hands/build_aar.sh .
+  117  ./build_aar.sh 
+  118  ls hands/src/main/assets
+  119  ls -l  hands/src/main/assets
+  120  rm -rf hands/src/main/assets
+  121  ./build_aar.sh 
+  122  rm -rf hands/libs 
+  123  ./build_aar.sh 
+  124  cd ../
+  125  mkdir -p solutions solutions_1
+  126  cd solutions_1/
+  127  ls
+  128  cd ../
+  129  rm -rf solutions_1/
+  130  cp -r solutions solutions_1
+  131  cd solutions_1/
+  132  ls
+  133  rm -rf facedetection facemesh
+  134  ./build_aar.sh 
+  135  cp ../external/mediapipe/mediapipe/examples/android/src/java/com/google/mediapipe/apps/hands_aar/BUILD ../external/mediapipe/mediapipe/examples/android/src/java/com/google/mediapipe/apps/hands_aar/hands_aar.bzl
+  136  ./build_aar.sh 
+  137  ls -l bazel-bin/mediapipe/examples/android/src/java/com/google/mediapipe/apps/hands_aar/hands_control.aar
+  138  ls -l hands/libs/
+  139  ./build_aar.sh 
+  140  ls hands/libs/
+  141  ls -la
+  142  rm -rf .gradle
+  143  rm -rf .idea
+  144  cd ../
+  145  cp -r solutions_1 solutions_2
+  146  cd solutions_2
+  147  ls hands/src/main/java/com/google/mediapipe/examples/hands/
+  148  ls -la
+  149  rm -rf .gradle .idea
+  150  history > history.txt
+  151  htop
+  152  cd work/external/mediapipe
+  153  bazel build -c opt     --jobs 4     --host_crosstool_top=@bazel_tools//tools/cpp:toolchain     --fat_apk_cpu=arm64-v8a,armeabi-v7a     --legacy_whole_archive=0     --features=-legacy_whole_archive     --copt=-fvisibility=hidden     --copt=-ffunction-sections     --copt=-fdata-sections     --copt=-fstack-protector     --copt=-Oz     --copt=-fomit-frame-pointer     --copt=-DABSL_MIN_LOG_LEVEL=2     --linkopt=-Wl,--gc-sections     //mediapipe/examples/android/src/java/com/google/mediapipe/apps/${aar}:hands_control.aar
+  154  bazel build -c opt     --jobs 4     --host_crosstool_top=@bazel_tools//tools/cpp:toolchain     --fat_apk_cpu=arm64-v8a,armeabi-v7a     --legacy_whole_archive=0     --features=-legacy_whole_archive     --copt=-fvisibility=hidden     --copt=-ffunction-sections     --copt=-fdata-sections     --copt=-fstack-protector     --copt=-Oz     --copt=-fomit-frame-pointer     --copt=-DABSL_MIN_LOG_LEVEL=2     --linkopt=-Wl,--gc-sections     //mediapipe/examples/android/src/java/com/google/mediapipe/apps/hands_aar:hands_control.aar
+  155  grep -RIs LEFT_HAND_LANDMARK_COLOR *
+  156  grep -RIs HandsResultGlRenderer *
+  157  grep -RIs static_image_mode *
+  158  grep -RIs ResultGlRenderer *
+  159  bazel build -c opt     --jobs 4     --host_crosstool_top=@bazel_tools//tools/cpp:toolchain     --fat_apk_cpu=arm64-v8a,armeabi-v7a     --legacy_whole_archive=0     --features=-legacy_whole_archive     --copt=-fvisibility=hidden     --copt=-ffunction-sections     --copt=-fdata-sections     --copt=-fstack-protector     --copt=-Oz     --copt=-fomit-frame-pointer     --copt=-DABSL_MIN_LOG_LEVEL=2     --linkopt=-Wl,--gc-sections     //mediapipe/examples/android/src/java/com/google/mediapipe/apps/hands_aar:hands_control.aar
+  160  grep -RIs "handedness\.txt" *
+  161  grep -RIs "hand_rects_from_palm_detections" *
+  162  cat mediapipe/modules/hand_landmark/hand_landmark_tracking_gpu.pbtxt
+  163  grep -RIs solutioncore *
+  164  ls ls mediapipe/framework/formats/
+  165  ls ls mediapipe/framework/formats/landmark.proto 
+  166  ls ls mediapipe/framework/formats/landmark*
+  167  ls mediapipe/framework/formats/landmark*
+  168  ls mediapipe/java/com/google/mediapipe/solutioncore/BUILD 
+  169  bazel build -c opt     --jobs 4     --host_crosstool_top=@bazel_tools//tools/cpp:toolchain     --fat_apk_cpu=arm64-v8a,armeabi-v7a     --legacy_whole_archive=0     --features=-legacy_whole_archive     --copt=-fvisibility=hidden     --copt=-ffunction-sections     --copt=-fdata-sections     --copt=-fstack-protector     --copt=-Oz     --copt=-fomit-frame-pointer     --copt=-DABSL_MIN_LOG_LEVEL=2     --linkopt=-Wl,--gc-sections //mediapipe/java/com/google/mediapipe/solutioncore:solutioncore
+  170  bazel build -c opt     --jobs 4     --host_crosstool_top=@bazel_tools//tools/cpp:toolchain     --fat_apk_cpu=arm64-v8a,armeabi-v7a     --legacy_whole_archive=0     --features=-legacy_whole_archive     --copt=-fvisibility=hidden     --copt=-ffunction-sections     --copt=-fdata-sections     --copt=-fstack-protector     --copt=-Oz     --copt=-fomit-frame-pointer     --copt=-DABSL_MIN_LOG_LEVEL=2     --linkopt=-Wl,--gc-sections //mediapipe/java/com/google/mediapipe/solutioncore:solution_core
+  171  cp bazel-bin/mediapipe/java/com/google/mediapipe/solutioncore/solution_core.aar ../../solutions_1/hands/libs/
+  172  ls mediapipe/java/com/google/mediapipe/solutions
+  173  ls mediapipe/java/com/google/mediapipe/solutions/hands/
+  174  ls mediapipe/java/com/google/mediapipe/solutions/hands/BUILD 
+  175  cat mediapipe/java/com/google/mediapipe/solutions/hands/BUILD
+  176  bazel build -c opt     --jobs 4     --host_crosstool_top=@bazel_tools//tools/cpp:toolchain     --fat_apk_cpu=arm64-v8a,armeabi-v7a     --legacy_whole_archive=0     --features=-legacy_whole_archive     --copt=-fvisibility=hidden     --copt=-ffunction-sections     --copt=-fdata-sections     --copt=-fstack-protector     --copt=-Oz     --copt=-fomit-frame-pointer     --copt=-DABSL_MIN_LOG_LEVEL=2     --linkopt=-Wl,--gc-sections //mediapipe/java/com/google/mediapipe/solutions/hands:hands_core
+  177  ls mediapipe/java/com/google/mediapipe/solutioncore/BUILD 
+  178  cat  mediapipe/java/com/google/mediapipe/solutioncore/BUILD 
+  179  ls  mediapipe/java/com/google/mediapipe/solutioncore/BUILD 
+  180  ls  mediapipe/java/com/google/mediapipe/solutioncore
+  181  ls -l mediapipe/java/com/google/mediapipe/solutioncore
+  182  bazel build -c opt     --jobs 4     --host_crosstool_top=@bazel_tools//tools/cpp:toolchain     --fat_apk_cpu=arm64-v8a,armeabi-v7a     --legacy_whole_archive=0     --features=-legacy_whole_archive     --copt=-fvisibility=hidden     --copt=-ffunction-sections     --copt=-fdata-sections     --copt=-fstack-protector     --copt=-Oz     --copt=-fomit-frame-pointer     --copt=-DABSL_MIN_LOG_LEVEL=2     --linkopt=-Wl,--gc-sections //mediapipe/java/com/google/mediapipe/solutions/hands:hands_core
+  183  bazel build -c opt     --jobs 4     --host_crosstool_top=@bazel_tools//tools/cpp:toolchain     --fat_apk_cpu=arm64-v8a,armeabi-v7a     --legacy_whole_archive=0     --features=-legacy_whole_archive     --copt=-fvisibility=hidden     --copt=-ffunction-sections     --copt=-fdata-sections     --copt=-fstack-protector     --copt=-Oz     --copt=-fomit-frame-pointer     --copt=-DABSL_MIN_LOG_LEVEL=2     --linkopt=-Wl,--gc-sections //mediapipe/java/com/google/mediapipe/solutions/hands:hands
+  184  cp bazel-bin/mediapipe/java/com/google/mediapipe/solutions/hands/libhands.jar ../../solutions_1/hands/libs/
+  185  find . -name hand_landmark_tracking_gpu_image.binarypb
+  186  find . -name *.binarypb
+  187  ls mediapipe/graphs/hand_tracking
+  188  ls -l  mediapipe/graphs/hand_tracking
+  189  ls -l  mediapipe/graphs/hand_tracking/subgraphs/
+  190  ls -l  mediapipe/graphs/hand_tracking/calculators/
+  191  find . -name "hand_landmark_tracking_gpu_image*"
+  192  bazel build -c opt ./mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image
+  193  bazel build -c opt mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image
+  194  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11 mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image
+  195  find . -name "egl.h"
+  196  locate egl.h
+  197  sudo apt install mlocate
+  198  locate egl.h
+  199  bazel build -c opt mediapipe/graphs/hand_tracking:hand_tracking_mobile_gpu_binary_graph
+  200  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11 mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image
+  201  locate egl.h
+  202  export CPLUS_INCLUDE_PATH=/home/peter/Android/Sdk/ndk-bundle/android-ndk-r21/sysroot/usr/include
+  203  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11 mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image
+  204  export CPLUS_INCLUDE_PATH=''
+  205  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11 mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image
+  206  bazel build -c opt \mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image
+  207  bazel build -c opt     --jobs 4     --host_crosstool_top=@bazel_tools//tools/cpp:toolchain     --fat_apk_cpu=arm64-v8a,armeabi-v7a     --legacy_whole_archive=0     --features=-legacy_whole_archive     --copt=-fvisibility=hidden     --copt=-ffunction-sections     --copt=-fdata-sections     --copt=-fstack-protector     --copt=-Oz     --copt=-fomit-frame-pointer     --copt=-DABSL_MIN_LOG_LEVEL=2     --linkopt=-Wl,--gc-sections mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image
+  208  bazel build -c opt     --jobs 4     --host_crosstool_top=@bazel_tools//tools/cpp:toolchain     --fat_apk_cpu=arm64-v8a,armeabi-v7a     --legacy_whole_archive=0     --features=-legacy_whole_archive     --copt=-fvisibility=hidden     --copt=-ffunction-sections     --copt=-fdata-sections     --copt=-fstack-protector --copt=-fomit-frame-pointer     --copt=-DABSL_MIN_LOG_LEVEL=2     --linkopt=-Wl,--gc-sections mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image
+  209  locate egl.h
+  210  bazel build -c opt     --jobs 4     --host_crosstool_top=@bazel_tools//tools/cpp:toolchain     --fat_apk_cpu=arm64-v8a,armeabi-v7a     --legacy_whole_archive=0     --features=-legacy_whole_archive     --copt=-fvisibility=hidden     --copt=-ffunction-sections     --copt=-fdata-sections     --copt=-fstack-protector --copt=-fomit-frame-pointer     --copt=-DABSL_MIN_LOG_LEVEL=2  --copt=-I/home/peter/Android/Sdk/ndk-bundle/android-ndk-r21/sysroot/usr/include   --linkopt=-Wl,--gc-sections mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image
+  211  bazel build -c opt     --jobs 4     --host_crosstool_top=@bazel_tools//tools/cpp:toolchain     --fat_apk_cpu=arm64-v8a,armeabi-v7a     --legacy_whole_archive=0     --features=-legacy_whole_archive     --copt=-fvisibility=hidden     --copt=-ffunction-sections     --copt=-fdata-sections     --copt=-fstack-protector --copt=-fomit-frame-pointer     --copt=-DABSL_MIN_LOG_LEVEL=2    --linkopt=-Wl,--gc-sections mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image
+  212  ls mediapipe/modules/hand_landmark
+  213  cat mediapipe/modules/hand_landmark/BUILD 
+  214  bazel build -c opt     --jobs 4     --host_crosstool_top=@bazel_tools//tools/cpp:toolchain     --fat_apk_cpu=arm64-v8a,armeabi-v7a     --legacy_whole_archive=0     --features=-legacy_whole_archive     --copt=-fvisibility=hidden     --copt=-ffunction-sections     --copt=-fdata-sections     --copt=-fstack-protector --copt=-fomit-frame-pointer     --copt=-DABSL_MIN_LOG_LEVEL=2    --linkopt=-Wl,--gc-sections mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image
+  215  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11 mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image
+  216  bazel build -c opt --config=android_arm64 --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11 mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image
+  217  find . -name "hand_landmark_tracking_gpu_image*"
+  218  ls mediapipe/graphs/hand_tracking
+  219  cat mediapipe/graphs/hand_tracking/BUILD 
+  220  bazel build -c opt --config=android_arm64 --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11 mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image_binary_graph
+  221  cp bazel-bin/mediapipe/modules/hand_landmark/hand_landmark_tracking_gpu_image.binarypb ../../solutions_1/hands/src/main/assets/
+  222  cp mediapipe/modules/hand_landmark
+  223  ls mediapipe/modules/hand_landmark
+  224  cp  mediapipe/modules/hand_landmark/*.tflite ../../solutions_1/hands/src/main/assets/
+  225  history | grep build
+  226  ls mediapipe/java/com/google/mediapipe/solutions/hands
+  227  cp mediapipe/java/com/google/mediapipe/solutions/hands/*.java ../../solutions_2/hands/src/main/java/com/google/mediapipe/examples/hands/
+  228  grep -RIs "com/.google/.auto/.value" *
+  229  grep -RIs "HAND_CONNECTIONS =" *
+  230  grep -RIs "HandLandmark/.WRIST" *
+  231  grep -RIs "WRIST" *
+  232  grep -RIs "WRIST" * | grep java
+  233  grep -RIs "AutoBuilder" *
+  234  cat mediapipe/java/com/google/mediapipe/solutions/hands/BUILD
+  235  grep -RIs "AutoBuilder" *
+  236  cp mediapipe/java/com/google/mediapipe/solutions/hands/HandsResult.java ../../solutions_2/hands/src/main/java/com/google/mediapipe/examples/hands/
+  237  history | grep solutioncore
+  238  basel build -c opt --config=android_64 //mediapipe/java/com/google/mediapipe/solutioncore:solution_core
+  239  bazel build -c opt --config=android_64 //mediapipe/java/com/google/mediapipe/solutioncore:solution_core
+  240  history | grep config
+  241  bazel build -c opt --config=android_arm64 //mediapipe/java/com/google/mediapipe/solutioncore:solution_core
+  242  cp bazel-bin/mediapipe/java/com/google/mediapipe/solutioncore/solution_core.aar ../../solutions_2/hands/libs/solution_core.aar 
+  243  sudo rm -f ../../solutions_2/hands/libs/solution_core.aar
+  244  cp bazel-bin/mediapipe/java/com/google/mediapipe/solutioncore/solution_core.aar ../../solutions_2/hands/libs/solution_core.aar 
+  245  bazel build -c opt --config=android_arm64 //mediapipe/java/com/google/mediapipe/solutioncore:solution_core
+  246  sudo rm -f ../../solutions_2/hands/libs/solution_core.aar
+  247  cp bazel-bin/mediapipe/java/com/google/mediapipe/solutioncore/solution_core.aar ../../solutions_2/hands/libs/solution_core.aar 
+  248  grep -RIs "setFlipY" *
+  249  find . -name "ExternalTextureRen*.java"
+  250  bazel build -c opt --config=android_arm64 //mediapipe/java/com/google/mediapipe/solutioncore:solution_core
+  251  sudo rm -f ../../solutions_2/hands/libs/solution_core.aar
+  252  cp bazel-bin/mediapipe/java/com/google/mediapipe/solutioncore/solution_core.aar ../../solutions_2/hands/libs/solution_core.aar 
+  253  htop
+  254  htop
+  255  bazel build -c opt --config=android_arm64 //mediapipe/java/com/google/mediapipe/solutioncore:solution_core
+  256  sudo rm -f ../../solutions_2/hands/libs/solution_core.aar
+  257  cp bazel-bin/mediapipe/java/com/google/mediapipe/solutioncore/solution_core.aar ../../solutions_2/hands/libs/solution_core.aar 
+  258  bazel build -c opt --config=android_arm64 //mediapipe/java/com/google/mediapipe/solutioncore:solution_core
+  259  sudo rm -f ../../solutions_2/hands/libs/solution_core.aar
+  260  cp bazel-bin/mediapipe/java/com/google/mediapipe/solutioncore/solution_core.aar ../../solutions_2/hands/libs/solution_core.aar 
+  261  history > history.txt
+  262  cat history.txt 
+  263  ls Android/Sdk/ndk-bundle/
+  264  ls Android/Sdk/ndk-bundle/android-ndk-r21/
+  265  ls Android/Sdk/ndk-bundle/android-ndk-r21/source.properties 
+  266  cat Android/Sdk/ndk-bundle/android-ndk-r21/source.properties 
+  267  cp Android/Sdk/ndk-bundle/android-ndk-r21/source.properties Android/Sdk/ndk-bundle/android-ndk-r21
+  268  cp Android/Sdk/ndk-bundle/android-ndk-r21/source.properties Android/Sdk/ndk-bundle
+  269  sudo apt-get install mesa-common-dev libegl1-mesa-dev libgles2-mesa-dev
+  270  sudo apt-get install mesa-utils
+  271  sudo apt-get install -y     libopencv-core-dev     libopencv-highgui-dev     libopencv-calib3d-dev     libopencv-features2d-dev     libopencv-imgproc-dev     libopencv-video-dev
+  272  sudo apt install libopencv-dev=3
+  273  python3 -c "import cv2; print(cv2.__version__)"
+  274  sudo apt install libopencv-dev python3-opencv
+  275  htop
+  276  swapoff -a
+  277  sudo swapoff -a
+  278  sudo nano /etc/fstab 
+  279  ps -ef grep bazel
+  280  ps -ef |grep bazel
+  281  pkill -9 bazel
+  282  ps -ef |grep bazel
+  283  kill -9 154349 168320 168346 168475 
+  284  ps -ef |grep bazel
+  285  cd work 
+  286  cp -r solutions_2 solutions_3
+  287  du -hs ./solutions_3
+  288  cd solutions_3/
+  289  rm -rf .gradle .idea
+  290  cd ../external/mediapipe
+  291  find . -name CameraInput.java
+  292  cp ./mediapipe/java/com/google/mediapipe/solutioncore/CameraInput.java ../../solutions_3/hands/src/main/java/com/google/mediapipe/examples/hands/
+  293  find . -name ExternalTextureConverter.java
+  294  cp ./mediapipe/java/com/google/mediapipe/components/ExternalTextureConverter.java ../../solutions_3/hands/src/main/java/com/google/mediapipe/examples/hands/
+  295  find . -name TextureFrameProducer.java
+  296  cp ./mediapipe/java/com/google/mediapipe/components/TextureFrameProducer.java ../../solutions_3/hands/src/main/java/com/google/mediapipe/examples/hands/
+  297  find . -name TextureFrameConsumer.java
+  298  cp ./mediapipe/java/com/google/mediapipe/components/TextureFrameConsumer.java ../../solutions_3/hands/src/main/java/com/google/mediapipe/examples/hands/
+  299  find . -name ExternalTextureRenderer.java
+  300  mkdir ../../solutions_3/hands/src/main/java/com/google/mediapipe/examples/hands/glutil
+  301  cp ./mediapipe/java/com/google/mediapipe/glutil/ExternalTextureRenderer.java ../../solutions_3/hands/src/main/java/com/google/mediapipe/examples/hands/glutil
+  302  find . -name ShaderUtil.java
+  303  cp ./mediapipe/java/com/google/mediapipe/glutil/ShaderUtil.java ../../solutions_3/hands/src/main/java/com/google/mediapipe/examples/hands/glutil
+  304  find . -name CommonShaders.java
+  305  cp ./mediapipe/java/com/google/mediapipe/glutil/CommonShaders.java ../../solutions_3/hands/src/main/java/com/google/mediapipe/examples/hands/glutil
+  306  cd work
+  307  cp -r solutions_3 solutions_4
+  308  cd solutions_4/
+  309  rm -rf .gradle .idea
+  310  cd ../external/mediapipe
+  311  find . -name CameraXPreviewHelper.java
+  312  cp ./mediapipe/java/com/google/mediapipe/components/CameraXPreviewHelper.java ../../solutions_4/hands/src/main/java/com/google/mediapipe/examples/hands/
+  313  find . -name CameraHelper.java
+  314  cp ./mediapipe/java/com/google/mediapipe/components/CameraHelper.java ../../solutions_4/hands/src/main/java/com/google/mediapipe/examples/hands/
+  315  history | grep cd
+  316  mount | grep user
+  317  cd /run/user/1000/gvfs/mtp\:host\=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/
+  318  find . -name "*.hands"
+  319  ls ./Phone/Android/data/com.google.mediapipe.apps.hands/files/Pictures/
+  320  mv ./Phone/Android/data/com.google.mediapipe.apps.hands/files/Pictures/* ~/work/Images/
+  321  ls ./Phone/Android/data/com.google.mediapipe.apps.hands/files/Pictures/
+  322  cd
+  323  cd work/external/mediapipe
+  324  find . -name "*.jpeg"
+  325  find . -name "*.png"
+  326  find . -name "*.png" | grep scenic
+  327  find . -name "*.png" | grep sce
+  328  c
+  329  cd work/
+  330  ls
+  331  ls Images/
+  332  cp Images/JPEG_20220520_104445_7964889226152270754.jpg  solutions_4/res/drawable
+  333  mv solutions_4/res/drawable/JPEG_20220520_104445_7964889226152270754.jpg my_hand.jpg
+  334  mv my_hand.jpg solutions_4/res/drawable/
+  335  cd Downloads/SweetHome3D-6.6-linux-x64/SweetHome3D-6.6/
+  336  ls -l
+  337  ./SweetHome3D
+  338  python3
+  339  ls
+  340  cd Documents/
+  341  ls
+  342  cd ../Downloads/
+  343  ls
+  344  cd SweetHome3D-6.6-linux-x64/
+  345  ls
+  346  cd SweetHome3D-6.6/
+  347  ls
+  348  ./SweetHome3D
+  349  ls
+  350  cd Pictures/
+  351  ls
+  352  mkdir Hannah_FuGaKyu_2022
+  353  cd Hannah_FuGaKyu_2022/
+  354  mount | grep user
+  355  ls /run/user/1000/gvfs
+  356  ls /run/user/1000/gvfs/mtp\:host\=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/
+  357  ls /run/user/1000/gvfs/mtp\:host\=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/Phone/
+  358  find /run/user/1000/gvfs/mtp\:host\=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/Phone/Android/ -name "mediapipe"
+  359  find /run/user/1000/gvfs/mtp\:host\=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/Phone/Android/ -name "*mediapipe*"
+  360  ls host=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/Phone/Android/data/com.google.mediapipe.apps.hands/
+  361  ls /run/user/1000/gvfs/mtp:host=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/Phone/Android/data/com.google.mediapipe.apps.hands
+  362  ls /run/user/1000/gvfs/mtp:host=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/Phone/Android/data/com.google.mediapipe.apps.hands/files/Pictures
+  363  mv /run/user/1000/gvfs/mtp:host=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/Phone/Android/data/com.google.mediapipe.apps.hands/files/Pictures/* .
+  364  ls -l
+  365  cd ../../
+  366  journalctl -b -1 -e
+  367  cat /etc/cron.hourly
+  368  ls /etc/cron.hourly
+  369  python3
+  370  cd work/solutions_4
+  371  ls hands/src/main/java/com/google/mediapipe/examples/hands/
+  372  mkdir hands/src/main/java/com/google/mediapipe/examples/hands/components
+  373  mkdir hands/src/main/java/com/google/mediapipe/examples/hands/solutioncore
+  374  mkdir ../tmp
+  375  rm -rf hands/src/main/java/com/google/mediapipe/examples/hands/solutioncore
+  376  cp -r ../tmp/solutioncore hands/src/main/java/com/google/mediapipe/examples/hands
+  377  rm hands/src/main/java/com/google/mediapipe/examples/hands/solutioncore/BUILD 
+  378  cd ../external/mediapipe
+  379  find . -name GlSurfaceViewRenderer.java
+  380  cp ./mediapipe/java/com/google/mediapipe/components/GlSurfaceViewRenderer.java ../../solutions_4/hands/src/main/java/com/google/mediapipe/examples/hands/components
+  381  find . -name SolutionGlSurfaceViewRenderer.java
+  382  cp ./mediapipe/java/com/google/mediapipe/solutioncore/SolutionGlSurfaceViewRenderer.java ../../solutions_4/hands/src/main/java/com/google/mediapipe/examples/hands/solutioncore/
+  383  find . -name SolutionResult.java
+  384  cp ./mediapipe/java/com/google/mediapipe/solutioncore/SolutionResult.java ../../solutions_4/hands/src/main/java/com/google/mediapipe/examples/hands/solutioncore/
+  385  cp ./mediapipe/java/com/google/mediapipe/solutioncore/ImageSolutionResult.java ../../solutions_4/hands/src/main/java/com/google/mediapipe/examples/hands/solutioncore/
+  386  cp ./mediapipe/java/com/google/mediapipe/solutioncore/ResultGlRenderer.java ../../solutions_4/hands/src/main/java/com/google/mediapipe/examples/hands/solutioncore/
+  387  cp ./mediapipe/java/com/google/mediapipe/solutioncore/SolutionGlSurfaceView.java ../../solutions_4/hands/src/main/java/com/google/mediapipe/examples/hands/solutioncore/
+  388  ls ./mediapipe/java/com/google/mediapipe/solutioncore/
+  389  ls ./mediapipe/java/com/google/mediapipe/solutioncore/logging/
+  390  cp -r ./mediapipe/java/com/google/mediapipe/solutioncore/SolutionGlSurfaceView.java ~/work/tmp/
+  391  cp -r ./mediapipe/java/com/google/mediapipe/solutioncore/ ~/work/tmp/
+  392  cd ../../tmp/
+  393  ls
+  394  rm SolutionGlSurfaceView.java
+  395  find ./ -type f -exec sed -i 's/com.google.mediapipe.solutioncore/com.google.mediapipe.examples.hands.solutioncore/gI' {} \;
+  396  cat solutioncore/ResultGlRenderer.java 
+  397  ls
+  398  rm floor_1*
+  399  ls
+  400  cd Pictures/
+  401  ls
+  402  mkdir TvTest_1
+  403  history | grep mnt
+  404  history | grep user
+  405  mv /run/user/1000/gvfs/mtp:host=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/Phone/Android/data/com.google.mediapipe.apps.hands/files/Pictures/* TvTest_1/
+  406  ls /run/user/1000/gvfs/
+  407  mv /run/user/1000/gvfs/*/Phone/Android/data/com.google.mediapipe.apps.hands/files/Pictures/* TvTest_1/
+  408  mv /run/user/1000/gvfs/'mtp:host=SAMSUNG_SAMSUNG_Android_354e5a53594d3098'/Phone/Android/data/com.google.mediapipe.apps.hands/files/Pictures/* TvTest_1/
+  409  ls /run/user/1000/gvfs/'mtp:host=SAMSUNG_SAMSUNG_Android_354e5a53594d3098'/Phone/Android/data/com.google.mediapipe.apps.hands
+  410  ls /run/user/1000/gvfs/'mtp:host=SAMSUNG_SAMSUNG_Android_354e5a53594d3098'/Phone/Android/data/
+  411  ls /run/user/1000/gvfs/
+  412  ls /run/user/1000/gvfs/mtp\:host\=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/
+  413  mv /run/user/1000/gvfs/*/Phone/Android/data/com.google.mediapipe.apps.hands/files/Pictures/* TvTest_1/
+  414  ls TvTest_1/
+  415  ls -al ~/.ssh
+  416  ssh-keygen -t ed25519 -C "tasha.tech04@gmail.com"
+  417  eval "$(ssh-agent -s)"
+  418  ssh-add ~/.ssh/id_ed25519
+  419  cat ~/.ssh/id_ed25519.pub
+  420  ls
+  421  cd work/
+  422  ls
+  423  git clone git@github.com:Tasha-Tech/Rulik.git
+  424  cd Rulik/
+  425  mkdir external
+  426  git submodule add https://github.com/google/mediapipe.git external/mediapipe
+  427  ls external/mediapipe/
+  428  git commit -m "Added the submodule mediapipe to the project."
+  429  git config --global user.email "tasha.tech04@gmail.com"
+  430  git config --global user.name "Tasha Tech"
+  431  git commit -m "Added the submodule mediapipe to the project."
+  432  git push
+  433  chmod u+x ./setup.sh 
+  434  ./setup.sh 
+  435  mkdir  app/src/main/java/com/rulik/photobooth/glutil/
+  436  mkdir  app/src/main/java/com/rulik/photobooth/components
+  437  ls app/src/main/java/com/rulik/photobooth
+  438  mkdir  app/src/main/java/com/rulik/photobooth/solutioncore
+  439  git status
+  440  git add .
+  441  git status
+  442  git commit -am "Created Rulik project"
+  443  git push
+  444  cd ../solutions_4/
+  445  find . -name tips.txt
+  446  find . -name "tips*"
+  447  history | grep bazel
+  448  cat history.txt 
+  449  find . -name "*binarypb*"
+  450  ls ./hands/src/main/assets
+  451  history | grep binarypb
+  452  history | grep hand_landmark_tracking_gpu_image
+  453  history | grep hand_tracking_mobile_gpu
+  454  ls ./hands/src/main/assets
+  455  ls hands/
+  456  ls hands/src/
+  457  ls hands/src/main/
+  458  ls hands/src/main/java/
+  459  nano  hands/src/main/java/com/google/mediapipe/examples/hands/CameraXPreviewHelper.java
+  460  nano  hands/src/main/java/com/google/mediapipe/examples/hands/TextureFrameProducer.java
+  461  cd ../external/mediapipe
+  462  git status
+  463  git diff WORKSPACE
+  464  cp WORKSPACE ../../Rulik/mediapipe_patch/
+  465  cd ../../
+  466  cd Rulik/external/mediapipe/
+  467  bazel build -c opt --config=android_arm64 mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image_binary_graph
+  468  bazel build -c opt --config=android_arm64 mediapipe/graphs/hand_tracking:hand_tracking_mobile_gpu_binary_graph
+  469  find . -name handedness.txt
+  470  ls ./mediapipe/modules/hand_landmark/
+  471  find . -name hand_landmark_lite.tflite
+  472  ls ./mediapipe/modules/
+  473  ls ./mediapipe/graphs/
+  474  cat ./mediapipe/modules/hand_landmark/README.md
+  475  ls ./mediapipe/modules/hand_landmark/
+  476  find . -name glutil
+  477  ls ./mediapipe/java/com/google/mediapipe
+  478  cd work/Rulik/
+  479  find app/ -name solutioncore
+  480  mkdir -p app/src/main/java/com/rulik/photobooth/hands
+  481  mkdir -p app/src/main/java/com/rulik/photobooth/solutions/hands
+  482  rm -rf app/src/main/java/com/rulik/photobooth/solutions/hands
+  483  ls app/src/main/java/com/rulik/photobooth/
+  484  ls solu
+  485  ls app/src/main/java/com/rulik/photobooth/solutions
+  486  rm -rf app/src/main/java/com/rulik/photobooth/solutions
+  487  ls app/src/main/java/com/rulik/photobooth/
+  488  nano app/src/main/java/com/rulik/photobooth/MainActivity.java 
+  489  nano setup.sh 
+  490  cd app/src/main/java/com/rulik/photobooth
+  491  ls
+  492  head MainActivity.java
+  493  sed -i 's/com.google.mediapipe.examples.hands/com.rulik.photobooth/g' *.java
+  494  head MainActivity.java
+  495  head -n 20 MainActivity.java 
+  496  grep "com.google" MainActivity.java 
+  497  ls
+  498  cd glutil/
+  499  head EglManager.java 
+  500  head -n 20 EglManager.java 
+  501  sed -i 's/com.google.mediapipe.glutil/com.rulik.photobooth.glutil/g' *.java
+  502  head -n 20 EglManager.java 
+  503  cd ../
+  504  ls
+  505  cd components/
+  506  ls
+  507  head -n 20 TextureFrameProcessor.java 
+  508  sed -i 's/com.google.mediapipe.components/com.rulik.photobooth.components/g' *.java
+  509  cd ../
+  510  ls
+  511  cd solutioncore/
+  512  head -n 20 CameraInput.java 
+  513  sed -i 's/com.google.mediapipe.solutioncore/com.rulik.photobooth.solutioncore/g' *.java
+  514  cd ~/work/Rulik
+  515  ls app/libs/
+  516  cp libs/solution_core.aar app/libs/
+  517  cd app/src/main/java/com/rulik/photobooth/hands/
+  518  sed -i 's/com.google.mediapipe.examples.hands/com.rulik.photobooth.hands/g' *.java
+  519  cd ../../
+  520  cd ../../../
+  521  cd ../../
+  522  ls
+  523  cd ../
+  524  ls
+  525  find . -name test
+  526  rm -rf ./app/src/test
+  527  grep -Ri purple_500 *
+  528  ls res
+  529  history
+  530  rm -rf app/libs/
+  531  git status
+  532  git add .
+  533  git commit -am "Buildable project"
+  534  git push
+  535  cp ./external/mediapipe/bazel-bin/mediapipe/modules/hand_landmark/hand_landmark_tracking_gpu_image.binarypb app/src/main/assets
+  536  ls -l app/src/main/assets
+  537  git status
+  538  git commit -am "Using correct graph"
+  539  git push
+  540  cd external/mediapipe/
+  541  find . -name ImageSolutionBase.java
+  542  ls ./mediapipe/java/com/google/mediapipe/solutioncore/
+  543  ls ./mediapipe/java/com/google/mediapipe/solutioncore/logging/
+  544  cp ./mediapipe/java/com/google/mediapipe/solutioncore/*.java app/src/main/java/com/rulik/photobooth/solutioncore
+  545  cp ./mediapipe/java/com/google/mediapipe/solutioncore/*.java ../../app/src/main/java/com/rulik/photobooth/solutioncore
+  546  find . -name ShaderUtil.java
+  547  cp ./mediapipe/java/com/google/mediapipe/glutil/*.java ../../app/src/main/java/com/rulik/photobooth/glutil
+  548  find . -name Hands.java
+  549  ls ./mediapipe/java/com/google/mediapipe/solutions/hands
+  550  find . -name HandsResultGlRenderer.java
+  551  find . -name TextureFrameConsumer.java
+  552  ls ./mediapipe/java/com/google/mediapipe/components
+  553  cp ./mediapipe/java/com/google/mediapipe/components/*.java ../../app/src/main/java/com/rulik/photobooth/components/
+  554  find . -name SolutionStatsLogger
+  555  find . -name SolutionStatsLogger.java
+  556  mkdir -p ../../app/src/main/java/com/rulik/photobooth/solutioncore/logging
+  557  cp ./mediapipe/java/com/google/mediapipe/solutioncore/logging/*.java ../../app/src/main/java/com/rulik/photobooth/solutioncore/logging
+  558  bazel build -c opt --config=android_arm64 mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image_binary_graph
+  559  grep -RI hand_landmark_tracking_gpu_image *
+  560  bazel build -c opt --config=android_arm64 //mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image.binarypb
+  561  cd ../solutions_4/
+  562  find . "*.java"
+  563  find . -name "*.java"
+  564  find ./hands/src -name "*.java"
+  565  ls ./hands/src/main/java/com/google/mediapipe/examples/hands/Hand*.java
+  566  cp ./hands/src/main/java/com/google/mediapipe/examples/hands/Hand*.java ~/work/Rulik/app/src/main/java/com/rulik/photobooth/hands
+  567  ls ./hands/src/main/java/com/google/mediapipe/examples/hands/M*.java
+  568  cp ./hands/src/main/java/com/google/mediapipe/examples/hands/MainActivity.java ~/work/Rulik/app/src/main/java/com/rulik/photobooth
+  569  find . -name "*anifest*"
+  570  find ../Rulik/ -name AndroidManifest.xml
+  571  cp ./hands/src/main/AndroidManifest.xml ../Rulik/app/src/main/AndroidManifest.xml
+  572  find . -name "Main*.xml"
+  573  find . -name "Act*.xml"
+  574  find . -name "*.xml"
+  575  find . -name activity_main.xml
+  576  find ../Rulik/ -name activity_main.xml
+  577  cat ./res/layout/activity_main.xml
+  578  find . -name activity_main.xml
+  579  find ../Rulik/ -name activity_main.xml
+  580  cp ./res/layout/activity_main.xml ../Rulik/app/src/main/res/layout/activity_main.xml
+  581  find . -name libs
+  582  cat build.gradle 
+  583  cat hands/build.gradle 
+  584  grep -Ri AutoValue_Hands_Connection *
+  585  find . -name res
+  586  ls ./hands/src/main/res
+  587  ls ./hands/src/main/res/values/
+  588  cat ./hands/src/main/res/values/styles.xml 
+  589  ls ./hands/src/main/res/values/
+  590  cp -r ./hands/src/main/res/values ../Rulik/app/src/main/res/
+  591  grep -Ri "android:exported" *
+  592  ls ./hands/src/main/res
+  593  rm -rf ../Rulik/app/src/main/res
+  594  cp -r ./hands/src/main/res ../Rulik/app/src/main/
+  595  ls ../Rulik/app/src/main/
+  596  ls -l ../Rulik/app/src/main/
+  597  rm ../Rulik/app/src/main/res 
+  598  ls -l ./hands/src/main/res
+  599  ls res/
+  600  cp -r res ../Rulik/app/src/main/
+  601  grep -RI com.google.auto.value.AutoBuilderIsUnstable *
+  602  nano hands/build.gradle
+  603  find . -name CameraInput.java
+  604  diff ./hands/src/main/java/com/google/mediapipe/examples/hands/solutioncore/CameraInput.java ./hands/src/main/java/com/google/mediapipe/examples/hands/CameraInput.java
+  605  grep takePicture ./hands/src/main/java/com/google/mediapipe/examples/hands/solutioncore/CameraInput.java ./hands/src/main/java/com/google/mediapipe/examples/hands/CameraInput.java
+  606  cp ./hands/src/main/java/com/google/mediapipe/examples/hands/CameraInput.java ../Rulik/app/src/main/java/com/rulik/photobooth/solutioncore/
+  607  find . -name ExternalTextureConverter.java
+  608  cp ./hands/src/main/java/com/google/mediapipe/examples/hands/ExternalTextureConverter.java ../Rulik/app/src/main/java/com/rulik/photobooth/components/
+  609  find . -name ExternalTextureRenderer.java
+  610  cp ./hands/src/main/java/com/google/mediapipe/examples/hands/glutil/ExternalTextureRenderer.java ../Rulik/app/src/main/java/com/rulik/photobooth/glutil/
+  611  find . -name hand_landmark_tracking_gpu_image.binarypb
+  612  history | grep hand_landmark_tracking_gpu
+  613  ls hands/src/main/assets/
+  614  ls-l  hands/src/main/assets/
+  615  ls -l  hands/src/main/assets/
+  616  cd ../../../
+  617  cd ../../
+  618  cat setup.sh 
+  619  cd work/Rulik/
+  620  find . -name handedness.txt
+  621  ls ./external/mediapipe/mediapipe/modules/hand_landmark
+  622  ls ./external/mediapipe/mediapipe/modules/hand_landmark/calculators/
+  623  cat ./external/mediapipe/mediapipe/modules/hand_landmark/README.md 
+  624  find . -name handedness.txt
+  625  ls -l ./app/src/main/assets
+  626  rm ./app/src/main/assets/palm_detection_*
+  627  rm ./app/src/main/assets/hand_tracking_mobile_gpu.binarypb
+  628  ls -l ./app/src/main/assets
+  629  find . -name palm_detection_full.tflite
+  630  find . -name palm_detection_lite.tflite
+  631  cp ./external/mediapipe/bazel-bin/mediapipe/modules/hand_landmark/hand_landmark_tracking_gpu_image.binarypb app/src/main/assets
+  632  chmod u+w app/src/main/assets/hand_landmark_tracking_gpu_image.binarypb
+  633  cp ./external/mediapipe/bazel-bin/mediapipe/modules/hand_landmark/hand_landmark_tracking_gpu_image.binarypb app/src/main/assets
+  634  git status
+  635  ls -l app/src/main/assets/hand_landmark_tracking_gpu_image.binarypb
+  636  ls -l app/src/main/assets/palm_detection_lite.tflite
+  637  git add .
+  638  git commit -am "Functional app"
+  639  git push
+  640  git status
+  641  git commit -am "RunableHelper"
+  642  git push
+  643  git status
+  644  git commit -am "Added countDown timer"
+  645  git push
+  646  git status
+  647  git commit -am "Removed wind view"
+  648  git push
+  649  git commit -am "Added countDown view"
+  650  git push
+  651  git commit -am "Added  shootView member"
+  652  git push
+  653  cd external/mediapipe/
+  654  git remote -v
+  655  cd ../../
+  656  git submodule set-url -- external/mediapipe git@github.com:Tasha-Tech/mediapipe.git
+  657  git submodule sync
+  658  git submodule update --init --recursive --remote
+  659  git status
+  660  git commit -am "Switched to fork of mediapipe"
+  661  git push
+  662  diff /home/peter/work/Rulik/external/mediapipe/mediapipe/modules/hand_landmark/hand_landmark_tracking_gpu.pbtxt /home/peter/work/Rulik/external/mediapipe/mediapipe/modules/hand_landmark/hand_landmark_tracking_gpu_image.pbtxt
+  663  grep -RI hand_landmark_tracking_gpu *
+  664  grep -RI hand_landmark_tracking_gpu ./external/mediapipe/*
+  665  grep -RI hand_landmark_tracking_gpu ./external/mediapipe/mediapipe/*
+  666  grep -RI GPU_GRAPH_NAME ./external/mediapipe/mediapipe/*
+  667  cp ~/Downloads/mixkit-camera-shutter-hard-click-1430.wav app/src/main/res/raw/
+  668  ls -l app/src/main/res/raw/
+  669  rm -rf app/src/main/res/raw
+  670  cp ~/Downloads/mixkit-camera-shutter-hard-click-1430.wav app/src/main/assets/
+  671  git status
+  672  git add .
+  673  git commit -am "Added shutter sound"
+  674  git push
+  675  cd ../solutions_4
+  676  find . assted
+  677  find . -name assets
+  678  find . -name handedness.txt
+  679  cp ./hands/src/main/assets/* ./app/src/main/assets/
+  680  cp ./hands/src/main/assets/* ../Rulik/app/src/main/assets/
+  681  rm -rf ../Rulik/app/src/main/assets/hand_landmark_tracking_gpu_image.binarypb
+  682  cp ./hands/src/main/assets/* ../Rulik/app/src/main/assets/
+  683  ls -la ../Rulik/app/src/main/assets/
+  684  cp ./hands/src/main/assets/palm_detection_* ../Rulik/app/src/main/assets/
+  685  cd external/mediapipe/
+  686  find . -name MainActivity.java
+  687  nano ./mediapipe/examples/android/solutions/hands/src/main/java/com/google/mediapipe/examples/hands/MainActivity.java
+  688  grep -Ri requestPermissions ./mediapipe/examples/android/solutions/hands/src/main/java/com/google/mediapipe/examples/*
+  689  grep -Ri requestPermissions ./mediapipe/examples/
+  690  mount  | grep user
+  691  cd /run/user/1000/gvfs
+  692  cd mtp\:host\=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/
+  693  find . -name "com.rulik*"
+  694  ls ./Phone/Android/data/com.rulik.photobooth/files/Pictures/
+  695  rm ./Phone/Android/data/com.rulik.photobooth/files/Pictures/*
+  696  ls ./Phone/Android/data/com.rulik.photobooth/files/Pictures/
+  697  mv ./Phone/Android/data/com.rulik.photobooth/files/Pictures/JPEG_20220603_101649_176240433220419553.jpg ~/Documents/
+  698  cd ~
+  699  cd work/Rulik/
+  700  git status
+  701  git commit -am "1080p resoulution and progress bar"
+  702  git push
+  703  cd ../
+  704  rm -rf audiomediaplayer1*
+  705  cd work/
+  706  cd Rulik/
+  707  git status
+  708  git commit -am "shoou state machine and graph input image"
+  709  git push
+  710  git status
+  711  cd work/Rulik/
+  712  git commit -am "input image rotation by postscale working"
+  713  git push
+  714  nvidia-smi
+  715  sudo apt install nvidia-utils
+  716  sudo apt install nvidia-utils-510
+  717  nvidia-smi
+  718  lspci -nn | grep '\[03'
+  719  cd Downloads/
+  720  ls
+  721  ls NVIDIA-Linux-x86_64-515.48.07.run
+  722  chmod a+x NVIDIA-Linux-x86_64-515.48.07.run
+  723  sudo ./NVIDIA-Linux-x86_64-515.48.07.run 
+  724  sudo apt-get install lame
+  725  lame --help
+  726  cd work/Rulik/app/src/main/res/raw/
+  727  ls
+  728  lame -V2 camera_shutter_hard_click.wav camera_shutter_hard_click.mp3
+  729  ls
+  730  ls -l
+  731  ls -la
+  732  rm camera_shutter_hard_click.wav
+  733  cd work/Rulik/
+  734  find . -name assets
+  735  cd ../
+  736  ls
+  737  cd media-samples/
+  738  ls
+  739  cd VideoPlayer/
+  740  ls
+  741  mkdir  videoplayerapp/src/main/assets
+  742  cd videoplayerapp/src/main/assets
+  743  curl https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4
+  744  curl https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4 --output bunny.mp4
+  745  ls
+  746  rm -rf bunny.mp4 
+  747  curl https://archive.org/download/ElephantsDream/ed_hd.mp4 --output ed_hd.mp4
+  748  ls
+  749  ls -l
+  750  rm ed_hd.mp4 
+  751  find ~/work/Rulik/ -name "*mp*"
+  752  find ~/work/Rulik/ -name "*mp3"
+  753  cp /home/peter/work/Rulik/app/src/main/res/raw/camera_shutter_hard_click.mp3
+  754  cp /home/peter/work/Rulik/app/src/main/res/raw/camera_shutter_hard_click.mp3 .
+  755  ls
+  756  cd ../res/raw/
+  757  cp /home/peter/work/Rulik/app/src/main/res/raw/camera_shutter_hard_click.mp3 .
+  758  ls
+  759  cd ../../../../
+  760  cd work/
+  761  git clone https://github.com/emil10001/SoundHandler.git
+  762  cd SoundHandler/
+  763  ls
+  764  cat README 
+  765  cd ../
+  766  git clone https://github.com/emil10001/SimpleMusicPlayer
+  767  gir clone https://github.com/skilcrafter/Sound-Effects.git
+  768  git clone https://github.com/skilcrafter/Sound-Effects.git
+  769  ls 
+  770  ls -l
+  771  rm -rf SimpleMusicPlayer Sound-Effects SoundHandler
+  772  git clone https://github.com/mengdd/HelloAudioEffect.git
+  773  rm -rf HelloAudioEffect
+  774  cd Soundtest/
+  775  find ../Rulik/ -name "*.mp3"
+  776  cp ../Rulik/app/src/main/res/raw/camera_shutter_hard_click.mp3 app/src/main/res/raw/
+  777  cp ~/Downloads/sedative-110241.mp3 app/src/main/res/raw/sedative.mp3
+  778  find ../Rulik/ -name "*.mp3"
+  779  cp app/src/main/res/raw/sedative.mp3 ../Rulik/app/src/main/res/raw/
+  780  cd ../Rulik/
+  781  git status
+  782  git add .
+  783  git commit -am "Fixed shutter sound"
+  784  cd work/Rulik/
+  785  ls
+  786  ls ~/Downloads/
+  787  find . -name "*.mp3"
+  788  cp ~/Downloads/mindfulness-relaxation-amp-meditation-music-22174.mp3 ./app/src/main/res/raw/meditation_music.mp3
+  789  find . -name hands
+  790  cp -r ./app/src/main/java/com/rulik/photobooth/hands ./app/src/main/java/com/rulik/photobooth/pose
+  791  cd ./app/src/main/java/com/rulik/photobooth/pose
+  792  ls -l 
+  793  mv HandLandmark.java PoseLandmark.java
+  794  mv Hands.java Pose.java
+  795  mv HandsOptions.java PoseOptions.java
+  796  mv HandsResultGlRenderer.java PoseResultGlRenderer.java
+  797  mv HandsResult.java PoseResult.java
+  798  mv HandsResultImageView.java PoseResultImageView.java
+  799  cd ../../.../../../
+  800  cd ../../../
+  801  cd ../
+  802  cp setup.sh setupPose.sh
+  803  ./setupPose.sh 
+  804  cd external/mediapipe/
+  805  bazel build -c opt --config=android_arm64 //mediapipe/graphs/pose_tracking:pose_tracking_gpu.binarypb
+  806  ls mediapipe/modules/pose_landmark
+  807  cd external/mediapipe/
+  808  bazel build -c opt --config=android_arm64 //mediapipe/java/com/google/mediapipe/solutioncore:solution_core
+  809  git status
+  810  git diff mediapipe/modules/pose_landmark/pose_landmark_gpu.pbtxt
+  811  git checkout mediapipe/modules/pose_landmark/pose_landmark_gpu.pbtxt
+  812  git status
+  813  bazel build -c opt --config=android_arm64 //mediapipe/java/com/google/mediapipe/solutioncore:solution_core
+  814  bazel build -c opt --config=android_arm64 //mediapipe/graphs/pose_tracking:pose_tracking_gpu_binary_graph
+  815  git status
+  816  sudo apt-get install -y     libopencv-core-dev     libopencv-highgui-dev     libopencv-calib3d-dev     libopencv-features2d-dev     libopencv-imgproc-dev     libopencv-video-dev
+  817  bazel run --define MEDIAPIPE_DISABLE_GPU=1     mediapipe/examples/desktop/hello_world:hello_world
+  818* bazel-bin/mediapipe/examples/desktop/po
+  819  export GLOG_logtostderr=1
+  820* bazel-bin/mediapipe/examples/desktop/pos
+  821  bazel run --define MEDIAPIPE_DISABLE_GPU=1     mediapipe/examples/desktop/pose_tracking:pose_tracking
+  822  bazel run --define MEDIAPIPE_DISABLE_GPU=1     mediapipe/examples/desktop/pose_tracking:pose_tracking_cpu
+  823  sudo apt install libopencv-dev python3-opencv
+  824  python3 -c "import cv2; print(cv2.__version__)"
+  825  apt list -a libopencv-dev
+  826  apt-show-versions libopencv-dev
+  827  sudo apt install apt-show-versions libopencv-dev
+  828  apt-show-versions libopencv-dev
+  829  apt-show-versions  -a libopencv-dev
+  830  sudo apt install libopencv-dev=3
+  831  sudo apt install libopencv-dev=3.2.0
+  832  sudo apt install libopencv-dev=3.2.0+dfsg-4ubuntu0
+  833  sudo apt update
+  834  sudo apt install libopencv-dev=3.2.0+dfsg-4ubuntu0
+  835  sudo apt install libopencv-dev=3.2.0
+  836  sudo apt install libopencv-dev=3*
+  837  apt-cache madison libopencv-dev
+  838  apt-cache madison chromium-browser
+  839  gcc -print-multiarch
+  840  bazel run --define MEDIAPIPE_DISABLE_GPU=1     mediapipe/examples/desktop/pose_tracking:pose_tracking_cpu
+  841  gedit 
+  842  sudo apt-get install libopencv-core-dev libopencv-highgui-dev libopencv-calib3d-dev libopencv-features2d-dev libopencv-imgproc-dev libopencv-video-dev
+  843  bazel run --define MEDIAPIPE_DISABLE_GPU=1     mediapipe/examples/desktop/pose_tracking:pose_tracking_cpu
+  844  bazel run --define MEDIAPIPE_DISABLE_GPU=1     mediapipe/examples/desktop/pose_tracking:pose_tracking_cpu --calculator_graph_config_file=mediapipe/graphs/pose_tracking/pose_tracking_cpu.pbtxt
+  845  bazel-bin/mediapipe/examples/desktop/pose_tracking/pose_tracking_cpu
+  846  bazel-bin/mediapipe/examples/desktop/pose_tracking/pose_tracking_cpu --calculator_graph_config_file=mediapipe/graphs/pose_tracking/pose_tracking_cpu.pbtxt
+  847  history > history.txt
+  848  bazel build mediapipe/examples/desktop/pose_tracking:pose_tracking_gpu
+  849  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11 mediapipe/examples/desktop/pose_tracking:pose_tracking_gpu
+  850  bazel-bin/mediapipe/examples/desktop/pose_tracking/pose_tracking_gpu --calculator_graph_config_file=mediapipe/graphs/pose_tracking/pose_tracking_gpu.pbtxt
+  851  history > history.txt
+  852  bazel build -c opt --config=android_arm64 mediapipe/examples/android/src/java/com/google/mediapipe/apps/handtrackinggpu:handtrackinggpu
+  853  bazel build -c opt --config=android_arm64 mediapipe/examples/android/src/java/com/google/mediapipe/apps/posetrackinggpu:posetrackinggpu
+  854  adb install bazel-bin/mediapipe/examples/android/src/java/com/google/mediapipe/apps/posetrackinggpu/posetrackinggpu.apk
+  855  sudo apt install adb
+  856  adb install bazel-bin/mediapipe/examples/android/src/java/com/google/mediapipe/apps/posetrackinggpu/posetrackinggpu.apk
+  857  history > history.txt

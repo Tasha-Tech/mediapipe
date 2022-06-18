@@ -138,6 +138,18 @@ mediapipe_simple_subgraph(
 )
 
 mediapipe_simple_subgraph(
+    name = "pose_landmark_gpu_image",
+    graph = "pose_landmark_gpu_image.pbtxt",
+    register_as = "PoseLandmarkGpuImage",
+    deps = [
+        ":pose_landmark_gpu",
+        "//mediapipe/calculators/core:flow_limiter_calculator",
+        "//mediapipe/calculators/image:image_transformation_calculator",
+        "//mediapipe/calculators/util:from_image_calculator",
+    ],
+)
+
+mediapipe_simple_subgraph(
     name = "pose_landmark_cpu",
     graph = "pose_landmark_cpu.pbtxt",
     register_as = "PoseLandmarkCpu",
