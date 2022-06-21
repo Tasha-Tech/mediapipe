@@ -45,6 +45,9 @@ output_stream: "SEGMENTATION_MASK:segmentation_mask"
 # The throttled input image. (Image)
 output_stream: "IMAGE:throttled_image"
 
+# Annotated image (Image)
+output_stream: "annotated_image"
+
 # Extra outputs (for debugging, for instance).
 # Detected poses. (Detection)
 #output_stream: "DETECTION:pose_detection"
@@ -101,5 +104,17 @@ node {
   output_stream: "LANDMARKS:pose_landmarks"
   output_stream: "WORLD_LANDMARKS:pose_world_landmarks"
   output_stream: "SEGMENTATION_MASK:segmentation_mask"
+  output_stream: "DETECTION:pose_detection"
+  output_stream: "ROI_FROM_LANDMARKS:roi_from_landmarks"
 }
 
+# Subgraph that renders pose-landmark annotation onto the input image.
+node {
+  calculator: "PoseRendererGpu"
+  input_stream: "IMAGE:gpu_buffer"
+  input_stream: "LANDMARKS:pose_landmarks"
+  input_stream: "SEGMENTATION_MASK:segmentation_mask"
+  input_stream: "DETECTION:pose_detection"
+  input_stream: "ROI:roi_from_landmarks"
+  output_stream: "IMAGE:annotated_image"
+}

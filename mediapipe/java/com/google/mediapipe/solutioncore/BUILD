@@ -118,6 +118,7 @@ cc_binary(
         "//mediapipe/modules/hand_landmark:hand_landmark_tracking_cpu_image",
         "//mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image",
         "//mediapipe/modules/pose_landmark:pose_landmark_gpu_image",
+        "//mediapipe/graphs/pose_tracking:pose_tracking_gpu_deps"
     ],
 )
 
