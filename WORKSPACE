@@ -33,10 +33,16 @@ http_archive(
     sha256 = "59b862f50e710277f8ede96f083a5bb8d7c9595376146838b9580be90374ee1f"
 )
 
+#http_archive(
+#    name = "rules_cc",
+#    strip_prefix = "rules_cc-main",
+#    urls = ["https://github.com/bazelbuild/rules_cc/archive/main.zip"],
+#)
+
 http_archive(
-    name = "rules_cc",
-    strip_prefix = "rules_cc-main",
-    urls = ["https://github.com/bazelbuild/rules_cc/archive/main.zip"],
+     name = "rules_cc",
+     strip_prefix = "rules_cc-8bb0eb5c5ccd96b91753bb112096bb6993d16d13",
+     urls = ["https://github.com/bazelbuild/rules_cc/archive/8bb0eb5.zip"],
 )
 
 http_archive(
