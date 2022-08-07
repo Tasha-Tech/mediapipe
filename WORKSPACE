@@ -422,5 +422,7 @@ libedgetpu_dependencies()
 
 load("@coral_crosstool//:configure.bzl", "cc_crosstool")
 cc_crosstool(name = "crosstool")
-android_sdk_repository(name = "androidsdk", api_level=29, build_tools_version = "30.0.3",  path = "/home/peter/Android/Sdk")
+android_sdk_repository(name = "androidsdk", api_level=29, build_tools_version = "33.0.0",  path = "/home/peter/Android/Sdk")
 android_ndk_repository(name = "androidndk", api_level=29, path = "/home/peter/Android/Sdk/ndk-bundle/android-ndk-r21")
+# android_sdk_repository(name = "androidsdk", path = "/home/peter/Android/Sdk")
+# android_ndk_repository(name = "androidndk", api_level=21, path = "/home/peter/Android/Sdk/ndk-bundle/android-ndk-r21")
