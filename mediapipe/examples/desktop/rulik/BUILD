@@ -11,3 +11,7 @@ cc_binary(
         "//mediapipe/graphs/selfie_segmentation:selfie_segmentation_gpu_deps",
     ],
 )
+
+
+# bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+# GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_live_gpu.pbtxt
