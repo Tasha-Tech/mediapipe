@@ -116,9 +116,10 @@ cc_binary(
         #"//mediapipe/modules/face_landmark:face_landmark_front_cpu_image",
         #"//mediapipe/modules/face_landmark:face_landmark_front_gpu_image",
         #"//mediapipe/modules/hand_landmark:hand_landmark_tracking_cpu_image",
-        "//mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image",
+        #"//mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image",
         #"//mediapipe/modules/pose_landmark:pose_landmark_gpu_image",
         #"//mediapipe/graphs/pose_tracking:pose_tracking_gpu_deps"
+        "//mediapipe/modules/rulik:hand_landmark_tracking_gpu_image",
     ],
 )
 
@@ -142,7 +143,7 @@ mediapipe_aar(
         "//mediapipe/modules/hand_landmark:hand_landmark_lite.tflite",
         "//mediapipe/modules/palm_detection:palm_detection_full.tflite",
         "//mediapipe/modules/palm_detection:palm_detection_lite.tflite",
-        "//mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image.binarypb",
+        "//mediapipe/modules/rulik:hand_landmark_tracking_gpu_image.binarypb",
 
         # "//mediapipe/modules/pose_landmark:pose_landmark_full.tflite",
         # "//mediapipe/modules/pose_detection:pose_detection.tflite",
