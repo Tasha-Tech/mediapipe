@@ -143,6 +143,8 @@ mediapipe_aar(
         # "//mediapipe/modules/hand_landmark:hand_landmark_lite.tflite",
         "//mediapipe/modules/palm_detection:palm_detection_full.tflite",
         "//mediapipe/modules/palm_detection:palm_detection_lite.tflite",
+        "//mediapipe/modules/selfie_segmentation:selfie_segmentation.tflite",
+        "//mediapipe/modules/selfie_segmentation:selfie_segmentation_landscape.tflite",
         "//mediapipe/modules/rulik:rulik_gpu_image.binarypb",
 
         # "//mediapipe/modules/pose_landmark:pose_landmark_full.tflite",
