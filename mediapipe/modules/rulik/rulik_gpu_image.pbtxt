@@ -40,21 +40,10 @@ node {
 node {
   calculator: "FromImageCalculator"
   input_stream: "IMAGE:throttled_image"
-  output_stream: "IMAGE_GPU:raw_gpu_buffer"
+  output_stream: "IMAGE_GPU:gpu_buffer"
   output_stream: "SOURCE_ON_GPU:is_gpu_image"
 }
 
-# TODO: Remove the extra flipping once adopting MlImage.
-# If the source images are on gpu, flip the data vertically before sending them
-# into PalmDetectionGpu. This maybe needed because OpenGL represents
-# images assuming the image origin is at the bottom-left corner, whereas
-# MediaPipe in general assumes the image origin is at the top-left corner.
-node: {
-  calculator: "ImageTransformationCalculator"
-  input_stream: "IMAGE_GPU:raw_gpu_buffer"
-  input_stream: "FLIP_VERTICALLY:is_gpu_image"
-  output_stream: "IMAGE_GPU:gpu_buffer"
-}
 
 # Detects palms.
 node {
