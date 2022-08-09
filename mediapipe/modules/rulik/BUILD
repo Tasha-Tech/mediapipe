@@ -115,14 +115,14 @@ mediapipe_simple_subgraph(
 )
 
 mediapipe_simple_subgraph(
-    name = "hand_landmark_tracking_gpu_image",
-    graph = "hand_landmark_tracking_gpu_image.pbtxt",
-    register_as = "HandLandmarkTrackingGpuImage",
-    deps = [
-        ":hand_landmark_tracking_gpu",
+    name = "rulik_gpu_image",
+    graph = "rulik_gpu_image.pbtxt",
+    register_as = "RulikGpuImage",
+    deps = [        
         "//mediapipe/calculators/core:flow_limiter_calculator",
         "//mediapipe/calculators/image:image_transformation_calculator",
         "//mediapipe/calculators/util:from_image_calculator",
+        "//mediapipe/modules/palm_detection:palm_detection_gpu",
     ],
 )
 

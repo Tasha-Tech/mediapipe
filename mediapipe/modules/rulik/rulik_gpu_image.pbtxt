@@ -1,0 +1,65 @@
+
+
+type: "RulikGpuImage"
+
+# Input image. (Image)
+input_stream: "IMAGE:image"
+
+# Complexity of hand landmark and palm detection models: 0 or 1. Accuracy as
+# well as inference latency generally go up with the model complexity. If
+# unspecified, functions as set to 1. (int)
+input_side_packet: "MODEL_COMPLEXITY:model_complexity"
+
+# The throttled input image. (Image)
+output_stream: "IMAGE:throttled_image"
+
+# Extra outputs (for debugging, for instance).
+# Detected palms. (std::vector<Detection>)
+output_stream: "PALM_DETECTIONS:palm_detections"
+
+
+node {
+  calculator: "FlowLimiterCalculator"
+  input_stream: "image"
+  input_stream: "FINISHED:palm_detections"
+  input_stream_info: {
+    tag_index: "FINISHED"
+    back_edge: true
+  }
+  output_stream: "throttled_image"
+  options: {
+    [mediapipe.FlowLimiterCalculatorOptions.ext] {
+      max_in_flight: 1
+      max_in_queue: 1
+    }
+  }
+}
+
+# Converts Image to GpuBuffer for HandLandmarkTrackingGpu to consume.
+node {
+  calculator: "FromImageCalculator"
+  input_stream: "IMAGE:throttled_image"
+  output_stream: "IMAGE_GPU:raw_gpu_buffer"
+  output_stream: "SOURCE_ON_GPU:is_gpu_image"
+}
+
+# TODO: Remove the extra flipping once adopting MlImage.
+# If the source images are on gpu, flip the data vertically before sending them
+# into HandLandmarkTrackingGpu. This maybe needed because OpenGL represents
+# images assuming the image origin is at the bottom-left corner, whereas
+# MediaPipe in general assumes the image origin is at the top-left corner.
+node: {
+  calculator: "ImageTransformationCalculator"
+  input_stream: "IMAGE_GPU:raw_gpu_buffer"
+  input_stream: "FLIP_VERTICALLY:is_gpu_image"
+  output_stream: "IMAGE_GPU:gpu_buffer"
+}
+
+# Detects palms.
+node {
+  calculator: "PalmDetectionGpu"
+  input_side_packet: "MODEL_COMPLEXITY:model_complexity"
+  input_stream: "IMAGE:gpu_buffer"
+  output_stream: "DETECTIONS:palm_detections"
+}
+
