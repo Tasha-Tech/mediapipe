@@ -10,14 +10,15 @@ input_stream: "IMAGE:image"
 # unspecified, functions as set to 1. (int)
 input_side_packet: "MODEL_COMPLEXITY:model_complexity"
 
-# The throttled input image. (Image)
-# output_stream: "IMAGE:throttled_image"
+# The output_image  image. (Image)
 output_stream: "IMAGE:output_image"
 
 # Extra outputs (for debugging, for instance).
 # Detected palms. (std::vector<Detection>)
 output_stream: "PALM_DETECTIONS:palm_detections"
 
+# The throttled input image. (Image)
+output_stream: "TROTTLED_IMAGE:throttled_image"
 
 node {
   calculator: "FlowLimiterCalculator"

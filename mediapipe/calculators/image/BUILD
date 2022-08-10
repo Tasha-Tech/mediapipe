@@ -374,6 +374,32 @@ cc_library(
 )
 
 cc_library(
+    name = "recolor_calculator_v1",
+    srcs = ["recolor_calculator_v1.cc"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":recolor_calculator_cc_proto",
+        "//mediapipe/framework:calculator_framework",
+        "//mediapipe/framework/formats:image_frame",
+        "//mediapipe/framework/formats:image_frame_opencv",
+        "//mediapipe/framework/port:status",
+        "//mediapipe/framework/port:ret_check",
+        "//mediapipe/util:color_cc_proto",
+        "//mediapipe/framework/port:opencv_core",
+        "//mediapipe/framework/port:opencv_imgproc",
+    ] + select({
+        "//mediapipe/gpu:disable_gpu": [],
+        "//conditions:default": [
+            "//mediapipe/gpu:gl_calculator_helper",
+            "//mediapipe/gpu:gl_simple_shaders",
+            "//mediapipe/gpu:gl_quad_renderer",
+            "//mediapipe/gpu:shader_util",
+        ],
+    }),
+    alwayslink = 1,
+)
+
+cc_library(
     name = "scale_image_utils",
     srcs = ["scale_image_utils.cc"],
     hdrs = ["scale_image_utils.h"],

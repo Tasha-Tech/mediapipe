@@ -26,6 +26,7 @@ cc_library(
     deps = [
         "//mediapipe/calculators/core:flow_limiter_calculator",
         "//mediapipe/calculators/image:recolor_calculator",
+        "//mediapipe/calculators/image:recolor_calculator_v1",
         "//mediapipe/modules/selfie_segmentation:selfie_segmentation_gpu",
     ],
 )
