@@ -110,7 +110,7 @@ class RecolorCalculatorV1 : public CalculatorBase {
   absl::Status InitGpu(CalculatorContext* cc);
   absl::Status RenderGpu(CalculatorContext* cc);
   absl::Status RenderCpu(CalculatorContext* cc);
-  void GlRender();
+  void GlRender(GLuint program);
 
   bool initialized_ = false;
   std::vector<uint8> color_;
@@ -122,7 +122,10 @@ class RecolorCalculatorV1 : public CalculatorBase {
 #if !MEDIAPIPE_DISABLE_GPU
   mediapipe::GlCalculatorHelper gpu_helper_;
   GLuint program_ = 0;
+  GLuint program_1 = 0;
+  GLuint current_program = 0;
 #endif  // !MEDIAPIPE_DISABLE_GPU
+  Timestamp program_timestamp = Timestamp::Unstarted();
 };
 REGISTER_CALCULATOR(RecolorCalculatorV1);
 
@@ -218,6 +221,8 @@ absl::Status RecolorCalculatorV1::Close(CalculatorContext* cc) {
   gpu_helper_.RunInGlContext([this] {
     if (program_) glDeleteProgram(program_);
     program_ = 0;
+   if (program_1) glDeleteProgram(program_1);
+    program_1 = 0;    
   });
 #endif  // !MEDIAPIPE_DISABLE_GPU
 
@@ -326,7 +331,23 @@ absl::Status RecolorCalculatorV1::RenderGpu(CalculatorContext* cc) {
     glActiveTexture(GL_TEXTURE2);
     glBindTexture(mask_tex.target(), mask_tex.name());
 
-    GlRender();
+    if(program_timestamp == Timestamp::Unstarted()){      
+      program_timestamp = input_packet.Timestamp();
+      current_program = program_;
+    }
+
+    TimestampDiff diff = input_packet.Timestamp() - program_timestamp;
+
+    if(diff.Seconds() > 3) {
+      program_timestamp = input_packet.Timestamp();
+      if(current_program == program_){
+        current_program = program_1;
+      } else {
+        current_program = program_;
+      }
+    }
+    
+    GlRender(current_program);
 
     glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -348,7 +369,7 @@ absl::Status RecolorCalculatorV1::RenderGpu(CalculatorContext* cc) {
   return absl::OkStatus();
 }
 
-void RecolorCalculatorV1::GlRender() {
+void RecolorCalculatorV1::GlRender(GLuint program) {
 #if !MEDIAPIPE_DISABLE_GPU
   static const GLfloat square_vertices[] = {
       -1.0f, -1.0f,  // bottom left
@@ -364,7 +385,7 @@ void RecolorCalculatorV1::GlRender() {
   };
 
   // program
-  glUseProgram(program_);
+  glUseProgram(program);
 
   // vertex storage
   GLuint vbo[2];
@@ -498,6 +519,22 @@ absl::Status RecolorCalculatorV1::InitGpu(CalculatorContext* cc) {
               invert_mask_ ? 1.0f : 0.0f);
   glUniform1f(glGetUniformLocation(program_, "adjust_with_luminance"),
               adjust_with_luminance_ ? 1.0f : 0.0f);
+
+  // create second shader program with different colors
+  mediapipe::GlhCreateProgram(mediapipe::kBasicVertexShader, frag_src.c_str(),
+                              NUM_ATTRIBUTES, &attr_name[0], attr_location,
+                              &program_1);
+  RET_CHECK(program_1) << "Problem initializing the program.";
+  glUseProgram(program_1);
+  glUniform1i(glGetUniformLocation(program_1, "frame"), 1);
+  glUniform1i(glGetUniformLocation(program_1, "mask"), 2);
+  glUniform3f(glGetUniformLocation(program_1, "recolor"), color_[0] / 255.0,
+              color_[2] / 255.0, color_[1] / 255.0); // different colors
+  glUniform1f(glGetUniformLocation(program_1, "invert_mask"),
+              invert_mask_ ? 1.0f : 0.0f);
+  glUniform1f(glGetUniformLocation(program_1, "adjust_with_luminance"),
+              adjust_with_luminance_ ? 1.0f : 0.0f);
+
 #endif  // !MEDIAPIPE_DISABLE_GPU
 
   return absl::OkStatus();
