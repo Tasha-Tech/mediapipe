@@ -3,6 +3,8 @@
 # GPU buffer. (GpuBuffer)
 input_stream: "input_video"
 
+input_side_packet: "new_mask_color"
+
 # Output image with rendered results. (GpuBuffer)
 output_stream: "output_video"
 
@@ -40,6 +42,7 @@ node {
   calculator: "RecolorCalculatorV1"
   input_stream: "IMAGE_GPU:throttled_input_video"
   input_stream: "MASK_GPU:segmentation_mask"
+  input_side_packet: "COLOR:new_mask_color"
   output_stream: "IMAGE_GPU:output_video"
   node_options: {
     [type.googleapis.com/mediapipe.RecolorCalculatorOptions] {

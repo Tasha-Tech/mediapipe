@@ -37,6 +37,7 @@ constexpr char kImageFrameTag[] = "IMAGE";
 constexpr char kMaskCpuTag[] = "MASK";
 constexpr char kGpuBufferTag[] = "IMAGE_GPU";
 constexpr char kMaskGpuTag[] = "MASK_GPU";
+constexpr char kColor[] = "COLOR";
 
 inline cv::Vec3b Blend(const cv::Vec3b& color1, const cv::Vec3b& color2,
                        float weight, int invert_mask,
@@ -154,6 +155,14 @@ absl::Status RecolorCalculatorV1::GetContract(CalculatorContract* cc) {
 #endif  // !MEDIAPIPE_DISABLE_GPU
   if (cc->Inputs().HasTag(kMaskCpuTag)) {
     cc->Inputs().Tag(kMaskCpuTag).Set<ImageFrame>();
+  }
+
+  
+  if (cc->Inputs().HasTag(kColor)) {
+    cc->Inputs().Tag(kColor).Set<int64>().Optional();
+  }
+  if (cc->InputSidePackets().HasTag(kColor)) {
+    cc->InputSidePackets().Tag(kColor).Set<int64>().Optional();
   }
 
 #if !MEDIAPIPE_DISABLE_GPU
@@ -313,6 +322,11 @@ absl::Status RecolorCalculatorV1::RenderGpu(CalculatorContext* cc) {
   // Get inputs and setup output.
   const Packet& input_packet = cc->Inputs().Tag(kGpuBufferTag).Value();
   const Packet& mask_packet = cc->Inputs().Tag(kMaskGpuTag).Value();
+
+  int64 new_color = 0;
+  if (cc->Inputs().HasTag(kColor) && !cc->Inputs().Tag(kColor).IsEmpty()) {
+        new_color = cc->Inputs().Tag(kColor).Get<int64>();
+  }
 
   const auto& input_buffer = input_packet.Get<mediapipe::GpuBuffer>();
   const auto& mask_buffer = mask_packet.Get<mediapipe::GpuBuffer>();
