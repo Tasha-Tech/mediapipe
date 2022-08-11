@@ -3,10 +3,11 @@
 # GPU buffer. (GpuBuffer)
 input_stream: "input_video"
 
-input_side_packet: "new_mask_color"
+input_stream: "mask_color"
 
 # Output image with rendered results. (GpuBuffer)
 output_stream: "output_video"
+
 
 # Throttles the images flowing downstream for flow control. It passes through
 # the very first incoming image unaltered, and waits for downstream nodes
@@ -20,13 +21,13 @@ output_stream: "output_video"
 # subsequent nodes are still busy processing previous inputs.
 node {
   calculator: "FlowLimiterCalculator"
-  input_stream: "input_video"
+  input_stream: "input_video"  
   input_stream: "FINISHED:output_video"
   input_stream_info: {
     tag_index: "FINISHED"
     back_edge: true
   }
-  output_stream: "throttled_input_video"
+  output_stream: "throttled_input_video"  
 }
 
 # Subgraph that performs selfie segmentation.
@@ -42,7 +43,7 @@ node {
   calculator: "RecolorCalculatorV1"
   input_stream: "IMAGE_GPU:throttled_input_video"
   input_stream: "MASK_GPU:segmentation_mask"
-  input_side_packet: "COLOR:new_mask_color"
+  input_stream: "COLOR:mask_color"
   output_stream: "IMAGE_GPU:output_video"
   node_options: {
     [type.googleapis.com/mediapipe.RecolorCalculatorOptions] {
@@ -52,4 +53,18 @@ node {
       adjust_with_luminance: false
     }
   }
+  input_stream_handler {
+    input_stream_handler: "SyncSetInputStreamHandler"
+    options {
+      [mediapipe.SyncSetInputStreamHandlerOptions.ext] {
+        sync_set {
+          tag_index: "IMAGE_GPU"
+          tag_index: "MASK_GPU"
+        }
+        sync_set {
+          tag_index: "COLOR"          
+        }        
+      }
+    }
+  }   
 }

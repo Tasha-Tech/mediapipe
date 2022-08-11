@@ -127,6 +127,7 @@ class RecolorCalculatorV1 : public CalculatorBase {
   GLuint current_program = 0;
 #endif  // !MEDIAPIPE_DISABLE_GPU
   Timestamp program_timestamp = Timestamp::Unstarted();
+  int64 new_color = 0;
 };
 REGISTER_CALCULATOR(RecolorCalculatorV1);
 
@@ -188,6 +189,8 @@ absl::Status RecolorCalculatorV1::GetContract(CalculatorContract* cc) {
 #endif  // !MEDIAPIPE_DISABLE_GPU
   }
 
+  //cc->SetInputStreamHandler("ImmediateInputStreamHandler");
+  //cc->SetProcessTimestampBounds(true);
   return absl::OkStatus();
 }
 
@@ -312,21 +315,23 @@ absl::Status RecolorCalculatorV1::RenderCpu(CalculatorContext* cc) {
 }
 
 absl::Status RecolorCalculatorV1::RenderGpu(CalculatorContext* cc) {
+  
+  if (cc->Inputs().HasTag(kColor) && !cc->Inputs().Tag(kColor).IsEmpty()) {
+    new_color = cc->Inputs().Tag(kColor).Get<int64>();
+    std::cout << "new_color " << new_color << std::endl;
+  }
+
   if (cc->Inputs().Tag(kMaskGpuTag).IsEmpty()) {
     cc->Outputs()
         .Tag(kGpuBufferTag)
         .AddPacket(cc->Inputs().Tag(kGpuBufferTag).Value());
     return absl::OkStatus();
   }
+
 #if !MEDIAPIPE_DISABLE_GPU
   // Get inputs and setup output.
   const Packet& input_packet = cc->Inputs().Tag(kGpuBufferTag).Value();
   const Packet& mask_packet = cc->Inputs().Tag(kMaskGpuTag).Value();
-
-  int64 new_color = 0;
-  if (cc->Inputs().HasTag(kColor) && !cc->Inputs().Tag(kColor).IsEmpty()) {
-        new_color = cc->Inputs().Tag(kColor).Get<int64>();
-  }
 
   const auto& input_buffer = input_packet.Get<mediapipe::GpuBuffer>();
   const auto& mask_buffer = mask_packet.Get<mediapipe::GpuBuffer>();
@@ -352,13 +357,10 @@ absl::Status RecolorCalculatorV1::RenderGpu(CalculatorContext* cc) {
 
     TimestampDiff diff = input_packet.Timestamp() - program_timestamp;
 
-    if(diff.Seconds() > 3) {
-      program_timestamp = input_packet.Timestamp();
-      if(current_program == program_){
+    if(new_color > 0) {                  
         current_program = program_1;
-      } else {
-        current_program = program_;
-      }
+    } else {
+        current_program = program_;      
     }
     
     GlRender(current_program);
