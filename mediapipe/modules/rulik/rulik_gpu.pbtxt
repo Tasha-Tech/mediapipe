@@ -18,6 +18,13 @@ output_stream: "PALM_DETECTIONS:palm_detections"
 # The throttled input image. (Image)
 output_stream: "TROTTLED_IMAGE:throttled_image"
 
+# Detected faces. (std::vector<Detection>)
+# NOTE: there will not be an output packet in the DETECTIONS stream for this
+# particular timestamp if none of faces detected. However, the MediaPipe
+# framework will internally inform the downstream calculators of the absence of
+# this packet so that they don't wait for it unnecessarily.
+output_stream: "DETECTIONS:face_detections"
+
 node {
   calculator: "FlowLimiterCalculator"
   input_stream: "input_image"
@@ -35,7 +42,7 @@ node {
   }
 }
 
-# Converts Image to GpuBuffer for HandLandmarkTrackingGpu to consume.
+# Converts Image to GpuBuffer for SelfieSegmentationGpu and PalmDetectionGpu.
 node {
   calculator: "FromImageCalculator"
   input_stream: "IMAGE:throttled_image"
@@ -50,6 +57,13 @@ node {
   input_side_packet: "MODEL_COMPLEXITY:model_complexity"
   input_stream: "IMAGE:gpu_buffer"
   output_stream: "DETECTIONS:palm_detections"
+}
+
+# Subgraph that performs face detection.
+node {
+  calculator: "FaceDetectionFullRangeImage"  
+  input_stream: "IMAGE:throttled_image"
+  output_stream: "DETECTIONS:face_detections"
 }
 
 # Subgraph that performs selfie segmentation.
@@ -68,7 +82,7 @@ node {
   output_stream: "IMAGE_GPU:output_gpu_image"
   node_options: {
     [type.googleapis.com/mediapipe.RecolorCalculatorOptions] {
-      color { r: 0 g: 200 b: 0 }
+      color { r: 0 g: 170 b: 0 }
       mask_channel: RED
       invert_mask: true
       adjust_with_luminance: false

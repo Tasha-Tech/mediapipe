@@ -33,6 +33,8 @@ cc_library(
         "//mediapipe/framework/stream_handler:sync_set_input_stream_handler",
         "//mediapipe/modules/selfie_segmentation:selfie_segmentation_gpu",
         "//mediapipe/modules/palm_detection:palm_detection_gpu",
+        # "//mediapipe/modules/face_detection:face_detection_full_range_gpu",
+        "//mediapipe/modules/face_detection:face_detection_full_range_image",
     ],
 )
 
