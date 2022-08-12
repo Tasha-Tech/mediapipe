@@ -119,7 +119,7 @@ cc_binary(
         #"//mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image",
         #"//mediapipe/modules/pose_landmark:pose_landmark_gpu_image",
         #"//mediapipe/graphs/pose_tracking:pose_tracking_gpu_deps"
-        "//mediapipe/modules/rulik:rulik_gpu_image",
+        "//mediapipe/modules/rulik:rulik_gpu",
     ],
 )
 
@@ -145,7 +145,7 @@ mediapipe_aar(
         "//mediapipe/modules/palm_detection:palm_detection_lite.tflite",
         "//mediapipe/modules/selfie_segmentation:selfie_segmentation.tflite",
         "//mediapipe/modules/selfie_segmentation:selfie_segmentation_landscape.tflite",
-        "//mediapipe/modules/rulik:rulik_gpu_image.binarypb",
+        "//mediapipe/modules/rulik:rulik_gpu.binarypb",
 
         # "//mediapipe/modules/pose_landmark:pose_landmark_full.tflite",
         # "//mediapipe/modules/pose_detection:pose_detection.tflite",

@@ -9,11 +9,32 @@ input_stream: "output_selector"
 # Output image with rendered results. (GpuBuffer)
 output_stream: "output_video"
 
+# Converts the input GPU image (GpuBuffer) to the multi-backend image type (Image).
+node: {
+  calculator: "ToImageCalculator"
+  input_stream: "IMAGE_GPU:input_video"
+  output_stream: "IMAGE:multi_backend_input_image"
+}
 
 # Rulik subgraph
 node {
   calculator: "RulikGpu"
-  input_stream: "IMAGE_GPU:input_video"    
-  output_stream: "IMAGE_GPU:output_video"  
+  input_stream: "IMAGE:multi_backend_input_image"    
+  output_stream: "IMAGE:multi_backend_output_image"  
 }
 
+# Converts Image to ImageFrame For GPU to consume
+node {
+  calculator: "FromImageCalculator"
+  input_stream: "IMAGE:multi_backend_output_image"
+  output_stream: "IMAGE_GPU:output_video_frame"
+  output_stream: "SOURCE_ON_GPU:is_gpu_image"
+}
+
+# Flip image back for output
+node: {
+  calculator: "ImageTransformationCalculator"
+  input_stream: "IMAGE_GPU:output_video_frame"
+  input_stream: "FLIP_VERTICALLY:is_gpu_image"
+  output_stream: "IMAGE_GPU:output_video"
+}
