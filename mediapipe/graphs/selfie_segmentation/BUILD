@@ -25,7 +25,8 @@ cc_library(
     name = "selfie_segmentation_gpu_deps",
     deps = [
         "//mediapipe/calculators/core:flow_limiter_calculator",
-        "//mediapipe/calculators/image:recolor_calculator",
+        "//mediapipe/calculators/core:mux_calculator_v1",
+        # "//mediapipe/calculators/image:recolor_calculator",
         "//mediapipe/calculators/image:recolor_calculator_v1",
         # "//mediapipe/calculators/core:stream_to_side_packet_calculator",
         "//mediapipe/framework/stream_handler:sync_set_input_stream_handler",

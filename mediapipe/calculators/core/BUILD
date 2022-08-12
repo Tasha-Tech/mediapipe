@@ -496,6 +496,21 @@ cc_library(
 )
 
 cc_library(
+    name = "mux_calculator_v1",
+    srcs = ["mux_calculator_v1.cc"],
+    visibility = [
+        "//visibility:public",
+    ],
+    deps = [
+        "//mediapipe/framework:calculator_framework",
+        "//mediapipe/framework/api2:node",
+        "//mediapipe/framework/port:ret_check",
+        "//mediapipe/framework/stream_handler:mux_input_stream_handler",
+    ],
+    alwayslink = 1,
+)
+
+cc_library(
     name = "non_zero_calculator",
     srcs = ["non_zero_calculator.cc"],
     visibility = [

@@ -33,6 +33,7 @@
 
 constexpr char kInputStream[] = "input_video";
 constexpr char kColor[] = "mask_color";
+constexpr char kSelector[] = "output_selector";
 constexpr char kOutputStream[] = "output_video";
 constexpr char kWindowName[] = "MediaPipe";
 
@@ -97,6 +98,8 @@ absl::Status RunMPPGraph() {
   mediapipe::Timestamp program_timestamp = mediapipe::Timestamp::Unstarted();
   int64 color = 0;
   mediapipe::Timestamp color_timestamp = mediapipe::Timestamp(0);
+  int selector = 0;
+  mediapipe::Timestamp select_timestamp = mediapipe::Timestamp(0);  
 
   while (grab_frames) {
     // Capture opencv camera or video frame.
@@ -148,6 +151,7 @@ absl::Status RunMPPGraph() {
 
     mediapipe::TimestampDiff diff = mediapipe::Timestamp(frame_timestamp_us) - program_timestamp;
     if(diff.Seconds() > 3){
+      graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(color).At(++select_timestamp));
       //mediapipe::Packet&& p = mediapipe::MakePacket<int64>(color).At(++color_timestamp);    
       absl::Status status = graph.AddPacketToInputStream(kColor, mediapipe::MakePacket<int64>(color).At(++color_timestamp));
       MP_RETURN_IF_ERROR(status);
@@ -212,6 +216,8 @@ absl::Status RunMPPGraph() {
   if (writer.isOpened()) writer.release();
   MP_RETURN_IF_ERROR(graph.CloseInputStream(kInputStream));
   MP_RETURN_IF_ERROR(graph.CloseInputStream(kColor));
+  MP_RETURN_IF_ERROR(graph.CloseInputStream(kSelector));
+  
   return graph.WaitUntilDone();
 }
 

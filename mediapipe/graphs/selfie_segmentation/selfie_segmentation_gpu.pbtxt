@@ -4,6 +4,7 @@
 input_stream: "input_video"
 
 input_stream: "mask_color"
+input_stream: "output_selector"
 
 # Output image with rendered results. (GpuBuffer)
 output_stream: "output_video"
@@ -44,7 +45,7 @@ node {
   input_stream: "IMAGE_GPU:throttled_input_video"
   input_stream: "MASK_GPU:segmentation_mask"
   input_stream: "COLOR:mask_color"
-  output_stream: "IMAGE_GPU:output_video"
+  output_stream: "IMAGE_GPU:masked_output_video"
   node_options: {
     [type.googleapis.com/mediapipe.RecolorCalculatorOptions] {
       color { r: 0 g: 150 b: 0 }
@@ -66,5 +67,28 @@ node {
         }        
       }
     }
-  }   
+  }     
 }
+
+node {
+  calculator: "MuxCalculatorV1"
+  input_stream: "INPUT:0:masked_output_video"
+  input_stream: "INPUT:1:throttled_input_video"
+  input_stream: "SELECT:output_selector"
+  output_stream: "OUTPUT:output_video"
+  input_stream_handler {
+    input_stream_handler: "SyncSetInputStreamHandler"
+    options {
+      [mediapipe.SyncSetInputStreamHandlerOptions.ext] {
+        sync_set {
+          tag_index: "INPUT:0"
+          tag_index: "INPUT:1"
+        }
+        sync_set {
+          tag_index: "SELECT"          
+        }        
+      }
+    }
+  }
+}
+  
