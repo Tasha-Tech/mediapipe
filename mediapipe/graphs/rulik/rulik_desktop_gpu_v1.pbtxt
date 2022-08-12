@@ -1,0 +1,19 @@
+# MediaPipe graph that performs selfie segmentation with TensorFlow Lite on GPU.
+
+# GPU buffer. (GpuBuffer)
+input_stream: "input_video"
+
+input_stream: "mask_color"
+input_stream: "output_selector"
+
+# Output image with rendered results. (GpuBuffer)
+output_stream: "output_video"
+
+
+# Rulik subgraph
+node {
+  calculator: "RulikGpu"
+  input_stream: "IMAGE_GPU:input_video"    
+  output_stream: "IMAGE_GPU:output_video"  
+}
+

@@ -21,17 +21,31 @@ licenses(["notice"])
 
 package(default_visibility = ["//visibility:public"])
 
+cc_library(
+    name = "rulik_gpu_deps",
+    deps = [
+        "//mediapipe/calculators/core:flow_limiter_calculator",
+        "//mediapipe/calculators/core:mux_calculator_v1",
+        "//mediapipe/calculators/image:image_transformation_calculator",   
+        "//mediapipe/calculators/image:recolor_calculator_v1",
+        "//mediapipe/calculators/util:from_image_calculator",
+        "//mediapipe/calculators/util:to_image_calculator",
+        "//mediapipe/framework/stream_handler:sync_set_input_stream_handler",
+        "//mediapipe/modules/selfie_segmentation:selfie_segmentation_gpu",
+        "//mediapipe/modules/palm_detection:palm_detection_gpu",
+    ],
+)
+
 mediapipe_simple_subgraph(
     name = "rulik_gpu_image",
     graph = "rulik_gpu_image.pbtxt",
     register_as = "RulikGpuImage",
-    deps = [        
-        "//mediapipe/calculators/core:flow_limiter_calculator",
-        "//mediapipe/calculators/image:image_transformation_calculator",
-        "//mediapipe/calculators/util:from_image_calculator",
-        "//mediapipe/calculators/util:to_image_calculator",
-        "//mediapipe/calculators/image:recolor_calculator",        
-        "//mediapipe/modules/palm_detection:palm_detection_gpu",
-        "//mediapipe/modules/selfie_segmentation:selfie_segmentation_gpu",        
-    ],
+    deps = [":rulik_gpu_deps"],
+)
+
+mediapipe_simple_subgraph(
+    name = "rulik_gpu",
+    graph = "rulik_gpu.pbtxt",
+    register_as = "RulikGpu",
+    deps = [":rulik_gpu_deps"],
 )
