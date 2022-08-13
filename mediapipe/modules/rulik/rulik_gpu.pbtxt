@@ -63,10 +63,18 @@ node {
   output_stream: "DETECTIONS:face_detections"
 }
 
+# Flip image for selfie segmentation
+node: {
+  calculator: "ImageTransformationCalculator"
+  input_stream: "IMAGE_GPU:gpu_buffer"
+  input_stream: "FLIP_VERTICALLY:is_gpu_image"
+  output_stream: "IMAGE_GPU:gpu_buffer_flip"
+}
+
 # Subgraph that performs selfie segmentation.
 node {
   calculator: "SelfieSegmentationGpu"
-  input_stream: "IMAGE:gpu_buffer"
+  input_stream: "IMAGE:gpu_buffer_flip"
   output_stream: "SEGMENTATION_MASK:segmentation_mask"
 }
 
@@ -74,7 +82,7 @@ node {
 # Colors the selfie segmentation with the color specified in the option.
 node {
   calculator: "RecolorCalculatorV1"
-  input_stream: "IMAGE_GPU:gpu_buffer"
+  input_stream: "IMAGE_GPU:gpu_buffer_flip"
   input_stream: "MASK_GPU:segmentation_mask"
   output_stream: "IMAGE_GPU:output_gpu_image"
   node_options: {
@@ -87,8 +95,16 @@ node {
   }
 }
 
+# Flip image back from colored selfie segmentation
+node: {
+  calculator: "ImageTransformationCalculator"
+  input_stream: "IMAGE_GPU:output_gpu_image"
+  input_stream: "FLIP_VERTICALLY:is_gpu_image"
+  output_stream: "IMAGE_GPU:output_gpu_image_flip"
+}
+
 node {
   calculator: "ToImageCalculator"
-  input_stream: "IMAGE_GPU:output_gpu_image"
+  input_stream: "IMAGE_GPU:output_gpu_image_flip"
   output_stream: "IMAGE:output_image"
 }
