@@ -15,15 +15,12 @@ output_stream: "IMAGE:output_image"
 # Detected palms. (std::vector<Detection>)
 output_stream: "PALM_DETECTIONS:palm_detections"
 
-# The throttled input image. (Image)
-output_stream: "TROTTLED_IMAGE:throttled_image"
-
 # Detected faces. (std::vector<Detection>)
 # NOTE: there will not be an output packet in the DETECTIONS stream for this
 # particular timestamp if none of faces detected. However, the MediaPipe
 # framework will internally inform the downstream calculators of the absence of
 # this packet so that they don't wait for it unnecessarily.
-output_stream: "DETECTIONS:face_detections"
+output_stream: "FACE_DETECTIONS:face_detections"
 
 node {
   calculator: "FlowLimiterCalculator"
@@ -61,6 +58,7 @@ node {
 
 # Subgraph that performs face detection.
 node {
+  # calculator: "FaceDetectionShortRangeImage"  
   calculator: "FaceDetectionFullRangeImage"  
   input_stream: "IMAGE:throttled_image"
   output_stream: "DETECTIONS:face_detections"
