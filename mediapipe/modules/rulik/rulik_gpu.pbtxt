@@ -71,10 +71,22 @@ node: {
   output_stream: "IMAGE_GPU:gpu_buffer_flip"
 }
 
-# Subgraph that performs selfie segmentation.
+# Create model selection for Selfie segmentation
+node {
+  calculator: "ConstantSidePacketCalculator"
+  output_side_packet: "PACKET:selfie_model_selection"
+  node_options: {
+    [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
+      packet { int_value: 1 }
+    }
+  }
+}
+
+# Subgraph that performs Selfie segmentation.
 node {
   calculator: "SelfieSegmentationGpu"
   input_stream: "IMAGE:gpu_buffer_flip"
+  input_side_packet: "MODEL_SELECTION:selfie_model_selection"
   output_stream: "SEGMENTATION_MASK:segmentation_mask"
 }
 
