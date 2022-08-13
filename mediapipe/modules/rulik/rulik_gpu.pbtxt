@@ -56,9 +56,8 @@ node {
   output_stream: "DETECTIONS:palm_detections"
 }
 
-# Subgraph that performs face detection.
-node {
-  # calculator: "FaceDetectionShortRangeImage"  
+# Subgraph that performs face detection. # calculator: "FaceDetectionShortRangeImage"  
+node {  
   calculator: "FaceDetectionFullRangeImage"  
   input_stream: "IMAGE:throttled_image"
   output_stream: "DETECTIONS:face_detections"
@@ -88,16 +87,8 @@ node {
   }
 }
 
-# Flip image back for output
-node: {
-  calculator: "ImageTransformationCalculator"
-  input_stream: "IMAGE_GPU:output_gpu_image"
-  input_stream: "FLIP_VERTICALLY:is_gpu_image"
-  output_stream: "IMAGE_GPU:output_gpu_image_flip"
-}
-
 node {
   calculator: "ToImageCalculator"
-  input_stream: "IMAGE_GPU:output_gpu_image_flip"
+  input_stream: "IMAGE_GPU:output_gpu_image"
   output_stream: "IMAGE:output_image"
 }
