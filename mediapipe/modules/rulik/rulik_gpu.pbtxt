@@ -48,11 +48,19 @@ node {
 }
 
 
+# Flip image for selfie segmentation and palm detection
+node: {
+  calculator: "ImageTransformationCalculator"
+  input_stream: "IMAGE_GPU:gpu_buffer"
+  input_stream: "FLIP_VERTICALLY:is_gpu_image"
+  output_stream: "IMAGE_GPU:gpu_buffer_flip"
+}
+
 # Detects palms.
 node {
   calculator: "PalmDetectionGpu"
   input_side_packet: "MODEL_COMPLEXITY:model_complexity"
-  input_stream: "IMAGE:gpu_buffer"
+  input_stream: "IMAGE:gpu_buffer_flip"
   output_stream: "DETECTIONS:palm_detections"
 }
 
@@ -63,13 +71,7 @@ node {
   output_stream: "DETECTIONS:face_detections"
 }
 
-# Flip image for selfie segmentation
-node: {
-  calculator: "ImageTransformationCalculator"
-  input_stream: "IMAGE_GPU:gpu_buffer"
-  input_stream: "FLIP_VERTICALLY:is_gpu_image"
-  output_stream: "IMAGE_GPU:gpu_buffer_flip"
-}
+
 
 # Create model selection for Selfie segmentation
 node {
