@@ -19,7 +19,8 @@ node: {
 # Rulik subgraph
 node {
   calculator: "RulikGpu"
-  input_stream: "IMAGE:multi_backend_input_image"    
+  input_stream: "IMAGE:multi_backend_input_image"
+  input_stream: "SELECT:output_selector"
   output_stream: "IMAGE:multi_backend_output_image"  
 }
 
@@ -27,14 +28,7 @@ node {
 node {
   calculator: "FromImageCalculator"
   input_stream: "IMAGE:multi_backend_output_image"
-  output_stream: "IMAGE_GPU:output_video_frame"
+  output_stream: "IMAGE_GPU:output_video"
   output_stream: "SOURCE_ON_GPU:is_gpu_image"
 }
 
-# Flip image back for output
-node: {
-  calculator: "ImageTransformationCalculator"
-  input_stream: "IMAGE_GPU:output_video_frame"
-  input_stream: "FLIP_VERTICALLY:is_gpu_image"
-  output_stream: "IMAGE_GPU:output_video"
-}

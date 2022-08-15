@@ -3,6 +3,9 @@ type: "RulikGpu"
 # Input image. (Image)
 input_stream: "IMAGE:input_image"
 
+# Selects a stream for output_image
+input_stream: "SELECT:output_selector"
+
 # Complexity of hand landmark and palm detection models: 0 or 1. Accuracy as
 # well as inference latency generally go up with the model complexity. If
 # unspecified, functions as set to 1. (int)
@@ -120,5 +123,27 @@ node: {
 node {
   calculator: "ToImageCalculator"
   input_stream: "IMAGE_GPU:output_gpu_image_flip"
-  output_stream: "IMAGE:output_image"
+  output_stream: "IMAGE:final_output_image"
+}
+
+node {
+  calculator: "MuxCalculatorV1"
+  input_stream: "INPUT:0:final_output_image"
+  input_stream: "INPUT:1:throttled_image"
+  input_stream: "SELECT:output_selector"
+  output_stream: "OUTPUT:output_image"
+  input_stream_handler {
+    input_stream_handler: "SyncSetInputStreamHandler"
+    options {
+      [mediapipe.SyncSetInputStreamHandlerOptions.ext] {
+        sync_set {
+          tag_index: "INPUT:0"
+          tag_index: "INPUT:1"
+        }
+        sync_set {
+          tag_index: "SELECT"          
+        }        
+      }
+    }
+  }
 }
