@@ -151,10 +151,10 @@ absl::Status RunMPPGraph() {
 
     mediapipe::TimestampDiff diff = mediapipe::Timestamp(frame_timestamp_us) - program_timestamp;
     if(diff.Seconds() > 3){
-      graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(color).At(++select_timestamp));
+      //graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(color).At(++select_timestamp));
       //mediapipe::Packet&& p = mediapipe::MakePacket<int64>(color).At(++color_timestamp);    
-      absl::Status status = graph.AddPacketToInputStream(kColor, mediapipe::MakePacket<int64>(color).At(++color_timestamp));
-      MP_RETURN_IF_ERROR(status);
+      //absl::Status status = graph.AddPacketToInputStream(kColor, mediapipe::MakePacket<int64>(color).At(++color_timestamp));
+      //MP_RETURN_IF_ERROR(status);
 
       program_timestamp = mediapipe::Timestamp(frame_timestamp_us);
       if(color == 0) {

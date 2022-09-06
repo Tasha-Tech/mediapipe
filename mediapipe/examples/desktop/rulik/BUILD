@@ -8,7 +8,7 @@ cc_binary(
     deps = [
         "//mediapipe/examples/desktop:rulik_run_graph_main_gpu",
         "//mediapipe/gpu:gpu_buffer_to_image_frame_calculator",
-        "//mediapipe/modules/rulik:rulik_gpu",
+        "//mediapipe/modules/rulik:rulik_gpu_v1",
     ],
 )
 

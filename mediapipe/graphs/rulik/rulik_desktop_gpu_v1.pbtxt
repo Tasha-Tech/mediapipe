@@ -18,7 +18,7 @@ node: {
 
 # Rulik subgraph
 node {
-  calculator: "RulikGpu"
+  calculator: "RulikGpuV1"
   input_stream: "IMAGE:multi_backend_input_image"
   input_stream: "SELECT:output_selector"
   output_stream: "IMAGE:multi_backend_output_image"  

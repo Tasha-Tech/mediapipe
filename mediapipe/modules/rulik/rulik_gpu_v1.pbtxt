@@ -1,4 +1,4 @@
-type: "RulikGpu"
+type: "RulikGpuV1"
 
 # Input image. (Image)
 input_stream: "IMAGE:input_image"
@@ -17,13 +17,6 @@ output_stream: "IMAGE:output_image"
 # Extra outputs (for debugging, for instance).
 # Detected palms. (std::vector<Detection>)
 output_stream: "PALM_DETECTIONS:palm_detections"
-
-# Detected faces. (std::vector<Detection>)
-# NOTE: there will not be an output packet in the DETECTIONS stream for this
-# particular timestamp if none of faces detected. However, the MediaPipe
-# framework will internally inform the downstream calculators of the absence of
-# this packet so that they don't wait for it unnecessarily.
-output_stream: "FACE_DETECTIONS:face_detections"
 
 node {
   calculator: "FlowLimiterCalculator"
@@ -67,68 +60,9 @@ node {
   output_stream: "DETECTIONS:palm_detections"
 }
 
-# Subgraph that performs face detection. # calculator: "FaceDetectionShortRangeImage"  
-node {  
-  calculator: "FaceDetectionFullRangeImage"  
-  input_stream: "IMAGE:throttled_image"
-  output_stream: "DETECTIONS:face_detections"
-}
-
-
-
-# Create model selection for Selfie segmentation
-node {
-  calculator: "ConstantSidePacketCalculator"
-  output_side_packet: "PACKET:selfie_model_selection"
-  node_options: {
-    [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
-      packet { int_value: 1 }
-    }
-  }
-}
-
-# Subgraph that performs Selfie segmentation.
-node {
-  calculator: "SelfieSegmentationGpu"
-  input_stream: "IMAGE:gpu_buffer_flip"
-  input_side_packet: "MODEL_SELECTION:selfie_model_selection"
-  output_stream: "SEGMENTATION_MASK:segmentation_mask"
-}
-
-
-# Colors the selfie segmentation with the color specified in the option.
-node {
-  calculator: "RecolorCalculatorV1"
-  input_stream: "IMAGE_GPU:gpu_buffer_flip"
-  input_stream: "MASK_GPU:segmentation_mask"
-  output_stream: "IMAGE_GPU:output_gpu_image"
-  node_options: {
-    [type.googleapis.com/mediapipe.RecolorCalculatorOptions] {
-      color { r: 0 g: 170 b: 0 }
-      mask_channel: RED
-      invert_mask: true
-      adjust_with_luminance: false
-    }
-  }
-}
-
-# Flip image back from colored selfie segmentation
-node: {
-  calculator: "ImageTransformationCalculator"
-  input_stream: "IMAGE_GPU:output_gpu_image"
-  input_stream: "FLIP_VERTICALLY:is_gpu_image"
-  output_stream: "IMAGE_GPU:output_gpu_image_flip"
-}
-
-node {
-  calculator: "ToImageCalculator"
-  input_stream: "IMAGE_GPU:output_gpu_image_flip"
-  output_stream: "IMAGE:final_output_image"
-}
-
 node {
   calculator: "MuxCalculatorV1"
-  input_stream: "INPUT:1:final_output_image"
+  #input_stream: "INPUT:1:throttled_image"
   input_stream: "INPUT:0:throttled_image"
   input_stream: "SELECT:output_selector"
   output_stream: "OUTPUT:output_image"
@@ -138,7 +72,7 @@ node {
       [mediapipe.SyncSetInputStreamHandlerOptions.ext] {
         sync_set {
           tag_index: "INPUT:0"
-          tag_index: "INPUT:1"
+          #tag_index: "INPUT:1"
         }
         sync_set {
           tag_index: "SELECT"          

@@ -31,23 +31,23 @@ cc_library(
         "//mediapipe/calculators/util:from_image_calculator",
         "//mediapipe/calculators/util:to_image_calculator",
         "//mediapipe/framework/stream_handler:sync_set_input_stream_handler",
-        "//mediapipe/modules/selfie_segmentation:selfie_segmentation_gpu",
+        #"//mediapipe/modules/selfie_segmentation:selfie_segmentation_gpu",
         "//mediapipe/modules/palm_detection:palm_detection_gpu",
         # "//mediapipe/modules/face_detection:face_detection_full_range_gpu",
-        "//mediapipe/modules/face_detection:face_detection_full_range_image",
+        # "//mediapipe/modules/face_detection:face_detection_full_range_image",
     ],
-)
-
-mediapipe_simple_subgraph(
-    name = "rulik_gpu_image",
-    graph = "rulik_gpu_image.pbtxt",
-    register_as = "RulikGpuImage",
-    deps = [":rulik_gpu_deps"],
 )
 
 mediapipe_simple_subgraph(
     name = "rulik_gpu",
     graph = "rulik_gpu.pbtxt",
     register_as = "RulikGpu",
+    deps = [":rulik_gpu_deps"],
+)
+
+mediapipe_simple_subgraph(
+    name = "rulik_gpu_v1",
+    graph = "rulik_gpu_v1.pbtxt",
+    register_as = "RulikGpuV1",
     deps = [":rulik_gpu_deps"],
 )
