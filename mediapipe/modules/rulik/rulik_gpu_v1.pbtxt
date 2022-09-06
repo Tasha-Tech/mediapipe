@@ -60,10 +60,34 @@ node {
   output_stream: "DETECTIONS:palm_detections"
 }
 
+node: {
+  calculator: "GpuBufferToImageFrameCalculator"
+  input_stream: "gpu_buffer"
+  output_stream: "image_frame"
+}
+
+node {
+  calculator: "ColorConvertCalculator"  
+  input_stream: "RGB_IN:image_frame"
+  output_stream: "GRAY_OUT:throttled_image_gray"
+}
+
+node {
+  calculator: "ColorConvertCalculator"  
+  input_stream: "GRAY_IN:throttled_image_gray"
+  output_stream: "RGB_OUT:throttled_image_rgba"
+}
+
+node {
+  calculator: "ToImageCalculator"
+  input_stream: "IMAGE_CPU:throttled_image_rgba"
+  output_stream: "IMAGE:throttled_image_rgba_unified"
+}
+
 node {
   calculator: "MuxCalculatorV1"
-  #input_stream: "INPUT:1:throttled_image"
-  input_stream: "INPUT:0:throttled_image"
+  input_stream: "INPUT:1:throttled_image"
+  input_stream: "INPUT:0:throttled_image_rgba_unified"
   input_stream: "SELECT:output_selector"
   output_stream: "OUTPUT:output_image"
   input_stream_handler {
@@ -72,7 +96,7 @@ node {
       [mediapipe.SyncSetInputStreamHandlerOptions.ext] {
         sync_set {
           tag_index: "INPUT:0"
-          #tag_index: "INPUT:1"
+          tag_index: "INPUT:1"
         }
         sync_set {
           tag_index: "SELECT"          

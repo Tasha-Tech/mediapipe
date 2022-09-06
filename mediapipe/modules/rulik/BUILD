@@ -26,10 +26,14 @@ cc_library(
     deps = [
         "//mediapipe/calculators/core:flow_limiter_calculator",
         "//mediapipe/calculators/core:mux_calculator_v1",
-        "//mediapipe/calculators/image:image_transformation_calculator",   
+        "//mediapipe/calculators/image:image_transformation_calculator",
         "//mediapipe/calculators/image:recolor_calculator_v1",
+        "//mediapipe/calculators/image:color_convert_calculator",
         "//mediapipe/calculators/util:from_image_calculator",
         "//mediapipe/calculators/util:to_image_calculator",
+        "//mediapipe/gpu:gpu_buffer_to_image_frame_calculator",
+        "//mediapipe/gpu:image_frame_to_gpu_buffer_calculator",
+ 
         "//mediapipe/framework/stream_handler:sync_set_input_stream_handler",
         #"//mediapipe/modules/selfie_segmentation:selfie_segmentation_gpu",
         "//mediapipe/modules/palm_detection:palm_detection_gpu",
