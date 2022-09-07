@@ -29,6 +29,8 @@ cc_library(
         "//mediapipe/calculators/image:image_transformation_calculator",
         "//mediapipe/calculators/image:recolor_calculator_v1",
         "//mediapipe/calculators/image:color_convert_calculator",
+        "//mediapipe/calculators/image:background_extractor_calculator",
+        
         "//mediapipe/calculators/util:from_image_calculator",
         "//mediapipe/calculators/util:to_image_calculator",
         "//mediapipe/gpu:gpu_buffer_to_image_frame_calculator",

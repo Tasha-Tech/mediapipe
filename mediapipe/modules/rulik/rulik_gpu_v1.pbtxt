@@ -60,15 +60,9 @@ node {
   output_stream: "DETECTIONS:palm_detections"
 }
 
-node: {
-  calculator: "GpuBufferToImageFrameCalculator"
-  input_stream: "gpu_buffer"
-  output_stream: "image_frame"
-}
-
 node {
-  calculator: "ColorConvertCalculator"  
-  input_stream: "RGB_IN:image_frame"
+  calculator: "BackgroundExtractorCalculator"  
+  input_stream: "RGB_IN:throttled_image"
   output_stream: "GRAY_OUT:throttled_image_gray"
 }
 
