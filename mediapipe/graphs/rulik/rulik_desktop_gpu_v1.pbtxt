@@ -3,7 +3,6 @@
 # GPU buffer. (GpuBuffer)
 input_stream: "input_video"
 
-input_stream: "mask_color"
 input_stream: "output_selector"
 
 # Output image with rendered results. (GpuBuffer)

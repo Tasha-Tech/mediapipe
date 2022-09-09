@@ -32,7 +32,6 @@
 #include "mediapipe/gpu/gpu_shared_data_internal.h"
 
 constexpr char kInputStream[] = "input_video";
-constexpr char kColor[] = "mask_color";
 constexpr char kSelector[] = "output_selector";
 constexpr char kOutputStream[] = "output_video";
 constexpr char kWindowName[] = "MediaPipe";
@@ -151,7 +150,7 @@ absl::Status RunMPPGraph() {
 
     mediapipe::TimestampDiff diff = mediapipe::Timestamp(frame_timestamp_us) - program_timestamp;
     if(diff.Seconds() > 3){
-      //graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(color).At(++select_timestamp));
+      graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(color).At(++select_timestamp));
       //mediapipe::Packet&& p = mediapipe::MakePacket<int64>(color).At(++color_timestamp);    
       //absl::Status status = graph.AddPacketToInputStream(kColor, mediapipe::MakePacket<int64>(color).At(++color_timestamp));
       //MP_RETURN_IF_ERROR(status);
@@ -207,18 +206,19 @@ absl::Status RunMPPGraph() {
     } else {
       cv::imshow(kWindowName, output_frame_mat);
       // Press any key to exit.
-      const int pressed_key = cv::waitKey(5);
+      const int pressed_key = cv::waitKey(20);
       if (pressed_key >= 0 && pressed_key != 255) grab_frames = false;
     }
   }
 
   LOG(INFO) << "Shutting down.";
   if (writer.isOpened()) writer.release();
-  MP_RETURN_IF_ERROR(graph.CloseInputStream(kInputStream));
-  MP_RETURN_IF_ERROR(graph.CloseInputStream(kColor));
+  MP_RETURN_IF_ERROR(graph.CloseInputStream(kInputStream));  
   MP_RETURN_IF_ERROR(graph.CloseInputStream(kSelector));
   
-  return graph.WaitUntilDone();
+  graph.WaitUntilDone();
+  cv::waitKey(500);
+  return absl::OkStatus();
 }
 
 int main(int argc, char** argv) {
