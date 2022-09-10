@@ -78,7 +78,21 @@ node: {
 node {
   calculator: "BackgroundExtractorCalculator"  
   input_stream: "RGB_IN:cpu_buffer"
+  input_stream: "COMMAND:output_selector"
   output_stream: "RGB_OUT:gray_image_frame"
+  input_stream_handler {
+    input_stream_handler: "SyncSetInputStreamHandler"
+    options {
+      [mediapipe.SyncSetInputStreamHandlerOptions.ext] {
+        sync_set {
+          tag_index: "RGB_IN"          
+        }
+        sync_set {
+          tag_index: "COMMAND"          
+        }        
+      }
+    }
+  }
 }
 
 # Transfers the image from CPU back to GPU memory, to be sent out of the graph.
@@ -92,27 +106,5 @@ node: {
 node: {
   calculator: "ToImageCalculator"
   input_stream: "IMAGE_GPU:gray_image_gpu"
-  output_stream: "IMAGE:gray_image"
-}
-
-node {
-  calculator: "MuxCalculatorV1"
-  input_stream: "INPUT:0:throttled_image"
-  input_stream: "INPUT:1:gray_image"
-  input_stream: "SELECT:output_selector"
-  output_stream: "OUTPUT:output_image"
-  input_stream_handler {
-    input_stream_handler: "SyncSetInputStreamHandler"
-    options {
-      [mediapipe.SyncSetInputStreamHandlerOptions.ext] {
-        sync_set {
-          tag_index: "INPUT:0"
-          tag_index: "INPUT:1"
-        }
-        sync_set {
-          tag_index: "SELECT"          
-        }        
-      }
-    }
-  }
+  output_stream: "IMAGE:output_image"
 }

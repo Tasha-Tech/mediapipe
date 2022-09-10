@@ -79,10 +79,13 @@ absl::Status RunMPPGraph() {
   cv::VideoWriter writer;
   const bool save_video = !absl::GetFlag(FLAGS_output_video_path).empty();
   if (!save_video) {
-    cv::namedWindow(kWindowName, /*flags=WINDOW_AUTOSIZE*/ 1);
+    cv::namedWindow(kWindowName, 0 /*WINDOW_NORMAL*/ /*flags=WINDOW_AUTOSIZE 1*/);
 #if (CV_MAJOR_VERSION >= 3) && (CV_MINOR_VERSION >= 2)
+    //capture.set(cv::CAP_PROP_FRAME_WIDTH, 640);
+    //capture.set(cv::CAP_PROP_FRAME_HEIGHT, 480);
     capture.set(cv::CAP_PROP_FRAME_WIDTH, 640);
-    capture.set(cv::CAP_PROP_FRAME_HEIGHT, 480);
+    capture.set(cv::CAP_PROP_FRAME_HEIGHT, 360);
+
     capture.set(cv::CAP_PROP_FPS, 30);
 #endif
   }
@@ -120,10 +123,12 @@ absl::Status RunMPPGraph() {
 
     // Wrap Mat into an ImageFrame.
     auto input_frame = absl::make_unique<mediapipe::ImageFrame>(
-        mediapipe::ImageFormat::SRGBA, camera_frame.cols, camera_frame.rows,
+        mediapipe::ImageFormat::SRGBA, 1280/*camera_frame.cols*/, 720/*camera_frame.rows*/,
         mediapipe::ImageFrame::kGlDefaultAlignmentBoundary);
     cv::Mat input_frame_mat = mediapipe::formats::MatView(input_frame.get());
-    camera_frame.copyTo(input_frame_mat);
+
+    cv::resize(camera_frame, input_frame_mat, input_frame_mat.size());
+    //camera_frame.copyTo(input_frame_mat);
 
     // Prepare and add graph input packet.
     size_t frame_timestamp_us = (double)cv::getTickCount() / (double)cv::getTickFrequency() * 1e6;
@@ -150,10 +155,7 @@ absl::Status RunMPPGraph() {
 
     mediapipe::TimestampDiff diff = mediapipe::Timestamp(frame_timestamp_us) - program_timestamp;
     if(diff.Seconds() > 3){
-      graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(color).At(++select_timestamp));
-      //mediapipe::Packet&& p = mediapipe::MakePacket<int64>(color).At(++color_timestamp);    
-      //absl::Status status = graph.AddPacketToInputStream(kColor, mediapipe::MakePacket<int64>(color).At(++color_timestamp));
-      //MP_RETURN_IF_ERROR(status);
+      graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(1).At(++select_timestamp));
 
       program_timestamp = mediapipe::Timestamp(frame_timestamp_us);
       if(color == 0) {
@@ -217,7 +219,7 @@ absl::Status RunMPPGraph() {
   MP_RETURN_IF_ERROR(graph.CloseInputStream(kSelector));
   
   graph.WaitUntilDone();
-  cv::waitKey(500);
+  //cv::waitKey(500);
   return absl::OkStatus();
 }
 
