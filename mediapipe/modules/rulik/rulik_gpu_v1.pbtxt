@@ -60,14 +60,6 @@ node {
   output_stream: "DETECTIONS:palm_detections"
 }
 
-# Converts Image to ImageFrame 
-#node {
-#  calculator: "FromImageCalculator"
-#  input_stream: "IMAGE:throttled_image"
-#  output_stream: "IMAGE_CPU:throttled_image_frame"
-#  output_stream: "SOURCE_ON_GPU:is_gpu_image1"
-#}
-
 # Transfers the input image from GPU to CPU memory.
 node: {
   calculator: "GpuBufferToImageFrameCalculator"

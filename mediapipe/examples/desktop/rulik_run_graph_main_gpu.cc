@@ -21,6 +21,7 @@
 #include "mediapipe/framework/calculator_framework.h"
 #include "mediapipe/framework/formats/image_frame.h"
 #include "mediapipe/framework/formats/image_frame_opencv.h"
+#include "mediapipe/framework/formats/detection.pb.h"
 #include "mediapipe/framework/port/file_helpers.h"
 #include "mediapipe/framework/port/opencv_highgui_inc.h"
 #include "mediapipe/framework/port/opencv_imgproc_inc.h"
@@ -34,6 +35,8 @@
 constexpr char kInputStream[] = "input_video";
 constexpr char kSelector[] = "output_selector";
 constexpr char kOutputStream[] = "output_video";
+constexpr char kOutputPalmDetections[] = "palm_detections";
+
 constexpr char kWindowName[] = "MediaPipe";
 
 ABSL_FLAG(std::string, calculator_graph_config_file, "",
@@ -41,6 +44,9 @@ ABSL_FLAG(std::string, calculator_graph_config_file, "",
 ABSL_FLAG(std::string, input_video_path, "",
           "Full path of video to load. "
           "If not provided, attempt to use a webcam.");
+ABSL_FLAG(std::string, input_image_path, "",
+          "Full path of image to load. "
+          "If not provided, attempt to use a webcam.");          
 ABSL_FLAG(std::string, output_video_path, "",
           "Full path of where to save result (.mp4 only). "
           "If not provided, show result in a window.");
@@ -68,31 +74,40 @@ absl::Status RunMPPGraph() {
 
   LOG(INFO) << "Initialize the camera or load the video.";
   cv::VideoCapture capture;
+
+  const bool load_image = !absl::GetFlag(FLAGS_input_image_path).empty();
   const bool load_video = !absl::GetFlag(FLAGS_input_video_path).empty();
+  bool use_capture = true;
   if (load_video) {
     capture.open(absl::GetFlag(FLAGS_input_video_path));
-  } else {
-    capture.open(0);
+  } else if(load_image){
+    use_capture = false;
+  }else {
+    capture.open(0);    
   }
-  RET_CHECK(capture.isOpened());
+  if(use_capture) {
+    RET_CHECK(capture.isOpened());
+  }
 
   cv::VideoWriter writer;
   const bool save_video = !absl::GetFlag(FLAGS_output_video_path).empty();
   if (!save_video) {
     cv::namedWindow(kWindowName, 0 /*WINDOW_NORMAL*/ /*flags=WINDOW_AUTOSIZE 1*/);
 #if (CV_MAJOR_VERSION >= 3) && (CV_MINOR_VERSION >= 2)
-    //capture.set(cv::CAP_PROP_FRAME_WIDTH, 640);
-    //capture.set(cv::CAP_PROP_FRAME_HEIGHT, 480);
-    capture.set(cv::CAP_PROP_FRAME_WIDTH, 640);
-    capture.set(cv::CAP_PROP_FRAME_HEIGHT, 360);
-
-    capture.set(cv::CAP_PROP_FPS, 30);
+    if(use_capture){
+      //capture.set(cv::CAP_PROP_FRAME_WIDTH, 640);
+      //capture.set(cv::CAP_PROP_FRAME_HEIGHT, 480);
+      capture.set(cv::CAP_PROP_FRAME_WIDTH, 640);
+      capture.set(cv::CAP_PROP_FRAME_HEIGHT, 360);
+      capture.set(cv::CAP_PROP_FPS, 30);
+    }
 #endif
   }
 
   LOG(INFO) << "Start running the calculator graph.";
-  ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller poller,
-                   graph.AddOutputStreamPoller(kOutputStream));
+  ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller poller, graph.AddOutputStreamPoller(kOutputStream));
+  ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller palm_detections_poller, graph.AddOutputStreamPoller(kOutputPalmDetections));
+
   MP_RETURN_IF_ERROR(graph.StartRun({}));
 
   LOG(INFO) << "Start grabbing and processing frames.";
@@ -103,18 +118,27 @@ absl::Status RunMPPGraph() {
   int selector = 0;
   mediapipe::Timestamp select_timestamp = mediapipe::Timestamp(0);  
 
+  cv::Mat camera_frame_raw;
+  if(load_image){
+    camera_frame_raw = cv::imread(absl::GetFlag(FLAGS_input_image_path));
+  }
+
   while (grab_frames) {
-    // Capture opencv camera or video frame.
-    cv::Mat camera_frame_raw;
-    capture >> camera_frame_raw;
+
+    // Capture opencv camera or video frame.    
+    if(use_capture) {
+      capture >> camera_frame_raw;
+    }
     if (camera_frame_raw.empty()) {
       if (!load_video) {
         LOG(INFO) << "Ignore empty frames from camera.";
         continue;
       }
-      LOG(INFO) << "Empty frame, end of video reached.";
-      break;
+      LOG(INFO) << "Empty frame, end of video reached.";      
+      break;      
+      continue;
     }
+
     cv::Mat camera_frame;
     cv::cvtColor(camera_frame_raw, camera_frame, cv::COLOR_BGR2RGBA);
     if (!load_video) {
@@ -123,12 +147,12 @@ absl::Status RunMPPGraph() {
 
     // Wrap Mat into an ImageFrame.
     auto input_frame = absl::make_unique<mediapipe::ImageFrame>(
-        mediapipe::ImageFormat::SRGBA, 1280/*camera_frame.cols*/, 720/*camera_frame.rows*/,
+        mediapipe::ImageFormat::SRGBA, camera_frame.cols, camera_frame.rows, // 1280x720
         mediapipe::ImageFrame::kGlDefaultAlignmentBoundary);
     cv::Mat input_frame_mat = mediapipe::formats::MatView(input_frame.get());
 
-    cv::resize(camera_frame, input_frame_mat, input_frame_mat.size());
-    //camera_frame.copyTo(input_frame_mat);
+    //cv::resize(camera_frame, input_frame_mat, input_frame_mat.size());
+    camera_frame.copyTo(input_frame_mat);
 
     // Prepare and add graph input packet.
     size_t frame_timestamp_us = (double)cv::getTickCount() / (double)cv::getTickFrequency() * 1e6;
@@ -168,8 +192,11 @@ absl::Status RunMPPGraph() {
     // Get the graph result packet, or stop if that fails.
     mediapipe::Packet packet;
     if (!poller.Next(&packet)) break;
-
     std::unique_ptr<mediapipe::ImageFrame> output_frame;
+
+    // Get the graph result packets, or stop if that fails.
+    mediapipe::Packet palm_detections_packet;
+    if (!palm_detections_poller.Next(&palm_detections_packet)) break;
 
     // Convert GpuBuffer to ImageFrame.
     MP_RETURN_IF_ERROR(gpu_helper.RunInGlContext(
@@ -196,6 +223,26 @@ absl::Status RunMPPGraph() {
       cv::cvtColor(output_frame_mat, output_frame_mat, cv::COLOR_RGBA2BGR);
     else
       cv::cvtColor(output_frame_mat, output_frame_mat, cv::COLOR_RGB2BGR);
+    
+
+    const auto& detections = palm_detections_packet.Get<std::vector<mediapipe::Detection>>();    
+    for (const auto& detection : detections) {
+      const auto& score = detection.score();
+      const auto& location = detection.location_data();
+      const auto& relative_bounding_box = location.relative_bounding_box();
+      std::cout << "Score " << score[0] << std::endl;
+      int x = relative_bounding_box.xmin() * output_frame_mat.cols;
+      int y = (1.0 - relative_bounding_box.ymin()) * output_frame_mat.rows;
+      int width = relative_bounding_box.width() * output_frame_mat.cols;
+      int height = relative_bounding_box.height() * output_frame_mat.rows;
+      y -= height;
+      cv::Rect rect(x, y, width, height);
+      cv::rectangle(output_frame_mat, rect, cv::Scalar(255, 0, 0), 3);
+      char text[255];
+      std::sprintf(text,"%0.2f",score[0]);
+      putText(output_frame_mat, text, cv::Point(x, y - 10), cv::FONT_HERSHEY_SIMPLEX, 0.8, cv::Scalar(255, 0, 0), 2);
+    }
+
     if (save_video) {
       if (!writer.isOpened()) {
         LOG(INFO) << "Prepare video writer.";
@@ -206,10 +253,18 @@ absl::Status RunMPPGraph() {
       }
       writer.write(output_frame_mat);
     } else {
+      cv::resize(output_frame_mat, output_frame_mat, cv::Size(1280, 720));
       cv::imshow(kWindowName, output_frame_mat);
-      // Press any key to exit.
-      const int pressed_key = cv::waitKey(20);
-      if (pressed_key >= 0 && pressed_key != 255) grab_frames = false;
+      // Press 'Esc' key to exit.
+      int pressed_key;
+      if(load_image){
+        pressed_key = cv::waitKey(0);
+      } else {
+        pressed_key = cv::waitKey(20);
+      }
+      if (pressed_key == 27) {
+        grab_frames = false;
+      }
     }
   }
 

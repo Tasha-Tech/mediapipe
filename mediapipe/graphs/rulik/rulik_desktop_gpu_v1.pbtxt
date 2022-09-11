@@ -8,6 +8,9 @@ input_stream: "output_selector"
 # Output image with rendered results. (GpuBuffer)
 output_stream: "output_video"
 
+# Detected palms. (std::vector<Detection>)
+output_stream: "palm_detections"
+
 # Converts the input GPU image (GpuBuffer) to the multi-backend image type (Image).
 node: {
   calculator: "ToImageCalculator"
@@ -20,7 +23,8 @@ node {
   calculator: "RulikGpuV1"
   input_stream: "IMAGE:multi_backend_input_image"
   input_stream: "SELECT:output_selector"
-  output_stream: "IMAGE:multi_backend_output_image"  
+  output_stream: "IMAGE:multi_backend_output_image"
+  output_stream: "PALM_DETECTIONS:palm_detections"
 }
 
 # Converts Image to ImageFrame For GPU to consume
