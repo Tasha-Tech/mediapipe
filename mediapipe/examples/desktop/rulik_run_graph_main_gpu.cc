@@ -178,7 +178,9 @@ absl::Status RunMPPGraph() {
     }    
 
     mediapipe::TimestampDiff diff = mediapipe::Timestamp(frame_timestamp_us) - program_timestamp;
-    if(diff.Seconds() > 3){
+    if(load_image){
+      graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(1).At(++select_timestamp));
+    } else if(diff.Seconds() > 3){
       graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(1).At(++select_timestamp));
 
       program_timestamp = mediapipe::Timestamp(frame_timestamp_us);
@@ -224,7 +226,7 @@ absl::Status RunMPPGraph() {
     else
       cv::cvtColor(output_frame_mat, output_frame_mat, cv::COLOR_RGB2BGR);
     
-
+    /*
     const auto& detections = palm_detections_packet.Get<std::vector<mediapipe::Detection>>();    
     for (const auto& detection : detections) {
       const auto& score = detection.score();
@@ -240,8 +242,9 @@ absl::Status RunMPPGraph() {
       cv::rectangle(output_frame_mat, rect, cv::Scalar(255, 0, 0), 3);
       char text[255];
       std::sprintf(text,"%0.2f",score[0]);
-      putText(output_frame_mat, text, cv::Point(x, y - 10), cv::FONT_HERSHEY_SIMPLEX, 0.8, cv::Scalar(255, 0, 0), 2);
+      putText(output_frame_mat, text, cv::Point(x + 10, y + height / 2), cv::FONT_HERSHEY_SIMPLEX, 0.8, cv::Scalar(255, 0, 0), 2);
     }
+    */
 
     if (save_video) {
       if (!writer.isOpened()) {

@@ -15,6 +15,7 @@
 #include "mediapipe/framework/calculator_framework.h"
 #include "mediapipe/framework/formats/image_frame.h"
 #include "mediapipe/framework/formats/image_frame_opencv.h"
+#include "mediapipe/framework/formats/detection.pb.h"
 #include "mediapipe/framework/port/integral_types.h"
 #include "mediapipe/framework/port/logging.h"
 #include "mediapipe/framework/port/opencv_imgproc_inc.h"
@@ -42,7 +43,8 @@ void SetColorChannel(int channel, uint8 value, cv::Mat* mat) {
 
 constexpr char kRgbInTag[] = "RGB_IN";
 constexpr char kRgbOutTag[] = "RGB_OUT";
-constexpr char kCommand[] = "COMMAND";
+constexpr char kCommandTag[] = "COMMAND";
+constexpr char kDetectionsTag[] = "DETECTIONS";
 }  // namespace
 
 class BackgroundExtractorCalculator : public CalculatorBase {
@@ -68,8 +70,12 @@ absl::Status BackgroundExtractorCalculator::GetContract(CalculatorContract* cc) 
     cc->Inputs().Tag(kRgbInTag).Set<mediapipe::ImageFrame>();
   }
 
-  if (cc->Inputs().HasTag(kCommand)) {
-    cc->Inputs().Tag(kCommand).Set<int>().Optional();
+  if (cc->Inputs().HasTag(kCommandTag)) {
+    cc->Inputs().Tag(kCommandTag).Set<int>().Optional();
+  }
+
+  if (cc->Inputs().HasTag(kDetectionsTag)) {
+    cc->Inputs().Tag(kDetectionsTag).Set<std::vector<mediapipe::Detection>>().Optional();
   }
 
   if (cc->Outputs().HasTag(kRgbOutTag)) {
@@ -81,8 +87,8 @@ absl::Status BackgroundExtractorCalculator::GetContract(CalculatorContract* cc) 
 
 absl::Status BackgroundExtractorCalculator::Process(CalculatorContext* cc) {
 
-  if (cc->Inputs().HasTag(kCommand) && !cc->Inputs().Tag(kCommand).IsEmpty()) {
-    int command = cc->Inputs().Tag(kCommand).Get<int>();
+  if (cc->Inputs().HasTag(kCommandTag) && !cc->Inputs().Tag(kCommandTag).IsEmpty()) {
+    int command = cc->Inputs().Tag(kCommandTag).Get<int>();
     //std::cout << "select " << select << std::endl;
     if(command == 1){
       output_in_gray = !output_in_gray;
@@ -103,13 +109,10 @@ absl::Status BackgroundExtractorCalculator::Process(CalculatorContext* cc) {
   std::unique_ptr<ImageFrame> outputFrame( new ImageFrame(format /*ImageFormat::SRGBA*/, input_mat.cols, input_mat.rows) );  
   cv::Mat output_mat = formats::MatView(outputFrame.get());  
 
-  if(output_in_gray){
-    //std::unique_ptr<ImageFrame> grayFrame( new ImageFrame(ImageFormat::GRAY8, input_mat.cols, input_mat.rows) );
-    //cv::Mat gray_mat = formats::MatView(grayFrame.get());
+  if(output_in_gray){    
     cv::Mat gray_mat;
     cv::cvtColor(input_mat, gray_mat, cv::COLOR_RGB2GRAY);
-
-    //std::unique_ptr<ImageFrame> smallGrayFrame( new ImageFrame(ImageFormat::GRAY8, input_mat.cols/4, input_mat.rows/4) );
+    
     cv::Mat small_gray_mat;
     cv::resize(gray_mat, small_gray_mat, cv::Size(input_mat.cols/4, input_mat.rows/4));
 
@@ -122,7 +125,28 @@ absl::Status BackgroundExtractorCalculator::Process(CalculatorContext* cc) {
 
     cv::resize(small_gray_mat, gray_mat, gray_mat.size());
 
-    cv::cvtColor(gray_mat, output_mat, cv::COLOR_GRAY2RGBA);  
+    cv::cvtColor(gray_mat, output_mat, cv::COLOR_GRAY2RGBA);
+    
+    if (!cc->Inputs().Tag(kDetectionsTag).Value().IsEmpty()) {
+      const auto& detections = cc->Inputs().Tag(kDetectionsTag).Get<std::vector<mediapipe::Detection>>();
+    
+      for (const auto& detection : detections) {
+        const auto& score = detection.score();
+        const auto& location = detection.location_data();
+        const auto& relative_bounding_box = location.relative_bounding_box();
+        std::cout << "Score " << score[0] << std::endl;
+        int x = relative_bounding_box.xmin() * output_mat.cols;
+        int y = (1.0 - relative_bounding_box.ymin()) * output_mat.rows;
+        int width = relative_bounding_box.width() * output_mat.cols;
+        int height = relative_bounding_box.height() * output_mat.rows;
+        y -= height;
+        cv::Rect rect(x, y, width, height);
+        cv::rectangle(output_mat, rect, cv::Scalar(0, 0, 255), 3);
+        char text[255];
+        std::sprintf(text,"%0.2f",score[0]);
+        putText(output_mat, text, cv::Point(x + 10, y + height / 2), cv::FONT_HERSHEY_SIMPLEX, 0.8, cv::Scalar(255, 0, 0), 2);
+      }
+    }
   } else {
     input_mat.copyTo(output_mat);
   }
