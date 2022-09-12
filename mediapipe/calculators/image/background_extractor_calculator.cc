@@ -127,14 +127,14 @@ absl::Status BackgroundExtractorCalculator::Process(CalculatorContext* cc) {
 
     cv::cvtColor(gray_mat, output_mat, cv::COLOR_GRAY2RGBA);
     
-    if (!cc->Inputs().Tag(kDetectionsTag).Value().IsEmpty()) {
+    if (cc->Inputs().HasTag(kDetectionsTag) &&  !cc->Inputs().Tag(kDetectionsTag).Value().IsEmpty()) {
       const auto& detections = cc->Inputs().Tag(kDetectionsTag).Get<std::vector<mediapipe::Detection>>();
     
       for (const auto& detection : detections) {
         const auto& score = detection.score();
         const auto& location = detection.location_data();
         const auto& relative_bounding_box = location.relative_bounding_box();
-        std::cout << "Score " << score[0] << std::endl;
+        //std::cout << "Score " << score[0] << std::endl;
         int x = relative_bounding_box.xmin() * output_mat.cols;
         int y = (1.0 - relative_bounding_box.ymin()) * output_mat.rows;
         int width = relative_bounding_box.width() * output_mat.cols;
@@ -142,9 +142,9 @@ absl::Status BackgroundExtractorCalculator::Process(CalculatorContext* cc) {
         y -= height;
         cv::Rect rect(x, y, width, height);
         cv::rectangle(output_mat, rect, cv::Scalar(0, 0, 255), 3);
-        char text[255];
-        std::sprintf(text,"%0.2f",score[0]);
-        putText(output_mat, text, cv::Point(x + 10, y + height / 2), cv::FONT_HERSHEY_SIMPLEX, 0.8, cv::Scalar(255, 0, 0), 2);
+        //char text[255];
+        //std::sprintf(text,"%0.2f",score[0]);
+        //putText(output_mat, text, cv::Point(x + 10, y + height / 2), cv::FONT_HERSHEY_SIMPLEX, 0.8, cv::Scalar(255, 0, 0), 2);
       }
     }
   } else {

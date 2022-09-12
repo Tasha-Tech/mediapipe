@@ -107,6 +107,7 @@ absl::Status RunMPPGraph() {
   LOG(INFO) << "Start running the calculator graph.";
   ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller poller, graph.AddOutputStreamPoller(kOutputStream));
   ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller palm_detections_poller, graph.AddOutputStreamPoller(kOutputPalmDetections));
+  palm_detections_poller.SetMaxQueueSize(1);
 
   MP_RETURN_IF_ERROR(graph.StartRun({}));
 
@@ -124,7 +125,6 @@ absl::Status RunMPPGraph() {
   }
 
   while (grab_frames) {
-
     // Capture opencv camera or video frame.    
     if(use_capture) {
       capture >> camera_frame_raw;
@@ -135,8 +135,7 @@ absl::Status RunMPPGraph() {
         continue;
       }
       LOG(INFO) << "Empty frame, end of video reached.";      
-      break;      
-      continue;
+      break;            
     }
 
     cv::Mat camera_frame;
@@ -145,14 +144,26 @@ absl::Status RunMPPGraph() {
       cv::flip(camera_frame, camera_frame, /*flipcode=HORIZONTAL*/ 1);
     }
 
-    // Wrap Mat into an ImageFrame.
-    auto input_frame = absl::make_unique<mediapipe::ImageFrame>(
-        mediapipe::ImageFormat::SRGBA, camera_frame.cols, camera_frame.rows, // 1280x720
-        mediapipe::ImageFrame::kGlDefaultAlignmentBoundary);
-    cv::Mat input_frame_mat = mediapipe::formats::MatView(input_frame.get());
+    cv::Mat input_frame_mat;
+    std::unique_ptr<mediapipe::ImageFrame> input_frame;
+    if(use_capture) {
+      // Wrap Mat into an ImageFrame.
+      input_frame = absl::make_unique<mediapipe::ImageFrame>(
+          mediapipe::ImageFormat::SRGBA, 1280, 720, 
+          mediapipe::ImageFrame::kGlDefaultAlignmentBoundary);
 
-    //cv::resize(camera_frame, input_frame_mat, input_frame_mat.size());
-    camera_frame.copyTo(input_frame_mat);
+      input_frame_mat = mediapipe::formats::MatView(input_frame.get());
+      cv::resize(camera_frame, input_frame_mat, input_frame_mat.size());
+    } else {
+      // Wrap Mat into an ImageFrame.
+      input_frame = absl::make_unique<mediapipe::ImageFrame>(
+          mediapipe::ImageFormat::SRGBA, camera_frame.cols, camera_frame.rows, // 1280x720
+          mediapipe::ImageFrame::kGlDefaultAlignmentBoundary);
+
+      input_frame_mat = mediapipe::formats::MatView(input_frame.get());
+      camera_frame.copyTo(input_frame_mat);
+    }
+    
 
     // Prepare and add graph input packet.
     size_t frame_timestamp_us = (double)cv::getTickCount() / (double)cv::getTickFrequency() * 1e6;
@@ -194,11 +205,7 @@ absl::Status RunMPPGraph() {
     // Get the graph result packet, or stop if that fails.
     mediapipe::Packet packet;
     if (!poller.Next(&packet)) break;
-    std::unique_ptr<mediapipe::ImageFrame> output_frame;
-
-    // Get the graph result packets, or stop if that fails.
-    mediapipe::Packet palm_detections_packet;
-    if (!palm_detections_poller.Next(&palm_detections_packet)) break;
+    std::unique_ptr<mediapipe::ImageFrame> output_frame; 
 
     // Convert GpuBuffer to ImageFrame.
     MP_RETURN_IF_ERROR(gpu_helper.RunInGlContext(
@@ -226,25 +233,29 @@ absl::Status RunMPPGraph() {
     else
       cv::cvtColor(output_frame_mat, output_frame_mat, cv::COLOR_RGB2BGR);
     
-    /*
-    const auto& detections = palm_detections_packet.Get<std::vector<mediapipe::Detection>>();    
-    for (const auto& detection : detections) {
-      const auto& score = detection.score();
-      const auto& location = detection.location_data();
-      const auto& relative_bounding_box = location.relative_bounding_box();
-      std::cout << "Score " << score[0] << std::endl;
-      int x = relative_bounding_box.xmin() * output_frame_mat.cols;
-      int y = (1.0 - relative_bounding_box.ymin()) * output_frame_mat.rows;
-      int width = relative_bounding_box.width() * output_frame_mat.cols;
-      int height = relative_bounding_box.height() * output_frame_mat.rows;
-      y -= height;
-      cv::Rect rect(x, y, width, height);
-      cv::rectangle(output_frame_mat, rect, cv::Scalar(255, 0, 0), 3);
-      char text[255];
-      std::sprintf(text,"%0.2f",score[0]);
-      putText(output_frame_mat, text, cv::Point(x + 10, y + height / 2), cv::FONT_HERSHEY_SIMPLEX, 0.8, cv::Scalar(255, 0, 0), 2);
-    }
-    */
+    // Get the graph result packets, or stop if that fails.
+    if(palm_detections_poller.QueueSize() > 0){
+      mediapipe::Packet palm_detections_packet;
+      if (!palm_detections_poller.Next(&palm_detections_packet)) break;
+      
+      const auto& detections = palm_detections_packet.Get<std::vector<mediapipe::Detection>>();    
+      for (const auto& detection : detections) {
+        const auto& score = detection.score();
+        const auto& location = detection.location_data();
+        const auto& relative_bounding_box = location.relative_bounding_box();
+        std::cout << "Score " << score[0] << std::endl;
+        int x = relative_bounding_box.xmin() * output_frame_mat.cols;
+        int y = (1.0 - relative_bounding_box.ymin()) * output_frame_mat.rows;
+        int width = relative_bounding_box.width() * output_frame_mat.cols;
+        int height = relative_bounding_box.height() * output_frame_mat.rows;
+        y -= height;
+        cv::Rect rect(x, y, width, height);
+        cv::rectangle(output_frame_mat, rect, cv::Scalar(255, 0, 0), 3);
+        char text[255];
+        std::sprintf(text,"%0.2f",score[0]);
+        putText(output_frame_mat, text, cv::Point(x + 10, y + height / 2), cv::FONT_HERSHEY_SIMPLEX, 0.8, cv::Scalar(255, 0, 0), 2);
+      }
+    }    
 
     if (save_video) {
       if (!writer.isOpened()) {

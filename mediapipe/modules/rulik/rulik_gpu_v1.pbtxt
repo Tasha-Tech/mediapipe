@@ -70,7 +70,7 @@ node: {
 node {
   calculator: "BackgroundExtractorCalculator"  
   input_stream: "RGB_IN:cpu_buffer"
-  input_stream: "DETECTIONS:palm_detections"
+  #input_stream: "DETECTIONS:palm_detections"
   input_stream: "COMMAND:output_selector"
   output_stream: "RGB_OUT:gray_image_frame"
   input_stream_handler {
@@ -79,7 +79,7 @@ node {
       [mediapipe.SyncSetInputStreamHandlerOptions.ext] {
         sync_set {
           tag_index: "RGB_IN"
-          tag_index: "DETECTIONS"
+          #tag_index: "DETECTIONS"
         }
         sync_set {
           tag_index: "COMMAND"          
