@@ -69,3 +69,17 @@ mediapipe_simple_subgraph(
         "//mediapipe/calculators/util:non_max_suppression_calculator",
     ],
 )
+
+mediapipe_simple_subgraph(
+    name = "palm_detection_gpu_image",
+    graph = "palm_detection_gpu_image.pbtxt",
+    register_as = "PalmDetectionGpuImage",
+    deps = [
+        ":palm_detection_model_loader",
+        ":palm_detection_gpu",
+        "//mediapipe/calculators/core:flow_limiter_calculator",
+        "//mediapipe/calculators/image:image_transformation_calculator",
+        "//mediapipe/calculators/util:from_image_calculator",        
+    ],
+)
+ 

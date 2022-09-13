@@ -26,10 +26,13 @@ cc_library(
     deps = [
         "//mediapipe/calculators/core:flow_limiter_calculator",
         "//mediapipe/calculators/core:mux_calculator_v1",
+        "//mediapipe/calculators/core:packet_cloner_calculator",
+
         "//mediapipe/calculators/image:image_transformation_calculator",
         "//mediapipe/calculators/image:recolor_calculator_v1",
         "//mediapipe/calculators/image:color_convert_calculator",
         "//mediapipe/calculators/image:background_extractor_calculator",
+        "//mediapipe/calculators/image:image_clone_calculator",
         
         "//mediapipe/calculators/util:from_image_calculator",
         "//mediapipe/calculators/util:to_image_calculator",
@@ -38,9 +41,11 @@ cc_library(
  
         "//mediapipe/framework/stream_handler:sync_set_input_stream_handler",
         #"//mediapipe/modules/selfie_segmentation:selfie_segmentation_gpu",
-        "//mediapipe/modules/palm_detection:palm_detection_gpu",
+        #"//mediapipe/modules/palm_detection:palm_detection_gpu",
+        "//mediapipe/modules/palm_detection:palm_detection_gpu_image",
         # "//mediapipe/modules/face_detection:face_detection_full_range_gpu",
-        # "//mediapipe/modules/face_detection:face_detection_full_range_image",
+        "//mediapipe/modules/face_detection:face_detection_short_range_image",
+        "//mediapipe/modules/face_detection:face_detection_full_range_image",
     ],
 )
 

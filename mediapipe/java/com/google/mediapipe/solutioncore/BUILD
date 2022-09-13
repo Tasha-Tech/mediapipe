@@ -145,8 +145,8 @@ mediapipe_aar(
         # "//mediapipe/modules/hand_landmark:hand_landmark_full.tflite",
         # "//mediapipe/modules/hand_landmark:hand_landmark_lite.tflite",
 
-        # "//mediapipe/modules/face_detection:face_detection_full_range_sparse.tflite",
-        # "//mediapipe/modules/face_detection:face_detection_short_range.tflite",
+        "//mediapipe/modules/face_detection:face_detection_full_range_sparse.tflite",
+        "//mediapipe/modules/face_detection:face_detection_short_range.tflite",
 
         "//mediapipe/modules/palm_detection:palm_detection_full.tflite",
         "//mediapipe/modules/palm_detection:palm_detection_lite.tflite",

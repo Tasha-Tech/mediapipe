@@ -1,0 +1,42 @@
+type: "PalmDetectionGpuImage"
+
+# Image. (Image)
+input_stream: "IMAGE:image"
+
+# The throttled input image. (Image)
+output_stream: "IMAGE:throttled_image"
+
+# Detected palmes. (std::vector<Detection>)
+output_stream: "DETECTIONS:palm_detections"
+
+node {
+  calculator: "FlowLimiterCalculator"
+  input_stream: "image"
+  input_stream: "FINISHED:palm_detections"
+  input_stream_info: {
+    tag_index: "FINISHED"
+    back_edge: true
+  }
+  output_stream: "throttled_image"
+  options: {
+    [mediapipe.FlowLimiterCalculatorOptions.ext] {
+      max_in_flight: 1
+      max_in_queue: 1
+    }
+  }
+}
+
+# Converts Image to GpuBuffer PalmDetectionGpu.
+node {
+  calculator: "FromImageCalculator"
+  input_stream: "IMAGE:throttled_image"
+  output_stream: "IMAGE_GPU:gpu_buffer"
+  output_stream: "SOURCE_ON_GPU:is_gpu_image"
+}
+
+# Detects palms.
+node {
+  calculator: "PalmDetectionGpu"  
+  input_stream: "IMAGE:gpu_buffer"
+  output_stream: "DETECTIONS:palm_detections"
+}

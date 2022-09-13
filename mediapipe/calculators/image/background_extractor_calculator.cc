@@ -126,7 +126,7 @@ absl::Status BackgroundExtractorCalculator::Process(CalculatorContext* cc) {
     cv::resize(small_gray_mat, gray_mat, gray_mat.size());
 
     cv::cvtColor(gray_mat, output_mat, cv::COLOR_GRAY2RGBA);
-    
+    /*
     if (cc->Inputs().HasTag(kDetectionsTag) &&  !cc->Inputs().Tag(kDetectionsTag).Value().IsEmpty()) {
       const auto& detections = cc->Inputs().Tag(kDetectionsTag).Get<std::vector<mediapipe::Detection>>();
     
@@ -147,6 +147,7 @@ absl::Status BackgroundExtractorCalculator::Process(CalculatorContext* cc) {
         //putText(output_mat, text, cv::Point(x + 10, y + height / 2), cv::FONT_HERSHEY_SIMPLEX, 0.8, cv::Scalar(255, 0, 0), 2);
       }
     }
+    */
   } else {
     input_mat.copyTo(output_mat);
   }

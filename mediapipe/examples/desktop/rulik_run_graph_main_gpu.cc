@@ -36,6 +36,7 @@ constexpr char kInputStream[] = "input_video";
 constexpr char kSelector[] = "output_selector";
 constexpr char kOutputStream[] = "output_video";
 constexpr char kOutputPalmDetections[] = "palm_detections";
+constexpr char kOutputFaceDetections[] = "face_detections";
 
 constexpr char kWindowName[] = "MediaPipe";
 
@@ -106,8 +107,16 @@ absl::Status RunMPPGraph() {
 
   LOG(INFO) << "Start running the calculator graph.";
   ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller poller, graph.AddOutputStreamPoller(kOutputStream));
+
+  #define ENABLE_PALM_DETECTONS 1
+  #if ENABLE_PALM_DETECTONS
   ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller palm_detections_poller, graph.AddOutputStreamPoller(kOutputPalmDetections));
   palm_detections_poller.SetMaxQueueSize(1);
+  #endif /* ENABLE_PALM_DETECTONS */
+
+
+  ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller face_detections_poller, graph.AddOutputStreamPoller(kOutputFaceDetections));
+  face_detections_poller.SetMaxQueueSize(1);
 
   MP_RETURN_IF_ERROR(graph.StartRun({}));
 
@@ -202,10 +211,10 @@ absl::Status RunMPPGraph() {
       }
     }
 
-    // Get the graph result packet, or stop if that fails.
+   // Get the graph result packet, or stop if that fails.
     mediapipe::Packet packet;
     if (!poller.Next(&packet)) break;
-    std::unique_ptr<mediapipe::ImageFrame> output_frame; 
+    std::unique_ptr<mediapipe::ImageFrame> output_frame;       
 
     // Convert GpuBuffer to ImageFrame.
     MP_RETURN_IF_ERROR(gpu_helper.RunInGlContext(
@@ -233,17 +242,18 @@ absl::Status RunMPPGraph() {
     else
       cv::cvtColor(output_frame_mat, output_frame_mat, cv::COLOR_RGB2BGR);
     
+    #if ENABLE_PALM_DETECTONS
     // Get the graph result packets, or stop if that fails.
     if(palm_detections_poller.QueueSize() > 0){
-      mediapipe::Packet palm_detections_packet;
-      if (!palm_detections_poller.Next(&palm_detections_packet)) break;
+      mediapipe::Packet detections_packet;
+      if (!palm_detections_poller.Next(&detections_packet)) break;
       
-      const auto& detections = palm_detections_packet.Get<std::vector<mediapipe::Detection>>();    
+      const auto& detections = detections_packet.Get<std::vector<mediapipe::Detection>>();    
       for (const auto& detection : detections) {
         const auto& score = detection.score();
         const auto& location = detection.location_data();
         const auto& relative_bounding_box = location.relative_bounding_box();
-        std::cout << "Score " << score[0] << std::endl;
+        std::cout << "Palm Score " << score[0] << std::endl;
         int x = relative_bounding_box.xmin() * output_frame_mat.cols;
         int y = (1.0 - relative_bounding_box.ymin()) * output_frame_mat.rows;
         int width = relative_bounding_box.width() * output_frame_mat.cols;
@@ -254,6 +264,31 @@ absl::Status RunMPPGraph() {
         char text[255];
         std::sprintf(text,"%0.2f",score[0]);
         putText(output_frame_mat, text, cv::Point(x + 10, y + height / 2), cv::FONT_HERSHEY_SIMPLEX, 0.8, cv::Scalar(255, 0, 0), 2);
+      }
+    }    
+    #endif /* ENABLE_PALM_DETECTONS */
+
+
+    if(face_detections_poller.QueueSize() > 0){
+      mediapipe::Packet detections_packet;
+      if (!face_detections_poller.Next(&detections_packet)) break;
+      
+      const auto& detections = detections_packet.Get<std::vector<mediapipe::Detection>>();    
+      for (const auto& detection : detections) {
+        const auto& score = detection.score();
+        const auto& location = detection.location_data();
+        const auto& relative_bounding_box = location.relative_bounding_box();
+        std::cout << "Face Score " << score[0] << std::endl;
+        int x = relative_bounding_box.xmin() * output_frame_mat.cols;
+        int y = (1.0 - relative_bounding_box.ymin()) * output_frame_mat.rows;
+        int width = relative_bounding_box.width() * output_frame_mat.cols;
+        int height = relative_bounding_box.height() * output_frame_mat.rows;
+        y -= height;
+        cv::Rect rect(x, y, width, height);
+        cv::rectangle(output_frame_mat, rect, cv::Scalar(255, 255, 0), 3);
+        char text[255];
+        std::sprintf(text,"%0.2f",score[0]);
+        putText(output_frame_mat, text, cv::Point(x + 10, y + height / 2), cv::FONT_HERSHEY_SIMPLEX, 0.8, cv::Scalar(255, 255, 0), 2);
       }
     }    
 

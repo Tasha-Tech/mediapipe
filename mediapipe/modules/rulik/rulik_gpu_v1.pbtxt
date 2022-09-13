@@ -18,6 +18,9 @@ output_stream: "IMAGE:output_image"
 # Detected palms. (std::vector<Detection>)
 output_stream: "PALM_DETECTIONS:palm_detections"
 
+# Detected faces. (std::vector<Detection>)
+output_stream: "FACE_DETECTIONS:face_detections"
+
 node {
   calculator: "FlowLimiterCalculator"
   input_stream: "input_image"
@@ -35,36 +38,37 @@ node {
   }
 }
 
-# Converts Image to GpuBuffer PalmDetectionGpu.
 node {
-  calculator: "FromImageCalculator"
+  calculator: "FaceDetectionFullRangeImage"
   input_stream: "IMAGE:throttled_image"
-  output_stream: "IMAGE_GPU:gpu_buffer"
-  output_stream: "SOURCE_ON_GPU:is_gpu_image"
-}
-
-
-# Flip image for selfie segmentation and palm detection
-node: {
-  calculator: "ImageTransformationCalculator"
-  input_stream: "IMAGE_GPU:gpu_buffer"
-  input_stream: "FLIP_VERTICALLY:is_gpu_image"
-  output_stream: "IMAGE_GPU:gpu_buffer_flip"
+  output_stream: "IMAGE:throttled_image_face"
+  output_stream: "DETECTIONS:face_detections"  
 }
 
 # Detects palms.
 node {
-  calculator: "PalmDetectionGpu"
-  input_side_packet: "MODEL_COMPLEXITY:model_complexity"
-  input_stream: "IMAGE:gpu_buffer_flip"
+  calculator: "PalmDetectionGpuImage"
+  input_stream: "IMAGE:throttled_image"
+  output_stream: "IMAGE:throttled_image_palm"
   output_stream: "DETECTIONS:palm_detections"
 }
 
-# Transfers the input image from GPU to CPU memory.
-node: {
-  calculator: "GpuBufferToImageFrameCalculator"
-  input_stream: "gpu_buffer"
-  output_stream: "cpu_buffer"
+node {
+  calculator: "ImageCloneCalculator"
+  input_stream: "throttled_image"
+  output_stream: "throttled_image_clone"
+  options: {
+    [mediapipe.ImageCloneCalculatorOptions.ext] {
+      output_on_gpu: false
+    }
+  }
+}
+
+node {
+  calculator: "FromImageCalculator"
+  input_stream: "IMAGE:throttled_image_clone"
+  output_stream: "IMAGE_CPU:cpu_buffer"
+  output_stream: "SOURCE_ON_GPU:is_gpu_image"
 }
 
 node {
@@ -102,3 +106,4 @@ node: {
   input_stream: "IMAGE_GPU:gray_image_gpu"
   output_stream: "IMAGE:output_image"
 }
+
