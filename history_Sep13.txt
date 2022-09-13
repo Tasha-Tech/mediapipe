@@ -1,0 +1,1000 @@
+  260  sudo chmod 777 /var/run/docker.sock
+  261  docker ps
+  262  ./docker/build.sh 
+  263  chmod u+x build_solution_aar.sh 
+  264  ./build_solution_aar.sh 
+  265  ./docker/build.sh 
+  266  ./build_solution_aar.sh 
+  267  docker run -it --entrypoint=/bin/bash l.gcr.io/google/bazel:latest
+  268  docker run -it --entrypoint=/bin/bash rulik_build-peter
+  269  docker run -it --entrypoint=/bin/bash rulik_builder-peter
+  270  ./build_solution_aar.sh 
+  271  docker images
+  272  docker rmi 3c957434634c ca6c3116c406 5cac8433a9d7
+  273  docker ps -a
+  274  docker rm 6aaa6ede18c8 17c9e088543c a1b3a303be90
+  275  docker rmi 3c957434634c ca6c3116c406 5cac8433a9d7
+  276  docker images
+  277  docker run -it rulik_builder-peter bash
+  278  ./docker/build.sh 
+  279  ./build_solution_aar.sh 
+  280  docker network create rulik
+  281  ./build_solution_aar.sh 
+  282  docker run -it rulik_builder-peter bash
+  283  ./docker/build.sh 
+  284  docker run -it rulik_builder-peter bash
+  285  ./build_solution_aar.sh 
+  286  ls ~/
+  287  ls ~/Android/
+  288  ./build_solution_aar.sh 
+  289  ./docker/build.sh 
+  290  ./build_solution_aar.sh 
+  291  ./docker/build.sh 
+  292  ./build_solution_aar.sh 
+  293  ./docker/build.sh 
+  294  ./build_solution_aar.sh 
+  295  docker ps
+  296  docker ps =a
+  297  docker ps -a
+  298  docker rm 4aa708b0d0f2 359826f1e586 409004b0de1f 435b5e63cab7 b1a458b44e38
+  299  docker ps -a
+  300  which bazel
+  301  df -h
+  302  docker ps
+  303  docker commit 4aa708b0d0f2 rulik_builder:full
+  304  docker images
+  305  htop
+  306  cd work/RulikCamera2/external/mediapipe/
+  307  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/hand_tracking:hand_tracking_gpu
+  308  sudo apt-get install mesa-common-dev libegl1-mesa-dev libgles2-mesa-dev
+  309  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/hand_tracking:hand_tracking_gpu
+  310  sudo apt install libopencv-dev python3-opencv
+  311  sudo apt update
+  312  sudo apt install libopencv-dev python3-opencv
+  313  sudo apt install libopencv-calib3d-dev
+  314  sudo apt install libopencv-features2d-dev
+  315  sudo apt install libopencv-highgui-dev
+  316  sudo apt install libgphoto2-dev
+  317  sudo apt install libgphoto2-6
+  318  sudo apt-get autoremove
+  319  sudo apt install libopencv-dev python3-opencv
+  320  sudo apt-get install -y     libopencv-core-dev     libopencv-highgui-dev     libopencv-calib3d-dev     libopencv-features2d-dev     libopencv-imgproc-dev     libopencv-video-dev
+  321  sudo apt-get install -y     libopencv-core-dev
+  322  sudo apt-get install -y  libopencv-highgui-dev
+  323  sudo apt-get install -y  libopencv-video-dev
+  324  sudo apt-get install -y  libopencv-imgproc-dev
+  325  sudo apt-get install -y libopencv-features2d-dev
+  326  sudo apt-get install -y libopencv-highgui-dev
+  327  sudo apt-get install -y libgphoto2-dev
+  328  sudo apt-get install -y libgphoto2-6=2.5.24-1
+  329  sudo apt-get install -y libopencv-highgui-dev
+  330  sudo apt-get install -y libgphoto2-dev
+  331  sudo apt-get install -y libgphoto2-6=2.5.24-1
+  332  sudo apt-get install -y --allow-downgrades libgphoto2-6=2.5.24-1
+  333  sudo apt-get install -y libgphoto2-dev
+  334  libopencv-calib3d-dev
+  335  sudo apt-get install -y libopencv-calib3d-dev
+  336  sudo apt-get install -y libopencv-highgui-dev
+  337  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/hand_tracking:hand_tracking_gpu
+  338  sudo apt install libopencv-dev python3-opencv
+  339  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/hand_tracking:hand_tracking_gpu
+  340  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/hand_tracking/hand_tracking_gpu   --calculator_graph_config_file=mediapipe/graphs/hand_tracking/hand_tracking_mobile.pbtxt
+  341  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/hand_tracking/hand_tracking_gpu   --calculator_graph_config_file=mediapipe/graphs/hand_tracking/hand_tracking_mobile.pbtxt --num_hands=2
+  342  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/hand_tracking/hand_tracking_gpu   --calculator_graph_config_file=mediapipe/graphs/hand_tracking/hand_tracking_desktop_live_gpu.pbtxt
+  343  sudo apt-get install mesa-common-dev libegl1-mesa-dev libgles2-mesa-dev
+  344  sudo apt-get install mesa-utils
+  345  glxinfo | grep -i opengl
+  346  nvidia-smi --query-gpu=utilization.gpu --format=csv --loop=1
+  347  cd ../../
+  348  ls history.Aug.5.txt 
+  349  history > history.Aug.6.txt
+  350  ubuntu-drivers devices
+  351  sudo nano /etc/pulse/default.pa
+  352  cd work/RulikCamera2/external/mediapipe/
+  353  cat ../../history.Aug.6
+  354  cat ../../history.Aug.6.txt 
+  355  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/hand_tracking:hand_tracking_gpu
+  356  bazel clean   mediapipe/examples/desktop/hand_tracking:hand_tracking_gpu
+  357  bazel clean
+  358  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/hand_tracking:hand_tracking_gpu
+  359  cat ../../history.Aug.6.txt 
+  360  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/hand_tracking/hand_tracking_gpu   --calculator_graph_config_file=mediapipe/graphs/hand_tracking/hand_tracking_desktop_live_gpu.pbtxt
+  361  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/selfie_segmentation:selfie_segmentation_gpu 
+  362  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/selfie_segmentation/selfie_segmentation_gpu   --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  363  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/hand_tracking/hand_tracking_gpu   --calculator_graph_config_file=mediapipe/graphs/hand_tracking/hand_tracking_desktop_live_gpu.pbtxt
+  364  cd ../../
+  365  cd ../
+  366  mkdir tensorflow
+  367  cd tensorflow/
+  368  git clone https://github.com/tensorflow/examples.git
+  369  hisorty grep self
+  370  hisorry grep self
+  371  history grep self
+  372  history | grep self
+  373  history | grep selfy
+  374  cd work/RulikCamera2/
+  375  find . -name hands.py
+  376  cd python/
+  377  ls
+  378  cp ./python/venv/lib/python3.8/site-packages/mediapipe/python/solutions/hands.py rulik.py
+  379  cp ././external/mediapipe/mediapipe/python/solutions/hands.py rulik.py
+  380  cp ../external/mediapipe/mediapipe/python/solutions/hands.py rulik.py
+  381  find ../ -name hand_landmark_tracking_cpu.binarypb
+  382  find ../ -name hand_landmark_tracking_gpu.binarypb
+  383  cp ../python/venv/lib/python3.8/site-packages/mediapipe/modules/hand_landmark/hand_landmark_tracking_cpu.binarypb .
+  384  cd ../
+  385  git status
+  386  ls docker/
+  387  docker add .
+  388  git add .
+  389  git status
+  390  git commit -am "Docer build and rulik.py"
+  391  git push
+  392  git commit -am "removed landmarks"
+  393  git push
+  394  ./setupCore.sh 
+  395  git status
+  396  git commit -am "Added rulik_gpu_image.pbtxt"
+  397  git push
+  398  git status
+  399  ./setupCore.sh 
+  400  git status
+  401  git commit -am "Added SelfieSegmentationGpu"
+  402  git push
+  403  ./setupCore.sh 
+  404  git commit -am "Added removed extra flipping"
+  405  git push
+  406  ./setupCore.sh 
+  407  mount | grep user
+  408  grep user *
+  409  ls -l /run/user/1000/gvfs/mtp:host=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/Phone/Android/data/com.rulik.rulikcamera2/files/Pictures
+  410  rm /run/user/1000/gvfs/mtp:host=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/Phone/Android/data/com.rulik.rulikcamera2/files/Pictures/*
+  411  ls
+  412  cd python/Samples/
+  413  ls
+  414  mkdir 1
+  415  cd 1
+  416  mv /run/user/1000/gvfs/mtp:host=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/Phone/Android/data/com.rulik.rulikcamera2/files/Pictures/* .
+  417  ls -l /run/user/1000/gvfs/mtp:host=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/Phone/Android/data/com.rulik.rulikcamera2/files/Pictures
+  418  ls
+  419  rm *
+  420  ls
+  421  mv /run/user/1000/gvfs/mtp:host=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/Phone/Android/data/com.rulik.rulikcamera2/files/Pictures/* .
+  422  ls
+  423  rm *
+  424  mv /run/user/1000/gvfs/mtp:host=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/Phone/Android/data/com.rulik.rulikcamera2/files/Pictures/* .
+  425  cd external/mediapipe/
+  426  find . -name "hand_landmark_tracking*"
+  427  cp -r  mediapipe/examples/desktop/hand_tracking mediapipe/examples/desktop/rulik
+  428  history | grep build
+  429  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu 
+  430  history | grep bazel-bin
+  431  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/hand_tracking/hand_tracking_desktop_live_gpu.pbtxt
+  432  history | grep bazel-bin
+  433  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu 
+  434  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/hand_tracking/hand_tracking_desktop_live_gpu.pbtxt
+  435  cp -r mediapipe/graphs/hand_tracking mediapipe/graphs/rulik
+  436  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/hand_tracking_desktop_live_gpu.pbtxt
+  437  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_live_gpu.pbtxt
+  438  git status
+  439  git add mediapipe/examples/desktop/rulik/
+  440  git add mediapipe/graphs/rulik/
+  441  git status
+  442  git commit -am "Added rulik graph and desktop example"
+  443  git push
+  444  git branch
+  445  cd ../../
+  446  git push --recurse-submodules=on-demand
+  447  git status
+  448  git commit -a "Added rulik graph"
+  449  git commit -am "Added rulik graph"
+  450  git push --recurse-submodules=on-demand
+  451  cd external/mediapipe/
+  452  git status
+  453  git push
+  454  git remote -v
+  455  git branch
+  456  git push origin HEAD:master
+  457  cd ../../
+  458  git status
+  459  git push
+  460  git status
+  461  cd external/mediapipe/
+  462  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_live_gpu.pbtxt
+  463  cd ../../
+  464  ls -l
+  465  ls -la
+  466  rm -rf .idea
+  467  ls *.iml
+  468  ls /home/peter/work/RulikCamera2/app/src/main/java/com/rulik/rulikcamera2
+  469  ls app/src/main/java/com/rulik/rulikcamera2/pose/Pose.java
+  470  cp app/src/main/java/com/rulik/rulikcamera2/pose/* app/src/main/java/com/rulik/rulikcamera2/mp_rulik/
+  471  cd app/src/main/java/com/rulik/rulikcamera2/mp_rulik/
+  472  ls
+  473  mv Pose.java Rulik.java
+  474  mv PoseLandmark.java RulikLandmark.java
+  475  mv PoseResultGlRenderer.java RulikResultGlRenderer.java
+  476  mv PoseResult.java RulikResult.java
+  477  cd ~/work/RulikCamera2/
+  478  git status
+  479  git add app/src/main/java/com/rulik/rulikcamera2/mp_rulik/
+  480  git status
+  481  git commit -am "added mp_rulik"
+  482  git push
+  483  ./build_solution_aar.sh 
+  484  ./setupCore.sh 
+  485  git status
+  486  git commit -am "mp_rulik"
+  487  git push
+  488  cd external/mediapipe/
+  489  git status
+  490  git commit -am "mp_rulik"
+  491  history | grep "git push
+  492  history | grep "git push"
+  493  git push origin HEAD:master
+  494  cd ../../
+  495  git status
+  496  git push --recurse-submodules=on-demand
+  497  git status
+  498  git commit -am "mp_rulik and mediapipe"
+  499  git push --recurse-submodules=on-demand
+  500  cp -r external/mediapipe/mediapipe/modules/hand_landmark external/mediapipe/mediapipe/modules/rulik
+  501  ./setupCore.sh 
+  502  git commit -am "Palm detection with score"
+  503  git push
+  504  ./setupCore.sh 
+  505  cd external/mediapipe/
+  506  git status
+  507  git add mediapipe/modules/rulik/
+  508  git status
+  509  git commit -am "Added rulik module"
+  510  git push
+  511  git branch
+  512  git push origin HEAD:master
+  513  git status
+  514  git add mediapipe/modules/rulik/rulik_gpu_image.pbtxt
+  515  git commit -am "Added rulik_gpu_image.pbtxt"
+  516  git push origin HEAD:master
+  517  git status
+  518  git commit -am "Added SelfieSegmentationGpu"
+  519  git push origin HEAD:master
+  520  git commit -am "Added removed extra flipping"
+  521  git push origin HEAD:master
+  522  cd ~/Android/Sdk/ndk-bundle/android-ndk-r21/
+  523  cd work/RulikCamera2/
+  524  grep desktop *
+  525  cd external/mediapipe/
+  526  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/selfie_segmentation:selfie_segmentation_gpu 
+  527  grep selfie ../../*
+  528  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/selfie_segmentation/selfie_segmentation_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  529  history > ../../history.Aug.10.txt
+  530  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/selfie_segmentation:selfie_segmentation_gpu 
+  531  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/selfie_segmentation/selfie_segmentation_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  532  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/selfie_segmentation:selfie_segmentation_gpu 
+  533  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/selfie_segmentation/selfie_segmentation_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  534  git status
+  535  git add mediapipe/calculators/image/recolor_calculator_v1.cc
+  536  git commit -am "Added recolor_calculator_v1.cc"
+  537  git push
+  538  git push origin HEAD:master
+  539  git branch
+  540  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/selfie_segmentation:selfie_segmentation_gpu 
+  541  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/selfie_segmentation/selfie_segmentation_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  542  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/selfie_segmentation:selfie_segmentation_gpu 
+  543  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/selfie_segmentation/selfie_segmentation_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  544  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/selfie_segmentation:selfie_segmentation_gpu 
+  545  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/selfie_segmentation/selfie_segmentation_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  546  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/selfie_segmentation:selfie_segmentation_gpu 
+  547  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/selfie_segmentation/selfie_segmentation_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  548  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/selfie_segmentation:selfie_segmentation_gpu 
+  549  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/selfie_segmentation/selfie_segmentation_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  550  git status
+  551  git commit -am "Timestamp based color change"
+  552  git push
+  553  git push origin HEAD:master
+  554  git branch
+  555  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/selfie_segmentation:selfie_segmentation_gpu 
+  556  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/selfie_segmentation/selfie_segmentation_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  557  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/selfie_segmentation:selfie_segmentation_gpu 
+  558  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/selfie_segmentation/selfie_segmentation_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  559  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/selfie_segmentation:selfie_segmentation_gpu 
+  560  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/selfie_segmentation/selfie_segmentation_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  561  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/selfie_segmentation:selfie_segmentation_gpu 
+  562  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/selfie_segmentation/selfie_segmentation_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  563  git commit -am "new_color as input_side_packet"
+  564  git push origin HEAD:master
+  565  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  566  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  567  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  568  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  569  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  570  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  571  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  572  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  573  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  574  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  575  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  576  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  577  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  578  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  579  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  580  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  581  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  582  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  583  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  584  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  585  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  586  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  587  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  588  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  589  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  590  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  591  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  592  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  593  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  594  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  595  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  596  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  597  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  598  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  599  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  600  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  601  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  602  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  603  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  604  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  605  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  606  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  607  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  608  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  609  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  610  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  611  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  612  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  613  gdb --args GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  614  GLOG_logtostderr=1
+  615  gdb --args bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  616  gdb --args bazel-bin/mediapipe/examples/desktop/selfie_segmentation/selfie_segmentation_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  617  bazel-bin/mediapipe/examples/desktop/selfie_segmentation/selfie_segmentation_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  618  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  619  gdb --args bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  620  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  621  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  622  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  623  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  624  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  625  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  626  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  627  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  628  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  629  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  630  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  631  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  632  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  633  git status
+  634  git add mediapipe/examples/desktop/rulik_run_graph_main_gpu.cc
+  635  git checkout mediapipe/calculators/core/stream_to_side_packet_calculator.cc
+  636  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  637  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  638  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  639  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  640  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  641  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  642  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  643  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  644  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  645  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  646  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  647  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  648  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  649  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  650  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  651  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  652  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  653  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  654  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  655  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  656  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  657  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  658  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  659  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  660  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  661  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  662  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  663  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  664  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  665  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  666  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  667  git status
+  668  git commit -am "input stream to change color"
+  669  git push
+  670  git push origin HEAD:master
+  671  git branch
+  672  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  673  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  674  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  675  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  676  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  677  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  678  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  679  gdb --argsbazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  680  gdb --args bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  681  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  682  gdb --args bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  683  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  684  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  685  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  686  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  687  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  688  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  689  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/selfie_segmentation/selfie_segmentation_gpu.pbtxt
+  690  history | grep git
+  691  git commit -am "Added output mux"
+  692  git push origin HEAD:master
+  693  git status
+  694  git add mediapipe/calculators/core/mux_calculator_v1.cc
+  695  git commit -am "Added mux_calculator_v1.cc"
+  696  git push origin HEAD:master
+  697  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/modules/rulik/rulik_gpu_image.pbtxt
+  698  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  699  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/modules/rulik/rulik_gpu_image.pbtxt
+  700  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  701  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu.pbtxt
+  702  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  703  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  704  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  705  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  706  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  707  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  708  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  709  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  710  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  711  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  712  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  713  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  714  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  715  git status
+  716  git checkout mediapipe/modules/rulik/rulik_gpu_image.pbtxt
+  717  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  718  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  719  git status
+  720  git add mediapipe/graphs/rulik/rulik_desktop_gpu.pbtxt mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt mediapipe/modules/rulik/rulik_gpu.pbtxt
+  721  git commit -am "rulik_gpu graph and mofule"
+  722  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  723  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  724  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  725  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  726  git status
+  727  git commit -am "desktop and mobile rulik"
+  728  git push
+  729  git push origin HEAD:master
+  730  git status
+  731  git checkout mediapipe/modules/rulik/rulik_gpu.pbtxt
+  732  git checkout mediapipe/graphs/rulik/rulik_desktop_gpu.pbtxt
+  733  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  734  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  735  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  736  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  737  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  738  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  739  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  740  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  741  git status
+  742  git commit -am "Added face detection 40 ms -> 50 ms"
+  743  git push
+  744  git push origin HEAD:master
+  745  cd ../../
+  746  grep selfie *
+  747  grep selfie H*
+  748  grep selfie history.Aug.*
+  749  grep bazel *
+  750  le external/mediapipe/mediapipe/graphs/selfie_segmentation/
+  751  git status
+  752  git add history.Aug.10.txt
+  753  git commit -am "Timestamp based color change"
+  754  git status
+  755  git push
+  756  ./setupCore.sh 
+  757  git status
+  758  git commit -am "desktop and mobile rulik"
+  759  git push
+  760  ./setupCore.sh 
+  761  git status
+  762  git commit -am "Added face detection 40 ms -> 50 ms"
+  763  git push
+  764  cd work/RulikCamera2/
+  765  ./setupCore.sh 
+  766  git status
+  767  git commit -am "Added face detection"
+  768  git push
+  769  nano .gitignore 
+  770  git status
+  771  ./setupCore.sh 
+  772  git status
+  773  git commit -am "Flipping for Face detection"
+  774  git push
+  775  ./setupCore.sh 
+  776  git commit -am "Funny drawHollowCircle"
+  777  git push
+  778  ./setupCore.sh 
+  779  git commit -am "Selfie segmentation model selector"
+  780  git push
+  781  cd external/mediapipe/
+  782  git status
+  783  git commit -am "Added face detection"
+  784  git push
+  785  git branch
+  786  git push origin HEAD:master
+  787  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  788  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  789  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  790  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  791  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  792  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  793  git status
+  794  git commit -am "Flipping for Face detection"
+  795  git push
+  796  git push origin HEAD:master
+  797  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  798  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  799  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  800  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  801  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  802  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  803  git status
+  804  git commit -am "Funny drawHollowCircle"
+  805  git push
+  806  git push origin HEAD:master
+  807  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  808  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  809  git status
+  810  git commit -am "Selfie segmentation model selector"
+  811  git push
+  812  git push origin HEAD:master
+  813  cd external/mediapipe/
+  814  git status
+  815  git commit -am "flip for palm detection"
+  816  git psuh
+  817  git push
+  818  git push origin HEAD:master
+  819  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  820  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  821  git status
+  822  git diff
+  823  ps -ef | grep diff
+  824  kill -9 30267
+  825  ps -ef | grep diff
+  826  git commit -am "Added selector"
+  827  git push
+  828  git push origin HEAD:master
+  829  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  830  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  831  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  832  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  833  cd work/RulikCamera2/app/src/
+  834  ls
+  835  cd main/res/drawable
+  836  ls
+  837  rm repair-fix-repairing-icon*
+  838  cd ../../../
+  839  cd ../../
+  840  ./setupCore.sh 
+  841  git commit -am "flip for palm detection"
+  842  git push
+  843  git status
+  844  git commit -am "Added selector"
+  845  git push
+  846  ./setupCore.sh 
+  847  git status
+  848  git commit -am "Added table to HelperLayout"
+  849  git push
+  850  git status
+  851  git commit -am "image_pointer"
+  852  git push
+  853  cd work/RulikCamera2/
+  854  git status
+  855  git commit -am "Performance work msg string memory leak"
+  856  git push
+  857  git status
+  858  git commit -am "ControlButton Base and Settings"
+  859  git push
+  860  git status
+  861  git commit -am "change graph output git status!"
+  862  git push
+  863  cd external/mediapipe/
+  864  git status
+  865  git diff mediapipe/modules/rulik/rulik_gpu.pbtxt
+  866  cd work/RulikCamera2/
+  867  git status
+  868  git commit -am "New GUI look"
+  869  git push
+  870  611 - 435
+  871  python3
+  872  git status
+  873  git commit -am "gui v1"
+  874  git push
+  875  git commit -am "SVG scale down"
+  876  git push
+  877  git commit -am "onButtonDebugOnOff"
+  878  git push
+  879  cd work/RulikCamera2/
+  880  git status
+  881  git commit -am "upper_control_linear_layout button size fixes"
+  882  git push
+  883  git commit -am "onButtonDebugOnOff looks ok-ish"
+  884  git push
+  885  git commit -am "onButtonImageOnOff"
+  886  git push
+  887  git commit -am "Multiple hand pointers""
+  888  git commit -am "Multiple hand pointers"
+  889  git push
+  890  git commit -am "PHOTO state machine"
+  891  git push
+  892  git commit -am "linearLayout visibility minor tweaks"
+  893  git push
+  894  git status
+  895  c work/RulikCamera2/
+  896  git status
+  897  cd work/RulikCamera2/
+  898  git status
+  899  git commit -am "Added Calibration"
+  900  git push
+  901  git remote -v
+  902  ls -l /run/user/1000/gvfs/mtp:host=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/Phone/Android/data/com.rulik.rulikcamera2/files/Pictures
+  903  rm /run/user/1000/gvfs/mtp:host=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/Phone/Android/data/com.rulik.rulikcamera2/files/Pictures/*
+  904  ls
+  905  mkdir ~/tmp
+  906  mv /run/user/1000/gvfs/mtp:host=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/Phone/Android/data/com.rulik.rulikcamera2/files/Pictures/*
+  907  mv /run/user/1000/gvfs/mtp:host=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/Phone/Android/data/com.rulik.rulikcamera2/files/Pictures/* ~/tmp
+  908  python3
+  909  cd work/RulikCamera2/
+  910  ls
+  911  cd python/
+  912  ls
+  913  rm hand_landmark_tracking_cpu.binarypb 
+  914  cd Samples/
+  915  ls
+  916  ls 0
+  917  ls 1
+  918  mkdir 2
+  919  cd 2/
+  920  history | grep mv
+  921  mv /run/user/1000/gvfs/mtp:host=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/Phone/Android/data/com.rulik.rulikcamera2/files/Pictures/* .
+  922  ls
+  923  cd work/RulikCamera2/
+  924  git status
+  925  git commit -am "python edge detector"
+  926  git push
+  927  ./setupCore.sh 
+  928  git status
+  929  git commit -am "rulik_gpu_v1.pbtxt @ 40ms"
+  930  git push
+  931  git status
+  932  ./setupCore.sh 
+  933  git commit -am "OpenCV gray image"
+  934  git push
+  935  git status
+  936  cd external/mediapipe/
+  937  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  938  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  939  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  940  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  941  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  942  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  943  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  944  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  945  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  946  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  947  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  948  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  949  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  950  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  951  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  952  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  953  git status
+  954  git add mediapipe/modules/rulik/rulik_gpu_v1.pbtxt
+  955  git commit -am "rulik_gpu_v1.pbtxt @ 40ms"
+  956  git oush
+  957  git push
+  958  git push origin HEAD:master
+  959  git branch
+  960  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  961  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  962  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  963  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  964  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  965  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  966  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  967  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  968  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  969  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  970  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  971  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  972  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  973  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  974  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  975  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  976  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  977  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  978  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  979  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  980  git commit -am "OpenCV gray image"
+  981  git branch
+  982  git push
+  983  git push origin HEAD:master
+  984  cd work/RulikCamera2/
+  985  ./setupCore.sh 
+  986  cd external/mediapipe/
+  987  history
+  988  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  989  history
+  990  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  991  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  992  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  993  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  994  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  995  git commit -am "background_extractor_calculator mediapipe::Image as input"
+  996  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  997  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+  998  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+  999  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1000  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1001  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1002  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1003  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1004  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1005  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1006  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1007  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1008  top
+ 1009  cd work/RulikCamera2/
+ 1010  ./setupCore.sh 
+ 1011  git status
+ 1012  git commit -am "background_extractor_calculator.cc GPU -> CPU ->GPU"
+ 1013  git push
+ 1014  cd external/mediapipe/
+ 1015  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1016  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1017  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1018  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1019  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1020  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1021  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1022  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1023  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1024  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1025  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1026  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1027  gdb --args  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1028  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1029  gdb --args  bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1030  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1031  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1032  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1033  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1034  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1035  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1036  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1037  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1038  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1039  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1040  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1041  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1042  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1043  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1044  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1045  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1046  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1047  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1048  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1049  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1050  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1051  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1052  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1053  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1054  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1055  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1056  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1057  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1058  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1059  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1060  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1061  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1062  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1063  git status
+ 1064  git add mediapipe/calculators/image/background_extractor_calculator.cc
+ 1065  git commit -am "background_extractor_calculator.cc GPU -> CPU ->GPU"
+ 1066  git branch
+ 1067  git push
+ 1068  git push origin HEAD:master
+ 1069  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1070  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1071  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1072  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1073  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1074  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1075  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1076  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1077  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1078  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1079  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1080  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1081  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1082  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1083  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1084  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1085  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1086  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1087  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1088  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1089  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1090  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1091  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1092  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1093  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1094  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1095  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1096  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1097  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1098  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1099  v4l2-ctl -d /dev/video0 --list-formats-ext
+ 1100  sudo apt install v4l-utils
+ 1101  v4l2-ctl -d /dev/video0 --list-formats-ext
+ 1102  python3
+ 1103  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1104  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1105  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1106  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1107  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1108  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1109  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1110  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1111  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1112  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1113  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1114  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1115  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1116  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1117  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1118  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1119  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1120  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1121  cd work/
+ 1122  cd RulikCamera2/
+ 1123  ./setupCore.sh 
+ 1124  git commit -am "Added spatialGradient"
+ 1125  git push
+ 1126  git status
+ 1127  git commit -am "linearLayout setAlpha logic"
+ 1128  git push
+ 1129  git commit -am "AWB calibration fixed"
+ 1130  git push
+ 1131  git commit -am "Small GUI rework. Smaller buttons, etc."
+ 1132  git push
+ 1133  cd external/mediapipe/
+ 1134  history
+ 1135  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1136  history
+ 1137  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1138  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1139  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1140  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1141  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1142  git commit -am "Added spatialGradient"
+ 1143  git push
+ 1144  git push origin HEAD:master
+ 1145  cd work/RulikCamera2/
+ 1146  ls
+ 1147  cd ../
+ 1148  ls
+ 1149  cd RulikCamera2/python/
+ 1150  ls
+ 1151  cd Samples/
+ 1152  ls
+ 1153  mkdir 3
+ 1154  cd 3 
+ 1155  history | grep mv
+ 1156  mv /run/user/1000/gvfs/mtp:host=SAMSUNG_SAMSUNG_Android_354e5a53594d3098/Phone/Android/data/com.rulik.rulikcamera2/files/Pictures/* .
+ 1157  ls
+ 1158  cd ../../
+ 1159  cd ../
+ 1160  ./setupCore.sh 
+ 1161  cd ../../../external/mediapipe/
+ 1162  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1163  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_video_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg
+ 1164  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1165  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_video_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg
+ 1166  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1167  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_video_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg
+ 1168  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1169  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_video_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg
+ 1170  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg
+ 1171  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1172  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg
+ 1173  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1174  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg
+ 1175  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1176  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg
+ 1177  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1178  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg
+ 1179  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1180  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg
+ 1181  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1182  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg
+ 1183  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1184  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg
+ 1185  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1186  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg
+ 1187  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1188  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg
+ 1189  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1190  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg
+ 1191  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1192  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg
+ 1193  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1194  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg
+ 1195  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1196  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg
+ 1197  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1198  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg
+ 1199  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1200  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg
+ 1201  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1202  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg
+ 1203  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_182916_5744066802982518760.jpg
+ 1204  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_183911_2501240202291940017.jpg
+ 1205  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_183237_1597562394550193403.jpg
+ 1206  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220909_194714_1645100728330327233.jpg
+ 1207  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220909_194904_8961579120081375466.jpg
+ 1208  git status
+ 1209  git commit -am "Desktop palm detections"
+ 1210  git push
+ 1211  git push origin HEAD:master
+ 1212  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220909_194904_8961579120081375466.jpg
+ 1213  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1214  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220909_194904_8961579120081375466.jpg
+ 1215  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1216  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220909_194904_8961579120081375466.jpg
+ 1217  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1218  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220909_194904_8961579120081375466.jpg
+ 1219  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1220  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220909_194904_8961579120081375466.jpg
+ 1221  git commit -am "Graph palm detections drawing"
+ 1222  git push origin HEAD:master
+ 1223  cd work/RulikCamera2/
+ 1224  ./setupCore.sh 
+ 1225  git status
+ 1226  git commit -am "Fixed live webcam @33fps"
+ 1227  git push
+ 1228  cd external/mediapipe/
+ 1229  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1230  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1231  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_182916_5744066802982518760.jpg
+ 1232  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1233  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1234  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1235  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_182916_5744066802982518760.jpg
+ 1236  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1237  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_182916_5744066802982518760.jpg
+ 1238  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1239  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu
+ 1240  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt
+ 1241  GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_182916_5744066802982518760.jpg
+ 1242  git ststus
+ 1243  git status
+ 1244  git commit -am "Fixed live webcam"
+ 1245  git push
+ 1246  git push origin HEAD:master
+ 1247  cd external/mediapipe/
+ 1248  git status
+ 1249  git branch nfg
+ 1250  git push
+ 1251  git push origin HEAD:nfg
+ 1252  git branch
+ 1253  git push -u origin HEAD:nfg
+ 1254  git checkout -b nfg
+ 1255  git checkout  nfg
+ 1256  git push -u origin nfg
+ 1257  git branch
+ 1258  ls
+ 1259  history > history_Sep13.txt 
