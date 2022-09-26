@@ -122,7 +122,7 @@ node {
       y_scale: 192.0
       w_scale: 192.0
       h_scale: 192.0
-      min_score_thresh: 0.3
+      min_score_thresh: 0.6
     }
   }
 }
@@ -134,7 +134,7 @@ node {
   output_stream: "filtered_detections"
   options: {
     [mediapipe.NonMaxSuppressionCalculatorOptions.ext] {
-      min_suppression_threshold: 0.3
+      min_suppression_threshold: 0.2
       overlap_type: INTERSECTION_OVER_UNION
       # overlap_type: JACCARD
       algorithm: WEIGHTED

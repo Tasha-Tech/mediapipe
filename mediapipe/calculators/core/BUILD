@@ -217,6 +217,7 @@ cc_library(
         "//mediapipe/framework/formats:detection_cc_proto",
         "//mediapipe/framework/formats:landmark_cc_proto",
         "//mediapipe/framework/formats:rect_cc_proto",
+        "//mediapipe/framework/formats:tensor",
         "//mediapipe/framework/port:integral_types",
         "//mediapipe/framework/port:ret_check",
         "//mediapipe/framework/port:status",

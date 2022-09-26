@@ -1,0 +1,41 @@
+# MediaPipe graph that performs selfie segmentation with TensorFlow Lite on GPU.
+
+# GPU buffer. (GpuBuffer)
+input_stream: "input_video"
+
+input_stream: "output_selector"
+
+# Output image with rendered results. (GpuBuffer)
+output_stream: "output_video"
+
+# Detected palms. (std::vector<Detection>)
+output_stream: "palm_detections"
+
+# Detected faces. (std::vector<Detection>)
+output_stream: "gesture_detections"
+
+# Converts the input GPU image (GpuBuffer) to the multi-backend image type (Image).
+node: {
+  calculator: "ToImageCalculator"
+  input_stream: "IMAGE_GPU:input_video"
+  output_stream: "IMAGE:multi_backend_input_image"
+}
+
+# Rulik subgraph
+node {
+  calculator: "RulikGpuV2"
+  input_stream: "IMAGE:multi_backend_input_image"
+  input_stream: "SELECT:output_selector"
+  output_stream: "IMAGE:multi_backend_output_image"
+  output_stream: "PALM_DETECTIONS:palm_detections"
+  output_stream: "GESTURE_DETECTIONS:gesture_detections"
+}
+
+# Converts Image to ImageFrame For GPU to consume
+node {
+  calculator: "FromImageCalculator"
+  input_stream: "IMAGE:multi_backend_output_image"
+  output_stream: "IMAGE_GPU:output_video"
+  output_stream: "SOURCE_ON_GPU:is_gpu_image"
+}
+

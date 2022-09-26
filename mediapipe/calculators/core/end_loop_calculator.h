@@ -76,22 +76,24 @@ class EndLoopCalculator : public CalculatorBase {
         input_stream_collection_.reset(new IterableT);
       }
       input_stream_collection_->push_back(
-          cc->Inputs().Tag("ITEM").template Get<ItemT>());
+          cc->Inputs().Tag("ITEM").template Get<ItemT>());      
     }
 
     if (!cc->Inputs().Tag("BATCH_END").Value().IsEmpty()) {  // flush signal
       Timestamp loop_control_ts =
           cc->Inputs().Tag("BATCH_END").template Get<Timestamp>();
       if (input_stream_collection_) {
+        std::cout << "Send collection " << input_stream_collection_->size() << std::endl;
         cc->Outputs()
             .Tag("ITERABLE")
-            .Add(input_stream_collection_.release(), loop_control_ts);
+            .Add(input_stream_collection_.release(), loop_control_ts);            
       } else {
         // Since there is no collection, inform downstream calculators to not
         // expect any packet by updating the timestamp bounds.
         cc->Outputs()
             .Tag("ITERABLE")
             .SetNextTimestampBound(Timestamp(loop_control_ts.Value() + 1));
+        std::cout << "There is no collection " << std::endl;
       }
     }
     return absl::OkStatus();

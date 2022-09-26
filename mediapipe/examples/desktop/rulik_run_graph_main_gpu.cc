@@ -15,6 +15,8 @@
 // An example of sending OpenCV webcam frames into a MediaPipe graph.
 // This example requires a linux computer and a GPU with EGL support drivers.
 #include <cstdlib>
+#include <dirent.h>
+#include <vector>
 
 #include "absl/flags/flag.h"
 #include "absl/flags/parse.h"
@@ -47,7 +49,12 @@ ABSL_FLAG(std::string, input_video_path, "",
           "If not provided, attempt to use a webcam.");
 ABSL_FLAG(std::string, input_image_path, "",
           "Full path of image to load. "
-          "If not provided, attempt to use a webcam.");          
+          "If not provided, attempt to use a webcam.");
+
+ABSL_FLAG(std::string, input_image_dir, "",
+          "Full path of image directory. "
+          "If not provided, attempt to use a webcam.");
+
 ABSL_FLAG(std::string, output_video_path, "",
           "Full path of where to save result (.mp4 only). "
           "If not provided, show result in a window.");
@@ -76,12 +83,14 @@ absl::Status RunMPPGraph() {
   LOG(INFO) << "Initialize the camera or load the video.";
   cv::VideoCapture capture;
 
+  int current_image = 0;
   const bool load_image = !absl::GetFlag(FLAGS_input_image_path).empty();
+  const bool load_dir = !absl::GetFlag(FLAGS_input_image_dir).empty();
   const bool load_video = !absl::GetFlag(FLAGS_input_video_path).empty();
   bool use_capture = true;
   if (load_video) {
     capture.open(absl::GetFlag(FLAGS_input_video_path));
-  } else if(load_image){
+  } else if(load_image || load_dir){
     use_capture = false;
   }else {
     capture.open(0);    
@@ -128,10 +137,33 @@ absl::Status RunMPPGraph() {
   int selector = 0;
   mediapipe::Timestamp select_timestamp = mediapipe::Timestamp(0);  
 
+  std::vector<std::string> images;
+
   cv::Mat camera_frame_raw;
   if(load_image){
-    camera_frame_raw = cv::imread(absl::GetFlag(FLAGS_input_image_path));
+    images.push_back(absl::GetFlag(FLAGS_input_image_path));
   }
+  
+  if(load_dir) {
+    DIR *d;
+    struct dirent *dir;
+    d = opendir(absl::GetFlag(FLAGS_input_image_dir).c_str());
+    if (d) {
+      while ((dir = readdir(d)) != NULL) {
+        if(strlen(dir->d_name) > 3){
+          images.push_back(absl::GetFlag(FLAGS_input_image_dir) + "/" + std::string(dir->d_name));
+          printf("%s\n", dir->d_name);
+        }        
+      }
+      closedir(d);
+    }
+  }
+  camera_frame_raw = cv::imread(images[current_image]);
+  if(++current_image >= images.size()) {
+    current_image = 0;
+  }
+  //return absl::OkStatus();
+  
 
   while (grab_frames) {
     // Capture opencv camera or video frame.    
@@ -164,12 +196,22 @@ absl::Status RunMPPGraph() {
       input_frame_mat = mediapipe::formats::MatView(input_frame.get());
       cv::resize(camera_frame, input_frame_mat, input_frame_mat.size());
     } else {
-      // Wrap Mat into an ImageFrame.
+      const int cropSizeX = camera_frame.cols;
+      const int cropSizeY = camera_frame.rows;
+
+      // Wrap Mat into an ImageFrame.      
       input_frame = absl::make_unique<mediapipe::ImageFrame>(
-          mediapipe::ImageFormat::SRGBA, camera_frame.cols, camera_frame.rows, // 1280x720
+          mediapipe::ImageFormat::SRGBA, cropSizeX, cropSizeY, //camera_frame.cols, camera_frame.rows, // 1280x720
           mediapipe::ImageFrame::kGlDefaultAlignmentBoundary);
 
       input_frame_mat = mediapipe::formats::MatView(input_frame.get());
+      
+      
+      const int offsetW = (camera_frame.cols - cropSizeX) / 2;
+      const int offsetH = (camera_frame.rows - cropSizeY) / 2;
+      const cv::Rect roi(offsetW, offsetH, cropSizeX, cropSizeY);
+      camera_frame = camera_frame(roi).clone();
+
       camera_frame.copyTo(input_frame_mat);
     }
     
@@ -198,8 +240,8 @@ absl::Status RunMPPGraph() {
     }    
 
     mediapipe::TimestampDiff diff = mediapipe::Timestamp(frame_timestamp_us) - program_timestamp;
-    if(load_image){
-      graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(1).At(++select_timestamp));
+    if(!use_capture){
+      //graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(1).At(++select_timestamp));
     } else if(diff.Seconds() > 3){
       graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(1).At(++select_timestamp));
 
@@ -255,10 +297,10 @@ absl::Status RunMPPGraph() {
         const auto& relative_bounding_box = location.relative_bounding_box();
         std::cout << "Palm Score " << score[0] << std::endl;
         int x = relative_bounding_box.xmin() * output_frame_mat.cols;
-        int y = (1.0 - relative_bounding_box.ymin()) * output_frame_mat.rows;
+        int y = (/* 1.0 - */relative_bounding_box.ymin()) * output_frame_mat.rows;
         int width = relative_bounding_box.width() * output_frame_mat.cols;
         int height = relative_bounding_box.height() * output_frame_mat.rows;
-        y -= height;
+        //y -= height;
         cv::Rect rect(x, y, width, height);
         cv::rectangle(output_frame_mat, rect, cv::Scalar(255, 0, 0), 3);
         char text[255];
@@ -306,14 +348,27 @@ absl::Status RunMPPGraph() {
       cv::imshow(kWindowName, output_frame_mat);
       // Press 'Esc' key to exit.
       int pressed_key;
-      if(load_image){
+      if(!use_capture){
         pressed_key = cv::waitKey(0);
+        if(pressed_key == 83 || pressed_key == 32) {         
+          current_image++;
+        } else if (pressed_key == 81) {
+          current_image--;
+        }
+        if(current_image < 0){
+          current_image = images.size() - 1;
+        }
+        if(current_image > images.size() - 1){
+          current_image = 0;
+        }        
+        camera_frame_raw = cv::imread(images[current_image]);
       } else {
-        pressed_key = cv::waitKey(20);
+        pressed_key = cv::waitKey(30);
       }
+
       if (pressed_key == 27) {
         grab_frames = false;
-      }
+      } 
     }
   }
 

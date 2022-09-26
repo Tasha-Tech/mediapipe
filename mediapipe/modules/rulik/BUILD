@@ -46,6 +46,7 @@ cc_library(
         # "//mediapipe/modules/face_detection:face_detection_full_range_gpu",
         "//mediapipe/modules/face_detection:face_detection_short_range_image",
         "//mediapipe/modules/face_detection:face_detection_full_range_image",
+        "//mediapipe/modules/rulik_gesture:rulik_gesture_image",
     ],
 )
 
@@ -60,5 +61,12 @@ mediapipe_simple_subgraph(
     name = "rulik_gpu_v1",
     graph = "rulik_gpu_v1.pbtxt",
     register_as = "RulikGpuV1",
+    deps = [":rulik_gpu_deps"],
+)
+
+mediapipe_simple_subgraph(
+    name = "rulik_gpu_v2",
+    graph = "rulik_gpu_v2.pbtxt",
+    register_as = "RulikGpuV2",
     deps = [":rulik_gpu_deps"],
 )

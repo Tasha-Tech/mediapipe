@@ -122,7 +122,7 @@ cc_binary(
         #"//mediapipe/modules/hand_landmark:hand_landmark_tracking_gpu_image",
         #"//mediapipe/modules/pose_landmark:pose_landmark_gpu_image",
         #"//mediapipe/graphs/pose_tracking:pose_tracking_gpu_deps",
-        "//mediapipe/modules/rulik:rulik_gpu_v1",
+        "//mediapipe/modules/rulik:rulik_gpu_v2",
     ],
 )
 
@@ -145,14 +145,16 @@ mediapipe_aar(
         # "//mediapipe/modules/hand_landmark:hand_landmark_full.tflite",
         # "//mediapipe/modules/hand_landmark:hand_landmark_lite.tflite",
 
-        "//mediapipe/modules/face_detection:face_detection_full_range_sparse.tflite",
-        "//mediapipe/modules/face_detection:face_detection_short_range.tflite",
+        # "//mediapipe/modules/face_detection:face_detection_full_range_sparse.tflite",
+        # "//mediapipe/modules/face_detection:face_detection_short_range.tflite",
 
         "//mediapipe/modules/palm_detection:palm_detection_full.tflite",
-        "//mediapipe/modules/palm_detection:palm_detection_lite.tflite",
+        #"//mediapipe/modules/palm_detection:palm_detection_lite.tflite",
         #"//mediapipe/modules/selfie_segmentation:selfie_segmentation.tflite",
         #"//mediapipe/modules/selfie_segmentation:selfie_segmentation_landscape.tflite",
-        "//mediapipe/modules/rulik:rulik_gpu_v1.binarypb",
+
+        "//mediapipe/modules/rulik_gesture:model_rfist_fp16_v0.tflite",
+        "//mediapipe/modules/rulik:rulik_gpu_v2.binarypb",
 
         # "//mediapipe/modules/pose_landmark:pose_landmark_full.tflite",
         # "//mediapipe/modules/pose_detection:pose_detection.tflite",

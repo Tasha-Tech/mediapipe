@@ -89,7 +89,7 @@ MEDIAPIPE_REGISTER_NODE(DetectionClassificationsMergerCalculator);
 
 absl::Status DetectionClassificationsMergerCalculator::Process(
     CalculatorContext* cc) {
-  if (kInputDetection(cc).IsEmpty() && kClassificationList(cc).IsEmpty()) {
+  if (kInputDetection(cc).IsEmpty() || kClassificationList(cc).IsEmpty()) {
     return absl::OkStatus();
   }
   RET_CHECK(!kInputDetection(cc).IsEmpty());
@@ -117,9 +117,13 @@ absl::Status DetectionClassificationsMergerCalculator::Process(
       detection.add_score(classification.score());
       if (classification.has_label()) {
         detection.add_label(classification.label());
+      } else {
+        detection.add_label("stub");
       }
       if (classification.has_display_name()) {
         detection.add_display_name(classification.display_name());
+      } else {
+        detection.add_display_name("stub");
       }
     }
     // Post-conversion sanity checks.
@@ -141,7 +145,8 @@ absl::Status DetectionClassificationsMergerCalculator::Process(
           /*$1=*/detection.label_id_size()));
     }
   }
-  kOutputDetection(cc).Send(detection);
+
+  kOutputDetection(cc).Send(detection);  
   return absl::OkStatus();
 }
 
