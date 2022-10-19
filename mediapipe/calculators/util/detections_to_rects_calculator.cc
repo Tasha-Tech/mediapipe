@@ -186,6 +186,8 @@ absl::Status DetectionsToRectsCalculator::Open(CalculatorContext* cc) {
     start_keypoint_index_ = options_.rotation_vector_start_keypoint_index();
     end_keypoint_index_ = options_.rotation_vector_end_keypoint_index();
     rotate_ = true;
+  } else  {
+    rotate_ = false;
   }
 
   output_zero_rect_for_empty_detections_ =

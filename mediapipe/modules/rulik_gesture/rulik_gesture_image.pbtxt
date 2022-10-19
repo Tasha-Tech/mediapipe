@@ -106,7 +106,11 @@ node {
   output_stream: "TENSORS:gesture_detection_tensor"
   options: {
     [mediapipe.InferenceCalculatorOptions.ext] {
-      model_path: "mediapipe/modules/rulik_gesture/model_rfist_fp16_v0.tflite"
+      # model_path: "mediapipe/modules/rulik_gesture/model_rfist_fp16_v0.tflite"
+      # model_path: "mediapipe/modules/rulik_gesture/gesture_v2.tflite" 
+      # model_path: "mediapipe/modules/rulik_gesture/EfficientNet-Lite0.tflite"
+      # model_path: "mediapipe/modules/rulik_gesture/gesture_v3.tflite"
+      model_path: "mediapipe/modules/rulik_gesture/mfs_v3.1.tflite"
       #
       delegate: { gpu { use_advanced_gpu_api: true } }
     }

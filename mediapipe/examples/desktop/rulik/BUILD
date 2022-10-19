@@ -31,5 +31,7 @@ cc_binary(
 # JPEG_20220909_194904_8961579120081375466.jpg
 
 
-# GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v1.pbtxt \
+# GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu_v2 --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v2.pbtxt \
 # --input_image_dir=/home/peter/work/RulikCamera2/python/Samples/4
+
+# GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu_v2 --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v2.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/4/JPEG_20220913_184757_5253500207203509635.jpg

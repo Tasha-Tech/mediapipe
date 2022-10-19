@@ -17,6 +17,7 @@
 #include <cstdlib>
 #include <dirent.h>
 #include <vector>
+#include <iomanip>
 
 #include "absl/flags/flag.h"
 #include "absl/flags/parse.h"
@@ -165,6 +166,7 @@ absl::Status RunMPPGraph() {
   }
   if(!use_capture) {
     camera_frame_raw = cv::imread(images[current_image]);
+    printf("Current image: %s \n", images[current_image].c_str());
     if(++current_image >= images.size()) {
       current_image = 0;
     }
@@ -250,7 +252,7 @@ absl::Status RunMPPGraph() {
     if(!use_capture){
       //graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(1).At(++select_timestamp));
     } else if(diff.Seconds() > 3){
-      graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(1).At(++select_timestamp));
+      //graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(1).At(++select_timestamp));
 
       program_timestamp = mediapipe::Timestamp(frame_timestamp_us);
       if(color == 0) {
@@ -323,38 +325,54 @@ absl::Status RunMPPGraph() {
 
     #if ENABLE_GESTURE_DETECTONS
     if(!use_capture || gesture_detections_poller.QueueSize() > 0){
-      //std::cout << "QueueSize " << gesture_detections_poller.QueueSize() << std::endl;
+      std::cout << "QueueSize " << gesture_detections_poller.QueueSize() << std::endl;
       mediapipe::Packet detections_packet;
-      if(!use_capture){ // Still image - one detection per image
+      
+      if(!use_capture){
         gesture_detections_poller.Next(&detections_packet);
       } else {
         while(gesture_detections_poller.QueueSize() > 0){
           gesture_detections_poller.Next(&detections_packet);
         }
       }
-      
-      const auto& detections = detections_packet.Get<std::vector<mediapipe::Detection>>();      
-      for (const auto& detection : detections) {
-        const auto& score = detection.score();
-        const auto& location = detection.location_data();
-        const auto& relative_bounding_box = location.relative_bounding_box();
-        std::cout << "Scores ";
-        for(int i = 0; i < detection.label_id_size(); i++){          
-          std::cout << score[i]  << " ";
-        }
-        std::cout << std::endl;
 
-        int x = relative_bounding_box.xmin() * output_frame_mat.cols;
-        int y = (/* 1.0 - */relative_bounding_box.ymin()) * output_frame_mat.rows;
-        int width = relative_bounding_box.width() * output_frame_mat.cols;
-        int height = relative_bounding_box.height() * output_frame_mat.rows;
-        //y -= height;
-        cv::Rect rect(x, y, width, height);
-        cv::rectangle(output_frame_mat, rect, cv::Scalar(0, 255, 0), 3);
-        char text[255];
-        std::sprintf(text,"%0.2f %0.2f",score[0], score[1]);
-        putText(output_frame_mat, text, cv::Point(x + 10, y + height / 2), cv::FONT_HERSHEY_SIMPLEX, 0.8, cv::Scalar(0, 255, 0), 2);
-      }      
+      if(!detections_packet.IsEmpty()) {
+        const auto& detections = detections_packet.Get<std::vector<mediapipe::Detection>>();      
+        for (const auto& detection : detections) {
+          const auto& score = detection.score();
+          const auto& location = detection.location_data();
+          const auto& relative_bounding_box = location.relative_bounding_box();
+          float max_score = score[0];
+          float delta = 0;
+          int max_index = 0;
+          std::vector<std::string> label = { "fist_left", "fist_right", "like_left", "like_right", "no_gesture", "peace_left", "peace_right", "stop_left", "stop_right" };
+
+          std::cout << "Scores " << std::fixed << std::setprecision(2);
+          
+          for(int i = 0; i < detection.label_id_size(); i++){
+            if(max_score < score[i]) {
+              delta = score[i] - max_score;
+              max_score = score[i];
+              max_index = i;
+            }
+            std::cout << label[i] << ": " << score[i] << ", ";
+          }
+          std::cout << std::endl;
+
+          int x = relative_bounding_box.xmin() * output_frame_mat.cols;
+          int y = (/* 1.0 - */relative_bounding_box.ymin()) * output_frame_mat.rows;
+          int width = relative_bounding_box.width() * output_frame_mat.cols;
+          int height = relative_bounding_box.height() * output_frame_mat.rows;
+          //y -= height;
+          cv::Rect rect(x, y, width, height);
+          //cv::rectangle(output_frame_mat, rect, cv::Scalar(0, 255, 0), 3);
+          char text[255];
+          if(max_index != 4) {
+            std::sprintf(text,"%s %0.2f ", label[max_index].c_str(), max_score);
+            putText(output_frame_mat, text, cv::Point(x + 10, y + height / 2), cv::FONT_HERSHEY_SIMPLEX, 0.8, cv::Scalar(0, 255, 0), 2);
+          }
+        }   
+      }   
     }
 
     #endif /* ENABLE_GESTURE_DETECTONS */
@@ -377,6 +395,7 @@ absl::Status RunMPPGraph() {
         current_image = 0;
       }        
       camera_frame_raw = cv::imread(images[current_image]);
+      printf("Current image: %s \n", images[current_image].c_str());
     } else {
       pressed_key = cv::waitKey(30);
     }

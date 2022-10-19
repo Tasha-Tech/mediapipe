@@ -83,7 +83,7 @@ class EndLoopCalculator : public CalculatorBase {
       Timestamp loop_control_ts =
           cc->Inputs().Tag("BATCH_END").template Get<Timestamp>();
       if (input_stream_collection_) {
-        std::cout << "Send collection " << input_stream_collection_->size() << std::endl;
+        //std::cout << "Send collection " << input_stream_collection_->size() << std::endl;
         cc->Outputs()
             .Tag("ITERABLE")
             .Add(input_stream_collection_.release(), loop_control_ts);            
@@ -93,7 +93,7 @@ class EndLoopCalculator : public CalculatorBase {
         cc->Outputs()
             .Tag("ITERABLE")
             .SetNextTimestampBound(Timestamp(loop_control_ts.Value() + 1));
-        std::cout << "There is no collection " << std::endl;
+        //std::cout << "There is no collection " << std::endl;
       }
     }
     return absl::OkStatus();
