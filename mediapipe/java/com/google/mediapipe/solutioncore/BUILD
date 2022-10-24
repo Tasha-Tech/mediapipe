@@ -153,7 +153,7 @@ mediapipe_aar(
         #"//mediapipe/modules/selfie_segmentation:selfie_segmentation.tflite",
         #"//mediapipe/modules/selfie_segmentation:selfie_segmentation_landscape.tflite",
 
-        "//mediapipe/modules/rulik_gesture:model_rfist_fp16_v0.tflite",
+        "//mediapipe/modules/rulik_gesture:mfs_v3.1.tflite",
         "//mediapipe/modules/rulik:rulik_gpu_v2.binarypb",
 
         # "//mediapipe/modules/pose_landmark:pose_landmark_full.tflite",

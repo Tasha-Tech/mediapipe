@@ -29,12 +29,14 @@ output_stream: "DETECTIONS:gesture_detections"
 node {
   calculator: "FlowLimiterCalculator"
   input_stream: "image"
+  input_stream: "palm_detections"
   input_stream: "FINISHED:gesture_detections"
   input_stream_info: {
     tag_index: "FINISHED"
     back_edge: true
   }
   output_stream: "throttled_image"
+  output_stream: "throttled_palm_detections"
   options: {
     [mediapipe.FlowLimiterCalculatorOptions.ext] {
       max_in_flight: 1
@@ -42,7 +44,6 @@ node {
     }
   }
 }
-
 
 
 # Extracts image size.
@@ -59,7 +60,7 @@ node {
 # been processed.
 node {
   calculator: "BeginLoopDetectionCalculator"
-  input_stream: "ITERABLE:palm_detections"
+  input_stream: "ITERABLE:throttled_palm_detections"
   input_stream: "CLONE:0:throttled_image"
   input_stream: "CLONE:1:image_size"
   output_stream: "ITEM:palm_detection"

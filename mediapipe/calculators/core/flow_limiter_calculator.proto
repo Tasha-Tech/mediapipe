@@ -37,4 +37,9 @@ message FlowLimiterCalculatorOptions {
   // The default value stops waiting after 1 sec.
   // The value 0 specifies no timeout.
   optional int64 in_flight_timeout = 3 [default = 1000000];
+
+  // The time in microseconds between processing frames.
+  // The default value is not to wait 0 .
+  // The value 0 specifies no timeout.
+  optional int64 allow_interval = 4 [default = 0];  
 }

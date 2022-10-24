@@ -32,7 +32,6 @@ node {
   }
 }
 
-
 # Detects palms.
 node {
   calculator: "PalmDetectionGpuImage"

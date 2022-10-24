@@ -72,6 +72,10 @@ constexpr char kOptionsTag[] = "OPTIONS";
 //
 class FlowLimiterCalculator : public CalculatorBase {
  public:
+  Timestamp latest_allow_ts = Timestamp::Unstarted();  
+   // Clock object.
+  std::shared_ptr<::mediapipe::Clock> clock_;
+
   static absl::Status GetContract(CalculatorContract* cc) {
     auto& side_inputs = cc->InputSidePackets();
     side_inputs.Tag(kOptionsTag).Set<FlowLimiterCalculatorOptions>().Optional();
@@ -101,13 +105,30 @@ class FlowLimiterCalculator : public CalculatorBase {
     }
     input_queues_.resize(cc->Inputs().NumEntries(""));
     RET_CHECK_OK(CopyInputHeadersToOutputs(cc->Inputs(), &(cc->Outputs())));
+
+    clock_.reset(::mediapipe::MonotonicClock::CreateSynchronizedMonotonicClock());
     return absl::OkStatus();
   }
 
   // Returns true if an additional frame can be released for processing.
   // The "ALLOW" output stream indicates this condition at each input frame.
-  bool ProcessingAllowed() {
-    return frames_in_flight_.size() < options_.max_in_flight();
+  bool ProcessingAllowed(TimestampDiff& allow_interval) {
+    bool allowed = frames_in_flight_.size() < options_.max_in_flight();
+
+    if(allowed) {
+      const int64 time_now_usec = absl::ToUnixMicros(clock_->TimeNow());
+      Timestamp latest_ts = Timestamp(time_now_usec);
+
+      if(latest_allow_ts == Timestamp::Unstarted()){
+        latest_allow_ts = latest_ts;
+      }
+      if(latest_ts - latest_allow_ts < allow_interval){
+        allowed = false;
+      } else {
+        latest_allow_ts = latest_ts;
+      }
+    }
+    return allowed;
   }
 
   // Outputs a packet indicating whether a frame was sent or dropped.
@@ -191,9 +212,11 @@ class FlowLimiterCalculator : public CalculatorBase {
       }
     }
 
+    TimestampDiff allow_interval = options_.allow_interval();
+
     // Release allowed frames from the main input queue.
     auto& input_queue = input_queues_[0];
-    while (ProcessingAllowed() && !input_queue.empty()) {
+    while (ProcessingAllowed(allow_interval) && !input_queue.empty()) {
       Packet packet = input_queue.front();
       input_queue.pop_front();
       cc->Outputs().Get("", 0).AddPacket(packet);

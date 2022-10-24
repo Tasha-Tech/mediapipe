@@ -56,6 +56,6 @@ mediapipe_simple_subgraph(
 
 exports_files(
     srcs = [
-        "model_rfist_fp16_v0.tflite",        
+        "mfs_v3.1.tflite",        
     ],
 )

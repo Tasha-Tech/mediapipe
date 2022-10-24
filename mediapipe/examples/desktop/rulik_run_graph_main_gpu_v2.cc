@@ -173,6 +173,7 @@ absl::Status RunMPPGraph() {
   }
   //return absl::OkStatus();
   
+  int pressed_key;
 
   while (grab_frames) {
     // Capture opencv camera or video frame.    
@@ -247,6 +248,26 @@ absl::Status RunMPPGraph() {
     if(program_timestamp == mediapipe::Timestamp::Unstarted()){      
       program_timestamp = mediapipe::Timestamp(frame_timestamp_us);    
     }    
+
+    if(pressed_key == 105 || pressed_key == '1') { // 'i'
+      graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(1).At(++select_timestamp));
+    }
+
+    if(pressed_key == '2') { // '2'
+      graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(2).At(++select_timestamp));
+    }
+    if(pressed_key == '3') { // '3'
+      graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(3).At(++select_timestamp));
+    }    
+
+    if(pressed_key == '4') { 
+      graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(4).At(++select_timestamp));
+    }    
+
+    if(pressed_key == '5') {
+      graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(5).At(++select_timestamp));
+    }    
+
 
     mediapipe::TimestampDiff diff = mediapipe::Timestamp(frame_timestamp_us) - program_timestamp;
     if(!use_capture){
@@ -328,7 +349,7 @@ absl::Status RunMPPGraph() {
       std::cout << "QueueSize " << gesture_detections_poller.QueueSize() << std::endl;
       mediapipe::Packet detections_packet;
       
-      if(!use_capture){
+      if(false && !use_capture){
         gesture_detections_poller.Next(&detections_packet);
       } else {
         while(gesture_detections_poller.QueueSize() > 0){
@@ -380,7 +401,7 @@ absl::Status RunMPPGraph() {
     cv::resize(output_frame_mat, output_frame_mat, cv::Size(1280, 720));
     cv::imshow(kWindowName, output_frame_mat);
     // Press 'Esc' key to exit.
-    int pressed_key;
+    
     if(!use_capture){
       pressed_key = cv::waitKey(0);
       if(pressed_key == 83 || pressed_key == 32) {         
@@ -393,11 +414,16 @@ absl::Status RunMPPGraph() {
       }
       if(current_image > images.size() - 1){
         current_image = 0;
-      }        
+      } else {
+        printf("pressed_key: %d \n", pressed_key);
+      }
       camera_frame_raw = cv::imread(images[current_image]);
       printf("Current image: %s \n", images[current_image].c_str());
     } else {
       pressed_key = cv::waitKey(30);
+      if(pressed_key > 0){
+        printf("pressed_key: %d \n", pressed_key);
+      }
     }
 
     if (pressed_key == 27) {
