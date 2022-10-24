@@ -249,25 +249,13 @@ absl::Status RunMPPGraph() {
       program_timestamp = mediapipe::Timestamp(frame_timestamp_us);    
     }    
 
-    if(pressed_key == 105 || pressed_key == '1') { // 'i'
-      graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(1).At(++select_timestamp));
-    }
-
-    if(pressed_key == '2') { // '2'
-      graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(2).At(++select_timestamp));
-    }
-    if(pressed_key == '3') { // '3'
-      graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(3).At(++select_timestamp));
-    }    
-
-    if(pressed_key == '4') { 
+    if(pressed_key == 'i') { // 'i' -> 4 CMD_SET_NEXT_MODE
       graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(4).At(++select_timestamp));
-    }    
+    }
 
-    if(pressed_key == '5') {
-      graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(5).At(++select_timestamp));
-    }    
-
+    if(pressed_key >= '0' && pressed_key <= '9') { // '0' -- '9'
+      graph.AddPacketToInputStream(kSelector, mediapipe::MakePacket<int>(pressed_key - '0').At(++select_timestamp));
+    }
 
     mediapipe::TimestampDiff diff = mediapipe::Timestamp(frame_timestamp_us) - program_timestamp;
     if(!use_capture){

@@ -48,21 +48,32 @@ constexpr char kDetectionsTag[] = "DETECTIONS";
 
 
 typedef enum mode_e{
-  MODE_NORMAL,
-  MODE_BLENDER,
-  MODE_LAST
+  MODE_FIRST        = 0,
+  MODE_NORMAL       = MODE_FIRST,
+  MODE_BLENDER      = 1,
+  MODE_CALIBRATION  = 2,
+  MODE_LAST         = 3
 } mode_t;
+
+typedef enum command_e{
+  CMD_NONE                  = 0,
+  CMD_SET_MODE_NORMAL       = 1,
+  CMD_SET_MODE_BLENDER      = 2,
+  CMD_SET_MODE_CALIBRATION  = 3,
+  CMD_SET_NEXT_MODE         = 4,
+  CMD_SET_LEFT              = 5,
+  CMD_SET_RIGHT             = 6,
+  CMD_MAIN_ACTION           = 7,  
+}command_t;
 
 class BackgroundExtractorCalculator : public CalculatorBase {
  public:    
   cv::Mat bg_mat;
   cv::Mat bg_mat_small;
   cv::Mat film_mat;
-
-  int set_bg = 0;
-  int mode = MODE_NORMAL; // 1 = blender
-  int blender_command = 0;
- 
+  
+  int mode = MODE_CALIBRATION; // 1 = blender
+  int command = CMD_NONE;
 
   ~BackgroundExtractorCalculator() override = default;
   static absl::Status GetContract(CalculatorContract* cc);
@@ -72,7 +83,10 @@ class BackgroundExtractorCalculator : public CalculatorBase {
     return absl::OkStatus();
   }
 
+  absl::Status Normal(CalculatorContext* cc);
   absl::Status Blender(CalculatorContext* cc);
+  absl::Status Calibration(CalculatorContext* cc);
+
   absl::Status PhotoBooth(CalculatorContext* cc);
 };
 
@@ -102,19 +116,22 @@ absl::Status BackgroundExtractorCalculator::GetContract(CalculatorContract* cc) 
 
 absl::Status BackgroundExtractorCalculator::Process(CalculatorContext* cc) {  
   if (cc->Inputs().HasTag(kCommandTag) && !cc->Inputs().Tag(kCommandTag).IsEmpty()) {
-    int command = cc->Inputs().Tag(kCommandTag).Get<int>();    
-    if(command == 1){
-      mode++;
-      std::cout << "Mode " << mode << std::endl;
-      if(mode >= MODE_LAST){
+    command = cc->Inputs().Tag(kCommandTag).Get<int>();
+    switch(command){
+      case CMD_SET_MODE_NORMAL:
         mode = MODE_NORMAL;
-      }      
-    } else if(command == 2) { // Set left side bg
-      set_bg = 1;
-    } else if(command == 3) { // Set right side bg
-      set_bg = 2;
-    } else if(command == 4 || command == 5){
-      blender_command = command;
+        break;
+      case CMD_SET_MODE_BLENDER:
+        mode = MODE_BLENDER;
+        break;
+      case CMD_SET_MODE_CALIBRATION:
+        mode = MODE_CALIBRATION;
+        break;
+      case CMD_SET_NEXT_MODE:
+        mode++;
+        if(mode >= MODE_LAST){
+          mode = MODE_FIRST;
+        }
     }
   }
 
@@ -122,26 +139,52 @@ absl::Status BackgroundExtractorCalculator::Process(CalculatorContext* cc) {
     return absl::OkStatus();
   }
 
-  if(mode == MODE_BLENDER){
-    return Blender(cc);
+  switch(mode){
+    case MODE_NORMAL:
+    Normal(cc);
+    break;
+    case MODE_BLENDER:
+    Blender(cc);
+    break;    
+    case MODE_CALIBRATION:
+    Calibration(cc);
+    break;    
   }
 
+  command = CMD_NONE;
+  return absl::OkStatus();  
+}
+
+absl::Status BackgroundExtractorCalculator::Normal(CalculatorContext* cc) {
   const ImageFrame& inputFrame = cc->Inputs().Tag(kRgbInTag).Get<ImageFrame>();
   const cv::Mat& input_mat = formats::MatView(&inputFrame);
-  ImageFormat::Format format = inputFrame.Format();  
+  ImageFormat::Format format = inputFrame.Format();
+
+  std::unique_ptr<ImageFrame> outputFrame( new ImageFrame(format /*ImageFormat::SRGBA*/, input_mat.cols, input_mat.rows) );  
+  cv::Mat output_mat = formats::MatView(outputFrame.get());  
+
+  input_mat.copyTo(output_mat);  
+  cc->Outputs().Tag(kRgbOutTag).Add(outputFrame.release(), cc->InputTimestamp());  
+  return absl::OkStatus();    
+}
+
+absl::Status BackgroundExtractorCalculator::Calibration(CalculatorContext* cc) {
+  const ImageFrame& inputFrame = cc->Inputs().Tag(kRgbInTag).Get<ImageFrame>();
+  const cv::Mat& input_mat = formats::MatView(&inputFrame);
+  ImageFormat::Format format = inputFrame.Format();
   
   if(bg_mat.empty()){
     input_mat.copyTo(bg_mat);
     bg_mat.setTo(cv::Scalar::all(0));
     cv::resize(bg_mat, bg_mat_small, cv::Size(input_mat.cols/4, input_mat.rows/4));
   }
-  
-  if(set_bg) {
+
+  if(command == CMD_SET_LEFT || command == CMD_SET_RIGHT) {
     int x = 0;
-    if(set_bg == 2){
+    if(command == CMD_SET_RIGHT){
       x = input_mat.cols/2;
     }
-    set_bg = 0;
+    
     cv::Mat input_roi = input_mat(cv::Rect(x, 0,input_mat.cols/2, input_mat.rows));
     cv::Mat bg_roi = bg_mat(cv::Rect(x, 0, input_mat.cols/2, input_mat.rows));
     input_roi.copyTo(bg_roi);
@@ -149,12 +192,22 @@ absl::Status BackgroundExtractorCalculator::Process(CalculatorContext* cc) {
     cv::resize(bg_mat, bg_mat_small, cv::Size(input_mat.cols/4, input_mat.rows/4));
   }
 
+  cv::Mat diff_mat;
+  cv::absdiff(input_mat, bg_mat, diff_mat);
+  cv::cvtColor(diff_mat, diff_mat, cv::COLOR_RGB2GRAY);
+  
+  cv::Mat mask(diff_mat.size(), CV_8UC1);
+  mask.setTo(0);
+  cv::threshold(diff_mat, mask, 15, 1, cv::THRESH_BINARY);
+
+
   std::unique_ptr<ImageFrame> outputFrame( new ImageFrame(format /*ImageFormat::SRGBA*/, input_mat.cols, input_mat.rows) );  
   cv::Mat output_mat = formats::MatView(outputFrame.get());  
-
-  input_mat.copyTo(output_mat);  
+  output_mat.setTo(cv::Scalar::all(0));
+  
+  input_mat.copyTo(output_mat, mask);  
   cc->Outputs().Tag(kRgbOutTag).Add(outputFrame.release(), cc->InputTimestamp());  
-  return absl::OkStatus();  
+  return absl::OkStatus();    
 }
 
 // Multiple exposure mode
@@ -175,14 +228,12 @@ absl::Status BackgroundExtractorCalculator::Blender(CalculatorContext* cc) {
     bg_mat.copyTo(film_mat);
   } 
 
-  if(blender_command == 4) {
+  if(command == CMD_MAIN_ACTION) {
     std::cout << "Updating film ..." << std::endl;
     input_mat.copyTo(film_mat, mask);  
-  } else if (blender_command == 5) {
+  } else if (command == CMD_SET_RIGHT) {
     bg_mat.copyTo(film_mat);
-  }
-
-  blender_command = 0;
+  }  
 
   std::unique_ptr<ImageFrame> outputFrame( new ImageFrame(format /*ImageFormat::SRGBA*/, input_mat.cols, input_mat.rows) );  
   cv::Mat output_mat = formats::MatView(outputFrame.get());  
