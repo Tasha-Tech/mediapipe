@@ -68,5 +68,18 @@ mediapipe_simple_subgraph(
     name = "rulik_gpu_v2",
     graph = "rulik_gpu_v2.pbtxt",
     register_as = "RulikGpuV2",
-    deps = [":rulik_gpu_deps"],
+    deps = [
+        ":rulik_gpu_deps",
+        "//mediapipe/modules/rulik_gesture:rulik_gesture_image",
+    ],
+)
+
+mediapipe_simple_subgraph(
+    name = "rulik_gpu_v3",
+    graph = "rulik_gpu_v3.pbtxt",
+    register_as = "RulikGpuV3",
+    deps = [
+        ":rulik_gpu_deps",
+        "//mediapipe/modules/rulik_gesture:rulik_gesture_image_v3",
+    ],
 )

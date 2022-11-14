@@ -72,7 +72,7 @@ class BackgroundExtractorCalculator : public CalculatorBase {
   cv::Mat bg_mat_small;
   cv::Mat film_mat;
   
-  int mode = MODE_CALIBRATION; // 1 = blender
+  int mode = MODE_CALIBRATION; // 2 = calibration
   int command = CMD_NONE;
 
   ~BackgroundExtractorCalculator() override = default;

@@ -1,0 +1,101 @@
+type: "RulikGpuV3"
+
+# Input image. (Image)
+input_stream: "IMAGE:input_image"
+
+# Selects a stream for output_image
+input_stream: "SELECT:output_selector"
+
+# The output_image  image. (Image)
+output_stream: "IMAGE:output_image"
+
+# Extra outputs (for debugging, for instance).
+# Detected palms. (std::vector<Detection>)
+output_stream: "PALM_DETECTIONS:palm_detections"
+
+output_stream: "GESTURE_DETECTIONS:gesture_detections"
+
+node {
+  calculator: "FlowLimiterCalculator"
+  input_stream: "input_image"
+  input_stream: "FINISHED:output_image"  
+  input_stream_info: {
+    tag_index: "FINISHED"
+    back_edge: true
+  }
+  output_stream: "throttled_image"
+  options: {
+    [mediapipe.FlowLimiterCalculatorOptions.ext] {
+      max_in_flight: 1
+      max_in_queue: 1
+    }
+  }
+}
+
+# Detects palms.
+node {
+  calculator: "PalmDetectionGpuImage"
+  input_stream: "IMAGE:throttled_image"
+  output_stream: "IMAGE:throttled_image_palm"
+  output_stream: "DETECTIONS:palm_detections"
+}
+
+node {
+  calculator: "RulikGestureImageV3"
+  input_stream: "IMAGE:throttled_image"
+  input_stream: "DETECTIONS:palm_detections"
+  output_stream: "DETECTIONS:gesture_detections"  
+}
+
+node {
+  calculator: "ImageCloneCalculator"
+  input_stream: "throttled_image"
+  output_stream: "throttled_image_clone"
+  options: {
+    [mediapipe.ImageCloneCalculatorOptions.ext] {
+      output_on_gpu: false
+    }
+  }
+}
+
+node {
+  calculator: "FromImageCalculator"
+  input_stream: "IMAGE:throttled_image_clone"
+  output_stream: "IMAGE_CPU:cpu_buffer"
+  output_stream: "SOURCE_ON_GPU:is_gpu_image"
+}
+
+node {
+  calculator: "BackgroundExtractorCalculator"  
+  input_stream: "RGB_IN:cpu_buffer"  
+  input_stream: "COMMAND:output_selector"
+  output_stream: "RGB_OUT:gray_image_frame"
+  input_stream_handler {
+    input_stream_handler: "SyncSetInputStreamHandler"
+    options {
+      [mediapipe.SyncSetInputStreamHandlerOptions.ext] {
+        sync_set {
+          tag_index: "RGB_IN"          
+        }
+        sync_set {
+          tag_index: "COMMAND"          
+        }        
+      }
+    }
+  }
+}
+
+# Transfers the image from CPU back to GPU memory, to be sent out of the graph.
+node: {
+  calculator: "ImageFrameToGpuBufferCalculator"
+  input_stream: "gray_image_frame"
+  output_stream: "gray_image_gpu"
+}
+
+# Converts the input GPU image (ImageFrame) to the multi-backend image type (Image).
+node: {
+  calculator: "ToImageCalculator"
+  input_stream: "IMAGE_GPU:gray_image_gpu"
+  output_stream: "IMAGE:output_image"
+}
+
