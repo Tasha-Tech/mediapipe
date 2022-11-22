@@ -89,5 +89,6 @@ mediapipe_simple_subgraph(
 
         "//mediapipe/modules/palm_detection:palm_detection_gpu",
         "//mediapipe/modules/hand_landmark:palm_detection_detection_to_roi",
+        "//mediapipe/modules/rulik/calculators:gesture_tensors_to_detections_calculator"
     ],    
 )

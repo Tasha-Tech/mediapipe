@@ -48,3 +48,6 @@ cc_binary(
 
 # bazel build -c opt --compilation_mode dbg --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11   mediapipe/examples/desktop/rulik:rulik_gpu_v3
 # GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu_v3 --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v3.pbtxt
+
+# Me and Natasha 4xStop test
+# GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/rulik/rulik_gpu_v3 --calculator_graph_config_file=mediapipe/graphs/rulik/rulik_desktop_gpu_v3.pbtxt --input_image_path=/home/peter/work/RulikCamera2/python/Samples/3/JPEG_20220910_184622_8734468100911835426.jpg

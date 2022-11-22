@@ -143,5 +143,6 @@ cc_library(
         "//mediapipe/gpu:gpu_shared_data_internal",
         "@com_google_absl//absl/flags:flag",
         "@com_google_absl//absl/flags:parse",
+        # "@org_tensorflow//tensorflow/core:framework"
     ],
 )

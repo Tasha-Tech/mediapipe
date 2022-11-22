@@ -42,8 +42,7 @@ node {
 
 node {
   calculator: "RulikGestureImageV3"
-  input_stream: "IMAGE:throttled_image"
-  input_stream: "DETECTIONS:palm_detections"
+  input_stream: "IMAGE:throttled_image"  
   output_stream: "DETECTIONS:gesture_detections"  
 }
 

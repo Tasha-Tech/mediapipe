@@ -8,16 +8,13 @@
 # EXAMPLE:
 #   node {
 #     calculator: "RulikGestureImageV3"
-#     input_stream: "IMAGE:image"
-#     output_stream: "DETECTIONS:gesture_detections"
+#     input_stream: "IMAGE:image"     
 #   }
 
 type: "RulikGestureImageV3"
 
 # Image. (Image)
 input_stream: "IMAGE:image"
-
-input_stream: "DETECTIONS:palm_detections"
 
 # Detected gestures. (std::vector<Detection>)
 # NOTE: there will not be an output packet in the DETECTIONS stream for this
@@ -28,15 +25,13 @@ output_stream: "DETECTIONS:gesture_detections"
 
 node {
   calculator: "FlowLimiterCalculator"
-  input_stream: "image"
-  input_stream: "palm_detections"
+  input_stream: "image"  
   input_stream: "FINISHED:gesture_detections"
   input_stream_info: {
     tag_index: "FINISHED"
     back_edge: true
   }
-  output_stream: "throttled_image"
-  output_stream: "throttled_palm_detections"
+  output_stream: "throttled_image"  
   options: {
     [mediapipe.FlowLimiterCalculatorOptions.ext] {
       max_in_flight: 1
@@ -46,51 +41,19 @@ node {
 }
 
 
-# Extracts image size.
-node {
-  calculator: "ImagePropertiesCalculator"
-  input_stream: "IMAGE:throttled_image"
-  output_stream: "SIZE:image_size"
-}
-
-# Outputs each element of palm_detections at a fake timestamp for the rest of
-# the graph to process. Clones the image_size packet for each palm_detection at
-# the fake timestamp. At the end of the loop, outputs the BATCH_END timestamp
-# for downstream calculators to inform them that all elements in the vector have
-# been processed.
-node {
-  calculator: "BeginLoopDetectionCalculator"
-  input_stream: "ITERABLE:throttled_palm_detections"
-  input_stream: "CLONE:0:throttled_image"
-  input_stream: "CLONE:1:image_size"
-  output_stream: "ITEM:palm_detection"
-  output_stream: "CLONE:0:image_for_palm_detection"
-  output_stream: "CLONE:1:image_size_palm_detection"
-  output_stream: "BATCH_END:palm_detections_timestamp"
-}
-
-# Calculates region of interest (ROI) base on the specified palm.
-node {
-  calculator: "PalmDetectionDetectionToRoi"
-  input_stream: "DETECTION:palm_detection"
-  input_stream: "IMAGE_SIZE:image_size_palm_detection"
-  output_stream: "ROI:palm_detection_roi"
-}
-
-# Transforms a region of image into a 224x224 tensor while keeping the aspect
+# Transforms a region of image into a 512x512 tensor while keeping the aspect
 # ratio, and therefore may result in potential letterboxing.
 node {
   calculator: "ImageToTensorCalculator"
-  input_stream: "IMAGE:image_for_palm_detection"
-  input_stream: "NORM_RECT:palm_detection_roi"
+  input_stream: "IMAGE:throttled_image"  
   output_stream: "TENSORS:input_tensor"  
   options: {
     [mediapipe.ImageToTensorCalculatorOptions.ext] {
-      output_tensor_width: 224
-      output_tensor_height: 224
+      output_tensor_width: 512
+      output_tensor_height: 512
       keep_aspect_ratio: true
       output_tensor_float_range {
-        min: 0.0
+        min: -1.0
         max: 1.0
       }
       gpu_origin: TOP_LEFT
@@ -104,42 +67,18 @@ node {
 node {
   calculator: "InferenceCalculator"
   input_stream: "TENSORS:input_tensor"
-  output_stream: "TENSORS:gesture_detection_tensor"
+  output_stream: "TENSORS:gesture_tensors"
   options: {
     [mediapipe.InferenceCalculatorOptions.ext] {
-      # model_path: "mediapipe/modules/rulik_gesture/model_rfist_fp16_v0.tflite"
-      # model_path: "mediapipe/modules/rulik_gesture/gesture_v2.tflite" 
-      # model_path: "mediapipe/modules/rulik_gesture/EfficientNet-Lite0.tflite"
-      # model_path: "mediapipe/modules/rulik_gesture/gesture_v3.tflite"
-      model_path: "mediapipe/modules/rulik_gesture/mfs_v3.1.tflite"
+      model_path: "mediapipe/modules/rulik_gesture/ruliknet_v0.tflite"
       #
-      delegate: { gpu { use_advanced_gpu_api: true } }
+      delegate: { gpu { use_advanced_gpu_api: false } }
     }
   }
 }
 
-# Converts the handedness tensor into a float that represents the classification
 node {
-  calculator: "TensorsToClassificationCalculator"
-  input_stream: "TENSORS:gesture_detection_tensor"
-  output_stream: "CLASSIFICATIONS:gesture_classification"
-}
-
-node {
-  calculator: "DetectionClassificationsMergerCalculator"
-  input_stream: "INPUT_DETECTION:palm_detection"
-  input_stream: "CLASSIFICATION_LIST:gesture_classification"
-  # Final output.
-  output_stream: "OUTPUT_DETECTION:classified_detection"
-}
-
-# Collects a NormalizedRect for each hand into a vector. Upon receiving the
-# BATCH_END timestamp, outputs the vector of NormalizedRect at the BATCH_END
-# timestamp.
-node {
-  name: "EndLoopForPalmDetections"
-  calculator: "EndLoopDetectionCalculator"
-  input_stream: "ITEM:classified_detection"
-  input_stream: "BATCH_END:palm_detections_timestamp"
-  output_stream: "ITERABLE:gesture_detections"
+  calculator: "GestureTensorsToDetectionsCalculator"
+  input_stream: "TENSORS:gesture_tensors"
+  output_stream: "DETECTIONS:gesture_detections" 
 }

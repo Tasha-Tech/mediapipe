@@ -38,6 +38,7 @@
 #include "mediapipe/gpu/gpu_buffer.h"
 #include "mediapipe/gpu/gpu_shared_data_internal.h"
 
+
 constexpr char kInputStream[] = "input_video";
 constexpr char kSelector[] = "output_selector";
 constexpr char kOutputStream[] = "output_video";
@@ -62,6 +63,10 @@ ABSL_FLAG(std::string, input_image_dir, "",
 ABSL_FLAG(std::string, output_video_path, "",
           "Full path of where to save result (.mp4 only). "
           "If not provided, show result in a window.");
+
+// Forward declaration
+absl::Status RulikV0TensorsToDetections(const std::vector<mediapipe::Tensor>& tensors, 
+                                        std::vector<mediapipe::Detection>* detections);
 
 absl::Status RunMPPGraph() {
   std::string calculator_graph_config_contents;
@@ -310,7 +315,8 @@ absl::Status RunMPPGraph() {
         palm_detections_poller.Next(&detections_packet);
       }
       
-      const auto& detections = detections_packet.Get<std::vector<mediapipe::Detection>>();    
+      const auto& detections = detections_packet.Get<std::vector<mediapipe::Detection>>();
+      
       for (const auto& detection : detections) {
         const auto& score = detection.score();
         const auto& location = detection.location_data();
@@ -346,41 +352,8 @@ absl::Status RunMPPGraph() {
       }
 
       if(!detections_packet.IsEmpty()) {
-        const auto& detections = detections_packet.Get<std::vector<mediapipe::Detection>>();      
-        for (const auto& detection : detections) {
-          const auto& score = detection.score();
-          const auto& location = detection.location_data();
-          const auto& relative_bounding_box = location.relative_bounding_box();
-          float max_score = score[0];
-          float delta = 0;
-          int max_index = 0;
-          std::vector<std::string> label = { "fist_left", "fist_right", "like_left", "like_right", "no_gesture", "peace_left", "peace_right", "stop_left", "stop_right" };
-
-          std::cout << "Scores " << std::fixed << std::setprecision(2);
-          
-          for(int i = 0; i < detection.label_id_size(); i++){
-            if(max_score < score[i]) {
-              delta = score[i] - max_score;
-              max_score = score[i];
-              max_index = i;
-            }
-            std::cout << label[i] << ": " << score[i] << ", ";
-          }
-          std::cout << std::endl;
-
-          int x = relative_bounding_box.xmin() * output_frame_mat.cols;
-          int y = (/* 1.0 - */relative_bounding_box.ymin()) * output_frame_mat.rows;
-          int width = relative_bounding_box.width() * output_frame_mat.cols;
-          int height = relative_bounding_box.height() * output_frame_mat.rows;
-          //y -= height;
-          cv::Rect rect(x, y, width, height);
-          //cv::rectangle(output_frame_mat, rect, cv::Scalar(0, 255, 0), 3);
-          char text[255];
-          if(max_index != 4) {
-            std::sprintf(text,"%s %0.2f ", label[max_index].c_str(), max_score);
-            putText(output_frame_mat, text, cv::Point(x + 10, y + height / 2), cv::FONT_HERSHEY_SIMPLEX, 0.8, cv::Scalar(0, 255, 0), 2);
-          }
-        }   
+        const auto& detections = detections_packet.Get<std::vector<mediapipe::Detection>>();
+        std::cout << "We got " << detections.size() << " detections" << std::endl;
       }   
     }
 
