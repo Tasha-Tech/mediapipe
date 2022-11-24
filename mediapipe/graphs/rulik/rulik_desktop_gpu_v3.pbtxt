@@ -9,7 +9,7 @@ input_stream: "output_selector"
 output_stream: "output_video"
 
 # Detected palms. (std::vector<Detection>)
-output_stream: "palm_detections"
+# output_stream: "palm_detections"
 
 # Detected faces. (std::vector<Detection>)
 output_stream: "gesture_detections"
@@ -27,7 +27,7 @@ node {
   input_stream: "IMAGE:multi_backend_input_image"
   input_stream: "SELECT:output_selector"
   output_stream: "IMAGE:multi_backend_output_image"
-  output_stream: "PALM_DETECTIONS:palm_detections"
+  # output_stream: "PALM_DETECTIONS:palm_detections"
   output_stream: "GESTURE_DETECTIONS:gesture_detections"
 }
 

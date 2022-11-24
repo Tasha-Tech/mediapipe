@@ -9,10 +9,6 @@ input_stream: "SELECT:output_selector"
 # The output_image  image. (Image)
 output_stream: "IMAGE:output_image"
 
-# Extra outputs (for debugging, for instance).
-# Detected palms. (std::vector<Detection>)
-output_stream: "PALM_DETECTIONS:palm_detections"
-
 output_stream: "GESTURE_DETECTIONS:gesture_detections"
 
 node {
@@ -30,14 +26,6 @@ node {
       max_in_queue: 1
     }
   }
-}
-
-# Detects palms.
-node {
-  calculator: "PalmDetectionGpuImage"
-  input_stream: "IMAGE:throttled_image"
-  output_stream: "IMAGE:throttled_image_palm"
-  output_stream: "DETECTIONS:palm_detections"
 }
 
 node {

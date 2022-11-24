@@ -141,22 +141,96 @@ absl::Status GestureTensorsToDetectionsCalculator::ProcessCPU(CalculatorContext*
                                                               std::vector<Detection>* output_detections) {
   const auto& input_tensors = *kInTensors(cc);
 
-  std::cout << "Received " << input_tensors.size() << " tensors" << std::endl;
+  //std::cout << "Received " << input_tensors.size() << " tensors" << std::endl;
 
   std::vector<float> boxes(num_boxes_ * num_coords_);  
   std::vector<float> detection_scores(num_boxes_);
   std::vector<int> detection_classes(num_boxes_);
-  for (int i = 0; i < num_boxes_; ++i) {
-    detection_scores[i] = 0; //max_score;
-    detection_classes[i] = 0; //class_id;
+
+  auto feature_map_tensor = &input_tensors[0];
+  auto feature_map_max_pool_tensor = &input_tensors[1];
+  auto ct_offset_tensor = &input_tensors[2];
+
+  auto feature_map_view = feature_map_tensor->GetCpuReadView();
+  auto feature_map_max_pool_view = feature_map_max_pool_tensor->GetCpuReadView();
+  auto ct_offset_view = ct_offset_tensor->GetCpuReadView();
+
+  const float * feature_map = feature_map_view.buffer<float>();
+  const float * feature_map_max_pool = feature_map_max_pool_view.buffer<float>();
+  const float * ct_offset = ct_offset_view.buffer<float>();
+
+  int height = feature_map_tensor->shape().dims[1];
+  int width = feature_map_tensor->shape().dims[2];
+  int num_classes_ = feature_map_tensor->shape().dims[3];
+
+  std::vector<float> feature_map_peaks_flat(height * width * num_classes_);
+
+  const float * feature_map_ptr = feature_map;
+  const float * feature_map_max_pool_ptr = feature_map_max_pool;
+
+  for (auto peak = begin (feature_map_peaks_flat); peak != end (feature_map_peaks_flat); ++peak) {
+    if(abs(*feature_map_ptr - *feature_map_max_pool_ptr) < 1e-6){
+      *peak = *feature_map_ptr;
+    } else {
+      *peak = -1;
+    }
+    feature_map_ptr++;
+    feature_map_max_pool_ptr++;
   }
 
+  std::vector<int> top_k_indexes(num_boxes_);
+  std::vector<float> top_k_scores(num_boxes_);
+  
+  std::priority_queue<std::pair<float, int>, std::vector<std::pair<float, int>>,
+                      std::greater<std::pair<float, int>>>
+      pq;
+
+  for (int i = 0; i < feature_map_peaks_flat.size(); ++i) {
+    if (feature_map_peaks_flat[i] < 0) {
+      continue;
+    }
+    
+    if (pq.size() < num_boxes_) {
+      pq.push(std::pair<float, int>(feature_map_peaks_flat[i], i));
+    } else if (pq.top().first < feature_map_peaks_flat[i]) {
+      pq.pop();
+      pq.push(std::pair<float, int>(feature_map_peaks_flat[i], i));
+    }    
+  }
+
+  while (!pq.empty()) {
+    top_k_indexes.push_back(pq.top().second);
+    top_k_scores.push_back(pq.top().first);
+    pq.pop();
+  }
+  reverse(top_k_indexes.begin(), top_k_indexes.end());
+  reverse(top_k_scores.begin(), top_k_scores.end());
+
+  const float x_scale = 16.0 / 512.0;
+  const float y_scale = 16.0 / 512.0; // 288.0; // 512 * (1080/1920) = 288
+  const float aspect_ratio = 1920.0 / 1080.0;
+
   for (int i = 0; i < num_boxes_; ++i) {
+    detection_scores[i] = top_k_scores[i]; //max_score;
+    detection_classes[i] = top_k_indexes[i] % num_classes_; //class_id;
+    int y = top_k_indexes[i] / num_classes_ / width;
+    int x = top_k_indexes[i] / num_classes_ - (y * width);
+    // ct_offset[y, x]
+    
     const int box_offset = i * num_coords_;
-    const float ymin = 0;
-    const float xmin = 0;
-    const float ymax = 0;
-    const float xmax = 0;
+    const float yoff = ct_offset[x*2 + y*2*width];
+    const float xoff = ct_offset[x*2 + y*2*width + 1];
+
+    const float ymin = ((y + yoff) * 16 - 112.0) / 288; // (512 - 288) / 2 = 112
+    #if 0
+    const float ymin =  (y + yoff) * y_scale;
+    if(i == 0){
+      std::cout << (y + yoff) * 16 << std::endl;
+    }
+    #endif
+    const float xmin = (x + xoff) * x_scale;
+    const float ymax = ymin + 0.1;
+    const float xmax = xmin + 0.1;
     (boxes)[i * num_coords_ + 0] = ymin;
     (boxes)[i * num_coords_ + 1] = xmin;
     (boxes)[i * num_coords_ + 2] = ymax;

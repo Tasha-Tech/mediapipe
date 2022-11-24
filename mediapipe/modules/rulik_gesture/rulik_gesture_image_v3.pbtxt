@@ -36,6 +36,7 @@ node {
     [mediapipe.FlowLimiterCalculatorOptions.ext] {
       max_in_flight: 1
       max_in_queue: 1
+      allow_interval: 200000
     }
   }
 }
@@ -57,6 +58,7 @@ node {
         max: 1.0
       }
       gpu_origin: TOP_LEFT
+      # gpu_origin: CONVENTIONAL
     }
   }
 }

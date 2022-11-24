@@ -126,12 +126,6 @@ absl::Status RunMPPGraph() {
   LOG(INFO) << "Start running the calculator graph.";
   ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller poller, graph.AddOutputStreamPoller(kOutputStream));
 
-  #define ENABLE_PALM_DETECTONS 1
-  #if ENABLE_PALM_DETECTONS
-  ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller palm_detections_poller, graph.AddOutputStreamPoller(kOutputPalmDetections));
-  palm_detections_poller.SetMaxQueueSize(3);
-  #endif /* ENABLE_PALM_DETECTONS */
-
   #define ENABLE_GESTURE_DETECTONS 1
   #if ENABLE_GESTURE_DETECTONS
   ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller gesture_detections_poller, graph.AddOutputStreamPoller(kOutputGestureDetections));
@@ -307,36 +301,6 @@ absl::Status RunMPPGraph() {
     else
       cv::cvtColor(output_frame_mat, output_frame_mat, cv::COLOR_RGB2BGR);
     
-    #if ENABLE_PALM_DETECTONS
-    // Get the graph result packets, or stop if that fails.
-    if(palm_detections_poller.QueueSize() > 0){                   
-      mediapipe::Packet detections_packet;
-      while(palm_detections_poller.QueueSize() > 0){
-        palm_detections_poller.Next(&detections_packet);
-      }
-      
-      const auto& detections = detections_packet.Get<std::vector<mediapipe::Detection>>();
-      
-      for (const auto& detection : detections) {
-        const auto& score = detection.score();
-        const auto& location = detection.location_data();
-        const auto& relative_bounding_box = location.relative_bounding_box();
-        for(int i = 0; i < detection.label_id_size(); i++){          
-          std::cout << "Palm Score " << score[i] << std::endl;
-        }
-        int x = relative_bounding_box.xmin() * output_frame_mat.cols;
-        int y = (/* 1.0 - */relative_bounding_box.ymin()) * output_frame_mat.rows;
-        int width = relative_bounding_box.width() * output_frame_mat.cols;
-        int height = relative_bounding_box.height() * output_frame_mat.rows;
-        //y -= height;
-        cv::Rect rect(x, y, width, height);
-        //cv::rectangle(output_frame_mat, rect, cv::Scalar(255, 0, 0), 3);
-        char text[255];
-        std::sprintf(text,"%0.2f",score[0]);
-        //putText(output_frame_mat, text, cv::Point(x + 10, y + height / 2), cv::FONT_HERSHEY_SIMPLEX, 0.8, cv::Scalar(255, 0, 0), 2);
-      }
-    }    
-    #endif /* ENABLE_PALM_DETECTONS */
 
     #if ENABLE_GESTURE_DETECTONS
     if(!use_capture || gesture_detections_poller.QueueSize() > 0){
@@ -353,7 +317,26 @@ absl::Status RunMPPGraph() {
 
       if(!detections_packet.IsEmpty()) {
         const auto& detections = detections_packet.Get<std::vector<mediapipe::Detection>>();
-        std::cout << "We got " << detections.size() << " detections" << std::endl;
+        //std::cout << "We got " << detections.size() << " detections" << std::endl;
+        std::map<int,std::string> class_map{{0, "fist_left"}, {1, "fist_right"}, {2, "like_left"}, {3, "like_right"}, 
+                                           {4, "no_gesture_left"}, {5, "no_gesture_right"}, 
+                                           {6, "peace_left"}, {7, "peace_right"}, {8, "stop_left"}, {9, "stop_right"}};
+
+        std::cout << "Score " << "Class " << std::endl; 
+        for (const auto& detection : detections) {
+          if(detection.score()[0] < 0.4)
+            continue;
+          std::cout << detection.score()[0] << " " << detection.label_id()[0] << std::endl;
+          const auto& bbox = detection.location_data().relative_bounding_box();
+          cv::Point center(bbox.xmin() * output_frame_mat.cols, bbox.ymin() * output_frame_mat.rows);
+          cv::circle(output_frame_mat, center, 8, cv::Scalar(255, 0, 0), 2);
+          char text[255];
+          int class_id = detection.label_id()[0];
+          std::string  class_name = class_map[class_id];
+          std::sprintf(text,"%0.2f - %s", detection.score()[0], class_name.c_str());
+          putText(output_frame_mat, text, cv::Point(center.x, center.y - 16), cv::FONT_HERSHEY_SIMPLEX, 0.8, cv::Scalar(255, 0, 0), 2);          
+        }        
+        
       }   
     }
 
@@ -361,7 +344,7 @@ absl::Status RunMPPGraph() {
 
     cv::resize(output_frame_mat, output_frame_mat, cv::Size(1280, 720));
     cv::imshow(kWindowName, output_frame_mat);
-    // Press 'Esc' key to exit.
+    // Press 'Esc" key to exit.
     
     if(!use_capture){
       pressed_key = cv::waitKey(0);
