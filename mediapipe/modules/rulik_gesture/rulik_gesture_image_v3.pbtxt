@@ -42,7 +42,7 @@ node {
 }
 
 
-# Transforms a region of image into a 512x512 tensor while keeping the aspect
+# Transforms a region of image into a 256x128 tensor while keeping the aspect
 # ratio, and therefore may result in potential letterboxing.
 node {
   calculator: "ImageToTensorCalculator"
@@ -50,8 +50,8 @@ node {
   output_stream: "TENSORS:input_tensor"  
   options: {
     [mediapipe.ImageToTensorCalculatorOptions.ext] {
-      output_tensor_width: 512
-      output_tensor_height: 512
+      output_tensor_width: 256
+      output_tensor_height: 128
       keep_aspect_ratio: true
       output_tensor_float_range {
         min: -1.0
@@ -72,9 +72,10 @@ node {
   output_stream: "TENSORS:gesture_tensors"
   options: {
     [mediapipe.InferenceCalculatorOptions.ext] {
-      model_path: "mediapipe/modules/rulik_gesture/ruliknet_v0.tflite"
+      model_path: "mediapipe/modules/rulik_gesture/ruliknet_v2.tflite"
       #
-      delegate: { gpu { use_advanced_gpu_api: false } }
+      # delegate: { gpu { use_advanced_gpu_api: false } }
+      delegate { xnnpack {} }
     }
   }
 }

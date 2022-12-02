@@ -152,12 +152,13 @@ absl::Status GestureTensorsToDetectionsCalculator::ProcessCPU(CalculatorContext*
   auto ct_offset_tensor = &input_tensors[2];
 
   auto feature_map_view = feature_map_tensor->GetCpuReadView();
-  auto feature_map_max_pool_view = feature_map_max_pool_tensor->GetCpuReadView();
-  auto ct_offset_view = ct_offset_tensor->GetCpuReadView();
+  auto feature_map = feature_map_view.buffer<float>();
 
-  const float * feature_map = feature_map_view.buffer<float>();
-  const float * feature_map_max_pool = feature_map_max_pool_view.buffer<float>();
-  const float * ct_offset = ct_offset_view.buffer<float>();
+  auto feature_map_max_pool_view = feature_map_max_pool_tensor->GetCpuReadView();
+  auto feature_map_max_pool = feature_map_max_pool_view.buffer<float>();
+
+  auto ct_offset_view = ct_offset_tensor->GetCpuReadView();  
+  auto ct_offset = ct_offset_view.buffer<float>();
 
   int height = feature_map_tensor->shape().dims[1];
   int width = feature_map_tensor->shape().dims[2];
@@ -206,8 +207,8 @@ absl::Status GestureTensorsToDetectionsCalculator::ProcessCPU(CalculatorContext*
   reverse(top_k_indexes.begin(), top_k_indexes.end());
   reverse(top_k_scores.begin(), top_k_scores.end());
 
-  const float x_scale = 16.0 / 512.0;
-  const float y_scale = 16.0 / 512.0; // 288.0; // 512 * (1080/1920) = 288
+  const float x_scale = 8.0 / 256.0;
+  const float y_scale = 8.0 / 128.0; // 144.0; // 256 * (1080/1920) = 144
   const float aspect_ratio = 1920.0 / 1080.0;
 
   for (int i = 0; i < num_boxes_; ++i) {
@@ -221,13 +222,9 @@ absl::Status GestureTensorsToDetectionsCalculator::ProcessCPU(CalculatorContext*
     const float yoff = ct_offset[x*2 + y*2*width];
     const float xoff = ct_offset[x*2 + y*2*width + 1];
 
-    const float ymin = ((y + yoff) * 16 - 112.0) / 288; // (512 - 288) / 2 = 112
-    #if 0
-    const float ymin =  (y + yoff) * y_scale;
-    if(i == 0){
-      std::cout << (y + yoff) * 16 << std::endl;
-    }
-    #endif
+    //const float ymin = ((y + yoff) * 8 - 56.0) / 144.0; // (256 - 144) / 2 = 56
+    const float ymin = (y + yoff) * y_scale;
+    
     const float xmin = (x + xoff) * x_scale;
     const float ymax = ymin + 0.1;
     const float xmax = xmin + 0.1;
@@ -237,81 +234,6 @@ absl::Status GestureTensorsToDetectionsCalculator::ProcessCPU(CalculatorContext*
     (boxes)[i * num_coords_ + 3] = xmax;
   }
 
-# if 0
-  // Postprocessing on CPU for model without postprocessing op. E.g. output
-  // raw score tensor and box tensor. Anchor decoding will be handled below.
-  // TODO: Add flexible input tensor size handling.
-  auto raw_box_tensor =
-      &input_tensors[tensor_mapping_.detections_tensor_index()];
-  RET_CHECK_EQ(raw_box_tensor->shape().dims.size(), 3);
-  RET_CHECK_EQ(raw_box_tensor->shape().dims[0], 1);
-  RET_CHECK_GT(num_boxes_, 0) << "Please set num_boxes in calculator options";
-  RET_CHECK_EQ(raw_box_tensor->shape().dims[1], num_boxes_);
-  RET_CHECK_EQ(raw_box_tensor->shape().dims[2], num_coords_);
-  auto raw_score_tensor =
-      &input_tensors[tensor_mapping_.scores_tensor_index()];
-  RET_CHECK_EQ(raw_score_tensor->shape().dims.size(), 3);
-  RET_CHECK_EQ(raw_score_tensor->shape().dims[0], 1);
-  RET_CHECK_EQ(raw_score_tensor->shape().dims[1], num_boxes_);
-  RET_CHECK_EQ(raw_score_tensor->shape().dims[2], num_classes_);
-  auto raw_box_view = raw_box_tensor->GetCpuReadView();
-  auto raw_boxes = raw_box_view.buffer<float>();
-  auto raw_scores_view = raw_score_tensor->GetCpuReadView();
-  auto raw_scores = raw_scores_view.buffer<float>();
-
-  // TODO: Support other options to load anchors.
-  if (!anchors_init_) {
-    if (input_tensors.size() == kNumInputTensorsWithAnchors) {
-      auto anchor_tensor =
-          &input_tensors[tensor_mapping_.anchors_tensor_index()];
-      RET_CHECK_EQ(anchor_tensor->shape().dims.size(), 2);
-      RET_CHECK_EQ(anchor_tensor->shape().dims[0], num_boxes_);
-      RET_CHECK_EQ(anchor_tensor->shape().dims[1], kNumCoordsPerBox);
-      auto anchor_view = anchor_tensor->GetCpuReadView();
-      auto raw_anchors = anchor_view.buffer<float>();
-      ConvertRawValuesToAnchors(raw_anchors, num_boxes_, &anchors_);
-    } else if (!kInAnchors(cc).IsEmpty()) {
-      anchors_ = *kInAnchors(cc);
-    } else {
-      return absl::UnavailableError("No anchor data available.");
-    }
-    anchors_init_ = true;
-  }
-  std::vector<float> boxes(num_boxes_ * num_coords_);
-  MP_RETURN_IF_ERROR(DecodeBoxes(raw_boxes, anchors_, &boxes));
-
-  std::vector<float> detection_scores(num_boxes_);
-  std::vector<int> detection_classes(num_boxes_);
-
-  // Filter classes by scores.
-  for (int i = 0; i < num_boxes_; ++i) {
-    int class_id = -1;
-    float max_score = -std::numeric_limits<float>::max();
-    // Find the top score for box i.
-    for (int score_idx = 0; score_idx < num_classes_; ++score_idx) {
-      if (IsClassIndexAllowed(score_idx)) {
-        auto score = raw_scores[i * num_classes_ + score_idx];
-        if (options_.sigmoid_score()) {
-          if (options_.has_score_clipping_thresh()) {
-            score = score < -options_.score_clipping_thresh()
-                        ? -options_.score_clipping_thresh()
-                        : score;
-            score = score > options_.score_clipping_thresh()
-                        ? options_.score_clipping_thresh()
-                        : score;
-          }
-          score = 1.0f / (1.0f + std::exp(-score));
-        }
-        if (max_score < score) {
-          max_score = score;
-          class_id = score_idx;
-        }
-      }
-    }
-    detection_scores[i] = max_score;
-    detection_classes[i] = class_id;
-  }
-#endif
   MP_RETURN_IF_ERROR(
       ConvertToDetections(boxes.data(), detection_scores.data(),
                           detection_classes.data(), output_detections));

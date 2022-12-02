@@ -138,7 +138,7 @@ absl::Status BackgroundExtractorCalculator::Process(CalculatorContext* cc) {
   if(cc->Inputs().Tag(kRgbInTag).IsEmpty()) {
     return absl::OkStatus();
   }
-
+  
   switch(mode){
     case MODE_NORMAL:
     Normal(cc);

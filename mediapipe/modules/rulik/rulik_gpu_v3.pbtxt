@@ -29,12 +29,6 @@ node {
 }
 
 node {
-  calculator: "RulikGestureImageV3"
-  input_stream: "IMAGE:throttled_image"  
-  output_stream: "DETECTIONS:gesture_detections"  
-}
-
-node {
   calculator: "ImageCloneCalculator"
   input_stream: "throttled_image"
   output_stream: "throttled_image_clone"
@@ -71,6 +65,13 @@ node {
     }
   }
 }
+
+node {
+  calculator: "RulikGestureImageV3"
+  input_stream: "IMAGE:throttled_image"  
+  output_stream: "DETECTIONS:gesture_detections"  
+}
+
 
 # Transfers the image from CPU back to GPU memory, to be sent out of the graph.
 node: {

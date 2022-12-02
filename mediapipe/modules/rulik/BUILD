@@ -31,7 +31,7 @@ cc_library(
         "//mediapipe/calculators/image:image_transformation_calculator",
         # "//mediapipe/calculators/image:recolor_calculator_v1",
         # "//mediapipe/calculators/image:color_convert_calculator",
-        "//mediapipe/calculators/image:background_extractor_calculator",
+        # "//mediapipe/calculators/image:background_extractor_calculator",
         "//mediapipe/calculators/image:image_clone_calculator",
         
         "//mediapipe/calculators/util:from_image_calculator",
@@ -47,6 +47,7 @@ cc_library(
         # "//mediapipe/modules/face_detection:face_detection_short_range_image",
         # "//mediapipe/modules/face_detection:face_detection_full_range_image",
         "//mediapipe/modules/rulik_gesture:rulik_gesture_image",
+        "//mediapipe/modules/rulik/calculators:background_extractor_calculator",
     ],
 )
 

@@ -110,27 +110,6 @@ cc_library(
 )
 
 cc_library(
-    name = "background_extractor_calculator",
-    srcs = ["background_extractor_calculator.cc"],
-    visibility = ["//visibility:public"],
-    deps = [
-        "//mediapipe/framework:calculator_framework",
-        "//mediapipe/framework:timestamp",
-        "//mediapipe/framework/formats:image",
-        "//mediapipe/framework/formats:image_frame",
-        "//mediapipe/framework/formats:image_frame_opencv",
-        "//mediapipe/framework/formats:detection_cc_proto",
-        "//mediapipe/framework/port:integral_types",
-        "//mediapipe/framework/port:logging",
-        "//mediapipe/framework/port:opencv_imgproc",
-        "//mediapipe/framework/port:ret_check",
-        "//mediapipe/framework/port:source_location",
-        "//mediapipe/framework/port:status",
-    ],
-    alwayslink = 1,
-)
-
-cc_library(
     name = "opencv_encoded_image_to_image_frame_calculator",
     srcs = ["opencv_encoded_image_to_image_frame_calculator.cc"],
     visibility = ["//visibility:public"],

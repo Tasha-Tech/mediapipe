@@ -304,7 +304,7 @@ absl::Status RunMPPGraph() {
 
     #if ENABLE_GESTURE_DETECTONS
     if(!use_capture || gesture_detections_poller.QueueSize() > 0){
-      std::cout << "QueueSize " << gesture_detections_poller.QueueSize() << std::endl;
+      //std::cout << "QueueSize " << gesture_detections_poller.QueueSize() << std::endl;
       mediapipe::Packet detections_packet;
       
       if(false && !use_capture){
@@ -324,7 +324,7 @@ absl::Status RunMPPGraph() {
 
         std::cout << "Score " << "Class " << std::endl; 
         for (const auto& detection : detections) {
-          if(detection.score()[0] < 0.4)
+          if(detection.score()[0] < 0.5)
             continue;
           std::cout << detection.score()[0] << " " << detection.label_id()[0] << std::endl;
           const auto& bbox = detection.location_data().relative_bounding_box();

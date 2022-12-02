@@ -17,16 +17,21 @@ licenses(["notice"])
 package(default_visibility = ["//visibility:public"])
 
 cc_library(
-    name = "hand_landmarks_to_rect_calculator",
-    srcs = ["hand_landmarks_to_rect_calculator.cc"],
+    name = "background_extractor_calculator",
+    srcs = ["background_extractor_calculator.cc"],
     visibility = ["//visibility:public"],
     deps = [
         "//mediapipe/framework:calculator_framework",
-        "//mediapipe/framework:calculator_options_cc_proto",
-        "//mediapipe/framework/formats:landmark_cc_proto",
-        "//mediapipe/framework/formats:location_data_cc_proto",
-        "//mediapipe/framework/formats:rect_cc_proto",
+        "//mediapipe/framework:timestamp",
+        "//mediapipe/framework/formats:image",
+        "//mediapipe/framework/formats:image_frame",
+        "//mediapipe/framework/formats:image_frame_opencv",
+        "//mediapipe/framework/formats:detection_cc_proto",
+        "//mediapipe/framework/port:integral_types",
+        "//mediapipe/framework/port:logging",
+        "//mediapipe/framework/port:opencv_imgproc",
         "//mediapipe/framework/port:ret_check",
+        "//mediapipe/framework/port:source_location",
         "//mediapipe/framework/port:status",
     ],
     alwayslink = 1,

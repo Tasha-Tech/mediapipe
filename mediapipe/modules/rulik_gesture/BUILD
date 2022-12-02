@@ -56,7 +56,9 @@ mediapipe_simple_subgraph(
 
 exports_files(
     srcs = [
-        "mfs_v3.1.tflite",        
+        #"mfs_v3.1.tflite",
+        #"ruliknet_v0.tflite",
+        "ruliknet_v2.tflite",
     ],
 )
 
@@ -91,5 +93,24 @@ mediapipe_simple_subgraph(
         # "//mediapipe/modules/palm_detection:palm_detection_gpu",
         # "//mediapipe/modules/hand_landmark:palm_detection_detection_to_roi",
         "//mediapipe/modules/rulik/calculators:gesture_tensors_to_detections_calculator"
+    ],    
+)
+
+mediapipe_simple_subgraph(
+    name = "rulik_gesture_image_v4",
+    graph = "rulik_gesture_image_v4.pbtxt",
+    register_as = "RulikGestureImageV4",
+    deps = [
+        "//mediapipe/calculators/core:flow_limiter_calculator",           
+        "//mediapipe/calculators/tensor:image_to_tensor_calculator",
+        "//mediapipe/calculators/tensor:inference_calculator",
+        "//mediapipe/calculators/core:gate_calculator",
+        "//mediapipe/calculators/image:image_clone_calculator",
+        "//mediapipe/calculators/image:image_transformation_calculator",
+
+        "//mediapipe/calculators/tflite:tflite_converter_calculator",
+        "//mediapipe/calculators/tflite:tflite_inference_calculator",
+
+        "//mediapipe/modules/rulik/calculators:gesture_tflite_tensors_to_detections_calculator"
     ],    
 )
