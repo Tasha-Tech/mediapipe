@@ -319,6 +319,7 @@ cc_library(
 
 cc_library(
     name = "tensors_to_detections_calculator_gpu_deps",
+    visibility = ["//visibility:public"],
     deps = select({
         "//mediapipe:ios": [
             "//mediapipe/gpu:MPPMetalUtil",

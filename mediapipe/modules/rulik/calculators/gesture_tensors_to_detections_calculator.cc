@@ -105,7 +105,7 @@ class GestureTensorsToDetectionsCalculator : public Node {
                                bool flip_vertically);
 
   int num_classes_ = 10;
-  int num_boxes_ = 16;
+  int num_boxes_ = 8;
   int num_coords_ = 4;
   int max_results_ = -1;
 
@@ -143,19 +143,11 @@ absl::Status GestureTensorsToDetectionsCalculator::ProcessCPU(CalculatorContext*
 
   //std::cout << "Received " << input_tensors.size() << " tensors" << std::endl;
 
-  std::vector<float> boxes(num_boxes_ * num_coords_);  
-  std::vector<float> detection_scores(num_boxes_);
-  std::vector<int> detection_classes(num_boxes_);
-
-  auto feature_map_tensor = &input_tensors[0];
-  auto feature_map_max_pool_tensor = &input_tensors[1];
-  auto ct_offset_tensor = &input_tensors[2];
+  auto feature_map_tensor = &input_tensors[0];  
+  auto ct_offset_tensor = &input_tensors[1];
 
   auto feature_map_view = feature_map_tensor->GetCpuReadView();
   auto feature_map = feature_map_view.buffer<float>();
-
-  auto feature_map_max_pool_view = feature_map_max_pool_tensor->GetCpuReadView();
-  auto feature_map_max_pool = feature_map_max_pool_view.buffer<float>();
 
   auto ct_offset_view = ct_offset_tensor->GetCpuReadView();  
   auto ct_offset = ct_offset_view.buffer<float>();
@@ -164,11 +156,10 @@ absl::Status GestureTensorsToDetectionsCalculator::ProcessCPU(CalculatorContext*
   int width = feature_map_tensor->shape().dims[2];
   int num_classes_ = feature_map_tensor->shape().dims[3];
 
+#if 0
   std::vector<float> feature_map_peaks_flat(height * width * num_classes_);
-
-  const float * feature_map_ptr = feature_map;
+  const float * feature_map_ptr = feature_map;  
   const float * feature_map_max_pool_ptr = feature_map_max_pool;
-
   for (auto peak = begin (feature_map_peaks_flat); peak != end (feature_map_peaks_flat); ++peak) {
     if(abs(*feature_map_ptr - *feature_map_max_pool_ptr) < 1e-6){
       *peak = *feature_map_ptr;
@@ -178,6 +169,7 @@ absl::Status GestureTensorsToDetectionsCalculator::ProcessCPU(CalculatorContext*
     feature_map_ptr++;
     feature_map_max_pool_ptr++;
   }
+#endif
 
   std::vector<int> top_k_indexes(num_boxes_);
   std::vector<float> top_k_scores(num_boxes_);
@@ -186,16 +178,16 @@ absl::Status GestureTensorsToDetectionsCalculator::ProcessCPU(CalculatorContext*
                       std::greater<std::pair<float, int>>>
       pq;
 
-  for (int i = 0; i < feature_map_peaks_flat.size(); ++i) {
-    if (feature_map_peaks_flat[i] < 0) {
+  for (int i = 0; i < height * width * num_classes_; ++i) {
+    if (feature_map[i] < 0.001) {
       continue;
     }
     
     if (pq.size() < num_boxes_) {
-      pq.push(std::pair<float, int>(feature_map_peaks_flat[i], i));
-    } else if (pq.top().first < feature_map_peaks_flat[i]) {
+      pq.push(std::pair<float, int>(feature_map[i], i));
+    } else if (pq.top().first < feature_map[i]) {
       pq.pop();
-      pq.push(std::pair<float, int>(feature_map_peaks_flat[i], i));
+      pq.push(std::pair<float, int>(feature_map[i], i));
     }    
   }
 
@@ -211,7 +203,14 @@ absl::Status GestureTensorsToDetectionsCalculator::ProcessCPU(CalculatorContext*
   const float y_scale = 8.0 / 128.0; // 144.0; // 256 * (1080/1920) = 144
   const float aspect_ratio = 1920.0 / 1080.0;
 
+  std::vector<float> boxes(num_boxes_ * num_coords_, 0.0);  
+  std::vector<float> detection_scores(num_boxes_, 0.0);
+  std::vector<int> detection_classes(num_boxes_,0);
+
   for (int i = 0; i < num_boxes_; ++i) {
+    if(top_k_scores[i] < 1e-3){
+      continue;
+    }
     detection_scores[i] = top_k_scores[i]; //max_score;
     detection_classes[i] = top_k_indexes[i] % num_classes_; //class_id;
     int y = top_k_indexes[i] / num_classes_ / width;

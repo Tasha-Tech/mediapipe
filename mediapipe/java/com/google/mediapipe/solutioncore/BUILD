@@ -155,7 +155,7 @@ mediapipe_aar(
 
         # "//mediapipe/modules/rulik_gesture:mfs_v3.1.tflite",
         # "//mediapipe/modules/rulik_gesture:ruliknet_v0.tflite",
-        "//mediapipe/modules/rulik_gesture:ruliknet_v2.tflite",
+        "//mediapipe/modules/rulik_gesture:ruliknet_v2_fp16.tflite",
         "//mediapipe/modules/rulik:rulik_gpu_v3.binarypb",
 
         # "//mediapipe/modules/pose_landmark:pose_landmark_full.tflite",

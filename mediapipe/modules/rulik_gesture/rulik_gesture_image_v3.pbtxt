@@ -36,7 +36,7 @@ node {
     [mediapipe.FlowLimiterCalculatorOptions.ext] {
       max_in_flight: 1
       max_in_queue: 1
-      allow_interval: 200000
+      # allow_interval: 200000
     }
   }
 }
@@ -72,10 +72,12 @@ node {
   output_stream: "TENSORS:gesture_tensors"
   options: {
     [mediapipe.InferenceCalculatorOptions.ext] {
-      model_path: "mediapipe/modules/rulik_gesture/ruliknet_v2.tflite"
+      model_path: "mediapipe/modules/rulik_gesture/ruliknet_v2_fp16.tflite"
       #
-      # delegate: { gpu { use_advanced_gpu_api: false } }
-      delegate { xnnpack {} }
+      delegate: { gpu { use_advanced_gpu_api: true } }
+      # delegate: { xnnpack {} }
+      # delegate: { tflite {} }
+      # use_gpu: true
     }
   }
 }

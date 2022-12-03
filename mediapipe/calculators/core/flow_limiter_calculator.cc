@@ -121,11 +121,12 @@ class FlowLimiterCalculator : public CalculatorBase {
 
       if(latest_allow_ts == Timestamp::Unstarted()){
         latest_allow_ts = latest_ts;
-      }
-      if(latest_ts - latest_allow_ts < allow_interval){
-        allowed = false;
       } else {
-        latest_allow_ts = latest_ts;
+        if(latest_ts - latest_allow_ts < allow_interval){
+          allowed = false;
+        } else {
+          latest_allow_ts = latest_ts;
+        }
       }
     }
     return allowed;

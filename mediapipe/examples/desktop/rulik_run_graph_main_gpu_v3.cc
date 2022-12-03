@@ -196,10 +196,11 @@ absl::Status RunMPPGraph() {
 
     cv::Mat input_frame_mat;
     std::unique_ptr<mediapipe::ImageFrame> input_frame;
+    
     if(use_capture) {
       // Wrap Mat into an ImageFrame.
       input_frame = absl::make_unique<mediapipe::ImageFrame>(
-          mediapipe::ImageFormat::SRGBA, 1280, 720, 
+          mediapipe::ImageFormat::SRGBA, 1920, 1080, 
           mediapipe::ImageFrame::kGlDefaultAlignmentBoundary);
 
       input_frame_mat = mediapipe::formats::MatView(input_frame.get());
@@ -215,15 +216,17 @@ absl::Status RunMPPGraph() {
 
       input_frame_mat = mediapipe::formats::MatView(input_frame.get());
       
-      
+      /*
       const int offsetW = (camera_frame.cols - cropSizeX) / 2;
       const int offsetH = (camera_frame.rows - cropSizeY) / 2;
       const cv::Rect roi(offsetW, offsetH, cropSizeX, cropSizeY);
       camera_frame = camera_frame(roi).clone();
+      */
+      cv::resize(camera_frame, camera_frame, cv::Size(640, 360));
+      cv::resize(camera_frame, camera_frame, cv::Size(1920, 1080));
 
       camera_frame.copyTo(input_frame_mat);
     }
-    
 
     // Prepare and add graph input packet.
     size_t frame_timestamp_us = (double)cv::getTickCount() / (double)cv::getTickFrequency() * 1e6;
@@ -307,7 +310,7 @@ absl::Status RunMPPGraph() {
       //std::cout << "QueueSize " << gesture_detections_poller.QueueSize() << std::endl;
       mediapipe::Packet detections_packet;
       
-      if(false && !use_capture){
+      if(!use_capture){
         gesture_detections_poller.Next(&detections_packet);
       } else {
         while(gesture_detections_poller.QueueSize() > 0){
@@ -322,10 +325,12 @@ absl::Status RunMPPGraph() {
                                            {4, "no_gesture_left"}, {5, "no_gesture_right"}, 
                                            {6, "peace_left"}, {7, "peace_right"}, {8, "stop_left"}, {9, "stop_right"}};
 
-        std::cout << "Score " << "Class " << std::endl; 
+        std::cout << "Score " << "Class " << std::endl;
+        int counter = 0;
         for (const auto& detection : detections) {
-          if(detection.score()[0] < 0.5)
+          if(detection.score()[0] < 1e-3){ // All scores for still image
             continue;
+          }
           std::cout << detection.score()[0] << " " << detection.label_id()[0] << std::endl;
           const auto& bbox = detection.location_data().relative_bounding_box();
           cv::Point center(bbox.xmin() * output_frame_mat.cols, bbox.ymin() * output_frame_mat.rows);

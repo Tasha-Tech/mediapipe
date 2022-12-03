@@ -58,7 +58,7 @@ exports_files(
     srcs = [
         #"mfs_v3.1.tflite",
         #"ruliknet_v0.tflite",
-        "ruliknet_v2.tflite",
+        "ruliknet_v2_fp16.tflite",
     ],
 )
 
