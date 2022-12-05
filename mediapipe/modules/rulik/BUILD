@@ -48,6 +48,7 @@ cc_library(
         # "//mediapipe/modules/face_detection:face_detection_full_range_image",
         "//mediapipe/modules/rulik_gesture:rulik_gesture_image",
         "//mediapipe/modules/rulik/calculators:background_extractor_calculator",
+        "//mediapipe/modules/rulik/calculators:rulik_tensor_recorder_calculator",
     ],
 )
 

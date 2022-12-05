@@ -179,7 +179,7 @@ absl::Status GestureTensorsToDetectionsCalculator::ProcessCPU(CalculatorContext*
       pq;
 
   for (int i = 0; i < height * width * num_classes_; ++i) {
-    if (feature_map[i] < 0.001) {
+    if (feature_map[i] < 0.1) {
       continue;
     }
     
@@ -199,8 +199,8 @@ absl::Status GestureTensorsToDetectionsCalculator::ProcessCPU(CalculatorContext*
   reverse(top_k_indexes.begin(), top_k_indexes.end());
   reverse(top_k_scores.begin(), top_k_scores.end());
 
-  const float x_scale = 8.0 / 256.0;
-  const float y_scale = 8.0 / 128.0; // 144.0; // 256 * (1080/1920) = 144
+  const float x_scale = 8.0 / 512.0;
+  const float y_scale = 8.0 / 256.0; // 144.0; // 256 * (1080/1920) = 144
   const float aspect_ratio = 1920.0 / 1080.0;
 
   std::vector<float> boxes(num_boxes_ * num_coords_, 0.0);  
@@ -224,7 +224,8 @@ absl::Status GestureTensorsToDetectionsCalculator::ProcessCPU(CalculatorContext*
     //const float ymin = ((y + yoff) * 8 - 56.0) / 144.0; // (256 - 144) / 2 = 56
     const float ymin = (y + yoff) * y_scale;
     
-    const float xmin = (x + xoff) * x_scale;
+    const float xmin = ((x + xoff) * 8 - 28.5) / 455.1;
+    //const float xmin = (x + xoff) * x_scale;
     const float ymax = ymin + 0.1;
     const float xmax = xmin + 0.1;
     (boxes)[i * num_coords_ + 0] = ymin;

@@ -189,7 +189,7 @@ absl::Status RunMPPGraph() {
     }
 
     cv::Mat camera_frame;
-    cv::cvtColor(camera_frame_raw, camera_frame, cv::COLOR_BGR2RGBA);
+    cv::cvtColor(camera_frame_raw, camera_frame, cv::COLOR_BGR2RGBA);    
     if (!load_video) {
       cv::flip(camera_frame, camera_frame, /*flipcode=HORIZONTAL*/ 1);
     }
@@ -222,8 +222,8 @@ absl::Status RunMPPGraph() {
       const cv::Rect roi(offsetW, offsetH, cropSizeX, cropSizeY);
       camera_frame = camera_frame(roi).clone();
       */
-      cv::resize(camera_frame, camera_frame, cv::Size(640, 360));
-      cv::resize(camera_frame, camera_frame, cv::Size(1920, 1080));
+      //cv::resize(camera_frame, camera_frame, cv::Size(640, 360));
+      //cv::resize(camera_frame, camera_frame, cv::Size(1920, 1080));
 
       camera_frame.copyTo(input_frame_mat);
     }

@@ -36,11 +36,10 @@ node {
     [mediapipe.FlowLimiterCalculatorOptions.ext] {
       max_in_flight: 1
       max_in_queue: 1
-      # allow_interval: 200000
+      # allow_interval: 100000
     }
   }
 }
-
 
 # Transforms a region of image into a 256x128 tensor while keeping the aspect
 # ratio, and therefore may result in potential letterboxing.
@@ -50,8 +49,8 @@ node {
   output_stream: "TENSORS:input_tensor"  
   options: {
     [mediapipe.ImageToTensorCalculatorOptions.ext] {
-      output_tensor_width: 256
-      output_tensor_height: 128
+      output_tensor_width: 512
+      output_tensor_height: 256
       keep_aspect_ratio: true
       output_tensor_float_range {
         min: -1.0
@@ -63,6 +62,13 @@ node {
   }
 }
 
+
+# node {
+#   calculator: "RulikTensorRecorderCalculator"
+#   input_stream: "TENSORS:input_tensor"  
+# }
+
+
 # Runs a TensorFlow Lite model on GPU that takes an image tensor and outputs a
 # vector of tensors representing, for instance, detection boxes/keypoints and
 # scores.
@@ -72,7 +78,7 @@ node {
   output_stream: "TENSORS:gesture_tensors"
   options: {
     [mediapipe.InferenceCalculatorOptions.ext] {
-      model_path: "mediapipe/modules/rulik_gesture/ruliknet_v2_fp16.tflite"
+      model_path: "mediapipe/modules/rulik_gesture/ruliknet_v3_fp16.tflite"
       #
       delegate: { gpu { use_advanced_gpu_api: true } }
       # delegate: { xnnpack {} }

@@ -58,3 +58,25 @@ cc_library(
     ],    
     alwayslink = 1,
 )
+
+cc_library(
+    name = "rulik_tensor_recorder_calculator",
+    srcs = ["rulik_tensor_recorder_calculator.cc"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//mediapipe/framework:calculator_framework",
+        "//mediapipe/framework:calculator_options_cc_proto",
+        "//mediapipe/framework/formats:rect_cc_proto",
+        "//mediapipe/framework/port:ret_check",
+        "//mediapipe/framework/port:status",
+        "//mediapipe/calculators/tensor:tensors_to_detections_calculator_cc_proto",
+        "//mediapipe/framework/formats:detection_cc_proto",
+        "@com_google_absl//absl/strings:str_format",
+        "@com_google_absl//absl/types:span",
+        "//mediapipe/framework/api2:node",                
+        "//mediapipe/framework/deps:file_path",
+        "//mediapipe/framework/formats:location",
+        "//mediapipe/framework/formats:tensor",
+    ],    
+    alwayslink = 1,
+)
