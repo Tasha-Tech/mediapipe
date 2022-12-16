@@ -325,7 +325,7 @@ absl::Status RunMPPGraph() {
                                            {4, "no_gesture_left"}, {5, "no_gesture_right"}, 
                                            {6, "peace_left"}, {7, "peace_right"}, {8, "stop_left"}, {9, "stop_right"}};
 
-        std::cout << "Score " << "Class " << std::endl;
+        //std::cout << "Score " << "Class " << std::endl;
         int counter = 0;
         for (const auto& detection : detections) {
           if(detection.score()[0] < 1e-3){ // All scores for still image

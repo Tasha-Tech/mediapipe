@@ -57,6 +57,7 @@ mediapipe_simple_subgraph(
 exports_files(
     srcs = [
         "ruliknet_v3_fp16.tflite",
+        "rulikseg_v1e.tflite",
     ],
 )
 

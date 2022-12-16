@@ -25,6 +25,7 @@
 
 #include "mediapipe/framework/formats/image.h"
 #include "mediapipe/framework/formats/image_frame.h"
+#include "mediapipe/framework/formats/tensor.h"
 
 namespace mediapipe {
 namespace {
@@ -41,7 +42,11 @@ void SetColorChannel(int channel, uint8 value, cv::Mat* mat) {
 }
 
 constexpr char kRgbInTag[] = "RGB_IN";
+constexpr char kMaskTag[] = "MASK";
+
 constexpr char kRgbOutTag[] = "RGB_OUT";
+constexpr char kTensorOutTag[] = "TENSOR_OUT";
+
 constexpr char kCommandTag[] = "COMMAND";
 constexpr char kDetectionsTag[] = "DETECTIONS";
 }  // namespace
@@ -74,20 +79,28 @@ class BackgroundExtractorCalculator : public CalculatorBase {
   
   int mode = MODE_CALIBRATION; // 2 = calibration
   int command = CMD_NONE;
+  bool tensor_mode = false;
 
   ~BackgroundExtractorCalculator() override = default;
   static absl::Status GetContract(CalculatorContract* cc);
   absl::Status Process(CalculatorContext* cc) override;
   absl::Status Open(CalculatorContext* cc) override {
+    if (cc->Outputs().HasTag(kTensorOutTag)){
+      tensor_mode = true;
+    }
     cc->SetOffset(TimestampDiff(0));
     return absl::OkStatus();
   }
 
-  absl::Status Normal(CalculatorContext* cc);
-  absl::Status Blender(CalculatorContext* cc);
-  absl::Status Calibration(CalculatorContext* cc);
+  absl::Status Normal(CalculatorContext* cc, const ImageFrame& inputFrame);
+  absl::Status Blender(CalculatorContext* cc, const ImageFrame& inputFrame);
+  absl::Status Calibration(CalculatorContext* cc, const ImageFrame& inputFrame);  
 
-  absl::Status PhotoBooth(CalculatorContext* cc);
+  absl::Status PhotoBooth(CalculatorContext* cc, const ImageFrame& inputFrame);
+
+  absl::Status ImageToTensor(CalculatorContext* cc, const ImageFrame& inputFrame);
+
+  void UpdateBgMat(const ImageFrame& inputFrame);
 };
 
 REGISTER_CALCULATOR(BackgroundExtractorCalculator);
@@ -99,6 +112,10 @@ absl::Status BackgroundExtractorCalculator::GetContract(CalculatorContract* cc) 
     cc->Inputs().Tag(kRgbInTag).Set<mediapipe::ImageFrame>();
   }
 
+  if (cc->Inputs().HasTag(kMaskTag)) {
+    cc->Inputs().Tag(kMaskTag).Set<std::vector<Tensor>>().Optional();
+  }  
+
   if (cc->Inputs().HasTag(kCommandTag)) {
     cc->Inputs().Tag(kCommandTag).Set<int>().Optional();
   }
@@ -109,6 +126,10 @@ absl::Status BackgroundExtractorCalculator::GetContract(CalculatorContract* cc) 
 
   if (cc->Outputs().HasTag(kRgbOutTag)) {
     cc->Outputs().Tag(kRgbOutTag).Set<mediapipe::ImageFrame>();
+  }
+
+  if (cc->Outputs().HasTag(kTensorOutTag)) {
+    cc->Outputs().Tag(kTensorOutTag).Set<std::vector<Tensor>>();    
   }
 
   return absl::OkStatus();
@@ -139,15 +160,26 @@ absl::Status BackgroundExtractorCalculator::Process(CalculatorContext* cc) {
     return absl::OkStatus();
   }
   
+  const ImageFrame& inputFrame = cc->Inputs().Tag(kRgbInTag).Get<ImageFrame>();
+
+  //UpdateBgMat(inputFrame);
+
+  if(tensor_mode){
+    ImageToTensor(cc, inputFrame);
+    command = CMD_NONE;
+    return absl::OkStatus();
+  }
+
   switch(mode){
     case MODE_NORMAL:
-    Normal(cc);
+    Normal(cc, inputFrame);
     break;
     case MODE_BLENDER:
-    Blender(cc);
+    //Blender(cc, inputFrame);
+    PhotoBooth(cc, inputFrame);
     break;    
     case MODE_CALIBRATION:
-    Calibration(cc);
+    Calibration(cc, inputFrame);
     break;    
   }
 
@@ -155,8 +187,55 @@ absl::Status BackgroundExtractorCalculator::Process(CalculatorContext* cc) {
   return absl::OkStatus();  
 }
 
-absl::Status BackgroundExtractorCalculator::Normal(CalculatorContext* cc) {
-  const ImageFrame& inputFrame = cc->Inputs().Tag(kRgbInTag).Get<ImageFrame>();
+void BackgroundExtractorCalculator::UpdateBgMat(const ImageFrame& inputFrame){
+  return;
+  if(bg_mat.empty()){
+    return;
+  }
+  const cv::Mat& input_mat = formats::MatView(&inputFrame);
+  cv::Mat diff_mat;
+  cv::absdiff(input_mat, bg_mat, diff_mat);
+  cv::cvtColor(diff_mat, diff_mat, cv::COLOR_RGB2GRAY);
+  cv::Mat mask(diff_mat.size(), CV_8UC1);
+  mask.setTo(0);
+  cv::threshold(diff_mat, mask, 3, 1, cv::THRESH_BINARY_INV);
+  input_mat.copyTo(bg_mat, mask);
+}
+
+absl::Status BackgroundExtractorCalculator::ImageToTensor(CalculatorContext* cc, const ImageFrame& inputFrame) {
+  const cv::Mat& input_mat = formats::MatView(&inputFrame);
+  ImageFormat::Format format = inputFrame.Format();
+
+  int height = 192;
+  int width = 384;
+  int kNumChannels = 1;
+
+  cv::Mat input_gray_mat;
+  cv::cvtColor(input_mat, input_gray_mat, cv::COLOR_RGB2GRAY);
+  cv::resize(input_gray_mat, input_gray_mat, cv::Size(width, height));
+
+  cv::Mat dx, dy;
+  cv::spatialGradient(input_gray_mat, dx, dy);
+  cv::convertScaleAbs(dx, dx);
+  cv::convertScaleAbs(dy, dy);  
+  cv::addWeighted(dx, 0.5, dy, 0.5, 0, input_gray_mat);
+
+  Tensor tensor(Tensor::ElementType::kFloat32, Tensor::Shape{1, height, width, kNumChannels});
+  auto buffer_view = tensor.GetCpuWriteView();
+
+  cv::Mat dst;
+  dst = cv::Mat(height, width, CV_32FC1, buffer_view.buffer<float>());
+  // Current model is not trained with [-1.0 1.0] - it would be the next step
+  //input_gray_mat.convertTo(dst, CV_32FC1, 1/128.0, -1.0);
+  input_gray_mat.convertTo(dst, CV_32FC1);
+
+  auto result = std::make_unique<std::vector<Tensor>>();
+  result->push_back(std::move(tensor));  
+  cc->Outputs().Tag(kTensorOutTag).Add(result.release(), cc->InputTimestamp()); 
+  return absl::OkStatus();
+}
+
+absl::Status BackgroundExtractorCalculator::Normal(CalculatorContext* cc, const ImageFrame& inputFrame) {  
   const cv::Mat& input_mat = formats::MatView(&inputFrame);
   ImageFormat::Format format = inputFrame.Format();
 
@@ -168,8 +247,39 @@ absl::Status BackgroundExtractorCalculator::Normal(CalculatorContext* cc) {
   return absl::OkStatus();    
 }
 
-absl::Status BackgroundExtractorCalculator::Calibration(CalculatorContext* cc) {
-  const ImageFrame& inputFrame = cc->Inputs().Tag(kRgbInTag).Get<ImageFrame>();
+absl::Status BackgroundExtractorCalculator::PhotoBooth(CalculatorContext* cc, const ImageFrame& inputFrame) {  
+  const cv::Mat& input_mat = formats::MatView(&inputFrame);
+  ImageFormat::Format format = inputFrame.Format();  
+
+  std::unique_ptr<ImageFrame> outputFrame( new ImageFrame(format /*ImageFormat::SRGBA*/, input_mat.cols, input_mat.rows) );  
+  cv::Mat output_mat = formats::MatView(outputFrame.get());
+  input_mat.copyTo(output_mat);
+
+  if (cc->Inputs().HasTag(kMaskTag) && !cc->Inputs().Tag(kMaskTag).IsEmpty()) {
+    const auto& input_tensors = cc->Inputs().Tag(kMaskTag).Get<std::vector<Tensor>>();
+    auto mask_tensor = &input_tensors[0];
+    auto mask_tensor_view = mask_tensor->GetCpuReadView();
+    const float* mask = mask_tensor_view.buffer<float>();
+    int height = mask_tensor->shape().dims[1];
+    int width = mask_tensor->shape().dims[2];
+    cv::Mat mask_mat = cv::Mat(height, width, CV_32FC1, (void*)mask);
+    mask_mat = cv::max(mask_mat, 0); // remove all negative values
+    cv::resize(mask_mat, mask_mat, cv::Size(input_mat.cols, input_mat.rows));
+    cv::cvtColor(mask_mat, mask_mat, cv::COLOR_GRAY2RGBA);
+    // output_mat.convertTo(output_mat, CV_32FC3);
+    // cv::multiply(output_mat, mask_mat, output_mat);
+    //cv::convertScaleAbs(output_mat, output_mat);
+    cv::convertScaleAbs(mask_mat, mask_mat, 255);    
+    mask_mat.copyTo(output_mat);
+    SetColorChannel(3, 255, &output_mat);
+  }
+    
+  cc->Outputs().Tag(kRgbOutTag).Add(outputFrame.release(), cc->InputTimestamp());  
+  return absl::OkStatus();    
+}
+
+
+absl::Status BackgroundExtractorCalculator::Calibration(CalculatorContext* cc, const ImageFrame& inputFrame) {  
   const cv::Mat& input_mat = formats::MatView(&inputFrame);
   ImageFormat::Format format = inputFrame.Format();
   
@@ -198,8 +308,8 @@ absl::Status BackgroundExtractorCalculator::Calibration(CalculatorContext* cc) {
   
   cv::Mat mask(diff_mat.size(), CV_8UC1);
   mask.setTo(0);
-  cv::threshold(diff_mat, mask, 15, 1, cv::THRESH_BINARY);
-
+  cv::threshold(diff_mat, mask, 17, 1, cv::THRESH_BINARY);
+  //cv::adaptiveThreshold(diff_mat, mask, 1, cv::ADAPTIVE_THRESH_GAUSSIAN_C, cv::THRESH_BINARY, 3, 30);
 
   std::unique_ptr<ImageFrame> outputFrame( new ImageFrame(format /*ImageFormat::SRGBA*/, input_mat.cols, input_mat.rows) );  
   cv::Mat output_mat = formats::MatView(outputFrame.get());  
@@ -211,43 +321,60 @@ absl::Status BackgroundExtractorCalculator::Calibration(CalculatorContext* cc) {
 }
 
 // Multiple exposure mode
-absl::Status BackgroundExtractorCalculator::Blender(CalculatorContext* cc) {
-  const ImageFrame& inputFrame = cc->Inputs().Tag(kRgbInTag).Get<ImageFrame>();
+absl::Status BackgroundExtractorCalculator::Blender(CalculatorContext* cc, const ImageFrame& inputFrame) {  
   const cv::Mat& input_mat = formats::MatView(&inputFrame);
   ImageFormat::Format format = inputFrame.Format();  
 
+  std::unique_ptr<ImageFrame> outputFrame( new ImageFrame(format /*ImageFormat::SRGBA*/, input_mat.cols, input_mat.rows) );  
+  cv::Mat output_mat = formats::MatView(outputFrame.get());  
+
+  if(command == CMD_SET_RIGHT){ // New session
+    film_mat.release();
+  }
+  if(film_mat.empty()){
+    input_mat.copyTo(output_mat);
+  } else {
+    double alpha = 0.8; 
+    double beta = 1 - alpha;
+    double gamma = 0.0;
+    cv::addWeighted(input_mat, alpha, film_mat, beta, 0.0, output_mat);
+  }
+
+  if(command == CMD_MAIN_ACTION) { // Update our film
+    if(film_mat.empty()){
+      input_mat.copyTo(film_mat);
+    } else {
+      cv::addWeighted(input_mat, 0.5, film_mat, 0.5, 0.0, film_mat);
+    }
+    //output_mat.copyTo(film_mat);
+  }
+
+#if 0
   cv::Mat diff_mat;
   cv::absdiff(input_mat, bg_mat, diff_mat);
   cv::cvtColor(diff_mat, diff_mat, cv::COLOR_RGB2GRAY);
-  
   cv::Mat mask(diff_mat.size(), CV_8UC1);
   mask.setTo(0);
   cv::threshold(diff_mat, mask, 20, 1, cv::THRESH_BINARY);
 
-  if(film_mat.empty()){
+  if(film_mat.empty() || command == CMD_SET_RIGHT){ // New session
     bg_mat.copyTo(film_mat);
-  } 
-
-  if(command == CMD_MAIN_ACTION) {
-    //std::cout << "Updating film ..." << std::endl;
-    input_mat.copyTo(film_mat, mask);  
-  } else if (command == CMD_SET_RIGHT) {
-    bg_mat.copyTo(film_mat);
-  }  
-
-  std::unique_ptr<ImageFrame> outputFrame( new ImageFrame(format /*ImageFormat::SRGBA*/, input_mat.cols, input_mat.rows) );  
-  cv::Mat output_mat = formats::MatView(outputFrame.get());  
+  }   
   
   film_mat.copyTo(output_mat);
   input_mat.copyTo(output_mat, mask);
 
+  if(command == CMD_MAIN_ACTION) { // Update our film
+    output_mat.copyTo(film_mat);
+  }
+#endif 
   cc->Outputs().Tag(kRgbOutTag).Add(outputFrame.release(), cc->InputTimestamp());
   return absl::OkStatus();  
 }  
 
+#if 0
 // Multiple exposure mode
-absl::Status BackgroundExtractorCalculator::PhotoBooth(CalculatorContext* cc) {
-  const ImageFrame& inputFrame = cc->Inputs().Tag(kRgbInTag).Get<ImageFrame>();
+absl::Status BackgroundExtractorCalculator::PhotoBooth(CalculatorContext* cc, const ImageFrame& inputFrame) {
   const cv::Mat& input_mat = formats::MatView(&inputFrame);
   ImageFormat::Format format = inputFrame.Format();  
 
@@ -273,7 +400,7 @@ absl::Status BackgroundExtractorCalculator::PhotoBooth(CalculatorContext* cc) {
   cc->Outputs().Tag(kRgbOutTag).Add(outputFrame.release(), cc->InputTimestamp());
   return absl::OkStatus();  
 }  
-
+#endif
 } // mediapipe namespace
 
 
