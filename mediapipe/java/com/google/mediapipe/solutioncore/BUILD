@@ -131,7 +131,7 @@ mediapipe_aar(
     gen_libmediapipe = False,
     assets = [
         "//mediapipe/modules/rulik_gesture:ruliknet_v3_fp16.tflite",
-        "//mediapipe/modules/rulik_gesture:rulikseg_v1e.tflite",
+        "//mediapipe/modules/rulik_gesture:rulikseg_v2e.tflite",
         "//mediapipe/modules/rulik:rulik_gpu_v3.binarypb",
     ],
     assets_dir = "",

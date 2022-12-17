@@ -97,6 +97,7 @@ class BackgroundExtractorCalculator : public CalculatorBase {
   absl::Status Calibration(CalculatorContext* cc, const ImageFrame& inputFrame);  
 
   absl::Status PhotoBooth(CalculatorContext* cc, const ImageFrame& inputFrame);
+  absl::Status Sobel(CalculatorContext* cc, const ImageFrame& inputFrame);
 
   absl::Status ImageToTensor(CalculatorContext* cc, const ImageFrame& inputFrame);
 
@@ -176,7 +177,8 @@ absl::Status BackgroundExtractorCalculator::Process(CalculatorContext* cc) {
     break;
     case MODE_BLENDER:
     //Blender(cc, inputFrame);
-    PhotoBooth(cc, inputFrame);
+    //PhotoBooth(cc, inputFrame);
+    Sobel(cc, inputFrame);
     break;    
     case MODE_CALIBRATION:
     Calibration(cc, inputFrame);
@@ -188,7 +190,7 @@ absl::Status BackgroundExtractorCalculator::Process(CalculatorContext* cc) {
 }
 
 void BackgroundExtractorCalculator::UpdateBgMat(const ImageFrame& inputFrame){
-  return;
+  
   if(bg_mat.empty()){
     return;
   }
@@ -204,10 +206,10 @@ void BackgroundExtractorCalculator::UpdateBgMat(const ImageFrame& inputFrame){
 
 absl::Status BackgroundExtractorCalculator::ImageToTensor(CalculatorContext* cc, const ImageFrame& inputFrame) {
   const cv::Mat& input_mat = formats::MatView(&inputFrame);
-  ImageFormat::Format format = inputFrame.Format();
+  //ImageFormat::Format format = inputFrame.Format();
 
-  int height = 192;
-  int width = 384;
+  int height = 256;
+  int width = 512;
   int kNumChannels = 1;
 
   cv::Mat input_gray_mat;
@@ -225,9 +227,9 @@ absl::Status BackgroundExtractorCalculator::ImageToTensor(CalculatorContext* cc,
 
   cv::Mat dst;
   dst = cv::Mat(height, width, CV_32FC1, buffer_view.buffer<float>());
-  // Current model is not trained with [-1.0 1.0] - it would be the next step
-  //input_gray_mat.convertTo(dst, CV_32FC1, 1/128.0, -1.0);
-  input_gray_mat.convertTo(dst, CV_32FC1);
+  // Current model is now trained with [-1.0 1.0] - it would be the next step
+  input_gray_mat.convertTo(dst, CV_32FC1, 1/128.0, -1.0);
+  //input_gray_mat.convertTo(dst, CV_32FC1);
 
   auto result = std::make_unique<std::vector<Tensor>>();
   result->push_back(std::move(tensor));  
@@ -253,7 +255,7 @@ absl::Status BackgroundExtractorCalculator::PhotoBooth(CalculatorContext* cc, co
 
   std::unique_ptr<ImageFrame> outputFrame( new ImageFrame(format /*ImageFormat::SRGBA*/, input_mat.cols, input_mat.rows) );  
   cv::Mat output_mat = formats::MatView(outputFrame.get());
-  input_mat.copyTo(output_mat);
+  
 
   if (cc->Inputs().HasTag(kMaskTag) && !cc->Inputs().Tag(kMaskTag).IsEmpty()) {
     const auto& input_tensors = cc->Inputs().Tag(kMaskTag).Get<std::vector<Tensor>>();
@@ -263,15 +265,18 @@ absl::Status BackgroundExtractorCalculator::PhotoBooth(CalculatorContext* cc, co
     int height = mask_tensor->shape().dims[1];
     int width = mask_tensor->shape().dims[2];
     cv::Mat mask_mat = cv::Mat(height, width, CV_32FC1, (void*)mask);
-    mask_mat = cv::max(mask_mat, 0); // remove all negative values
+    cv::convertScaleAbs(mask_mat, mask_mat, 255);    
+    //mask_mat = cv::max(mask_mat, 0); // remove all negative values
     cv::resize(mask_mat, mask_mat, cv::Size(input_mat.cols, input_mat.rows));
     cv::cvtColor(mask_mat, mask_mat, cv::COLOR_GRAY2RGBA);
     // output_mat.convertTo(output_mat, CV_32FC3);
     // cv::multiply(output_mat, mask_mat, output_mat);
-    //cv::convertScaleAbs(output_mat, output_mat);
-    cv::convertScaleAbs(mask_mat, mask_mat, 255);    
+    // cv::convertScaleAbs(output_mat, output_mat);
+    // cv::convertScaleAbs(mask_mat, mask_mat, 255);    
     mask_mat.copyTo(output_mat);
-    SetColorChannel(3, 255, &output_mat);
+    //SetColorChannel(3, 255, &output_mat);
+  } else {
+    input_mat.copyTo(output_mat);
   }
     
   cc->Outputs().Tag(kRgbOutTag).Add(outputFrame.release(), cc->InputTimestamp());  
@@ -372,9 +377,8 @@ absl::Status BackgroundExtractorCalculator::Blender(CalculatorContext* cc, const
   return absl::OkStatus();  
 }  
 
-#if 0
-// Multiple exposure mode
-absl::Status BackgroundExtractorCalculator::PhotoBooth(CalculatorContext* cc, const ImageFrame& inputFrame) {
+
+absl::Status BackgroundExtractorCalculator::Sobel(CalculatorContext* cc, const ImageFrame& inputFrame) {
   const cv::Mat& input_mat = formats::MatView(&inputFrame);
   ImageFormat::Format format = inputFrame.Format();  
 
@@ -400,7 +404,7 @@ absl::Status BackgroundExtractorCalculator::PhotoBooth(CalculatorContext* cc, co
   cc->Outputs().Tag(kRgbOutTag).Add(outputFrame.release(), cc->InputTimestamp());
   return absl::OkStatus();  
 }  
-#endif
+
 } // mediapipe namespace
 
 

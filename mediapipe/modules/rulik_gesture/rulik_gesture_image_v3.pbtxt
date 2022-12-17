@@ -36,7 +36,7 @@ node {
     [mediapipe.FlowLimiterCalculatorOptions.ext] {
       max_in_flight: 1
       max_in_queue: 1
-      # allow_interval: 100000
+      allow_interval: 100000
     }
   }
 }

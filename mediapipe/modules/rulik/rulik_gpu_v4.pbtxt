@@ -48,8 +48,47 @@ node {
 
 node {
   calculator: "BackgroundExtractorCalculator"  
+  input_stream: "RGB_IN:cpu_buffer"  
+  input_stream: "COMMAND:output_selector"
+  output_stream: "TENSOR_OUT:input_tensor"
+  input_stream_handler {
+    input_stream_handler: "SyncSetInputStreamHandler"
+    options {
+      [mediapipe.SyncSetInputStreamHandlerOptions.ext] {
+        sync_set {
+          tag_index: "RGB_IN"          
+        }
+        sync_set {
+          tag_index: "COMMAND"          
+        }        
+      }
+    }
+  }
+}
+
+# Runs a TensorFlow Lite model on GPU that takes an image tensor and outputs a
+# vector of tensors.
+node {
+  calculator: "InferenceCalculator"
+  input_stream: "TENSORS:input_tensor"
+  output_stream: "TENSORS:mask_tensor"
+  options: {
+    [mediapipe.InferenceCalculatorOptions.ext] {
+      model_path: "mediapipe/modules/rulik_gesture/rulikseg_v2e.tflite"
+      #
+      delegate: { gpu { use_advanced_gpu_api: true } }
+      # delegate: { xnnpack {} }
+      # delegate: { tflite {} }
+      # use_gpu: true
+    }
+  }
+}
+
+
+node {
+  calculator: "BackgroundExtractorCalculator"  
   input_stream: "RGB_IN:cpu_buffer"
-  # input_stream: "MASK:mask_tensor"
+  input_stream: "MASK:mask_tensor"
   input_stream: "COMMAND:output_selector"
   output_stream: "RGB_OUT:gray_image_frame"
   input_stream_handler {
@@ -58,7 +97,7 @@ node {
       [mediapipe.SyncSetInputStreamHandlerOptions.ext] {
         sync_set {
           tag_index: "RGB_IN"
-          # tag_index: "MASK"
+          tag_index: "MASK"
         }
         sync_set {
           tag_index: "COMMAND"          
